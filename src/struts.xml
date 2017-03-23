@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+
+	<package name="User" namespace="/User" extends="struts-default">
+
+
+		<action name="user_login" class="UserAction" method="login">
+			<result name="success">/User/success.jsp</result>
+			<result name="input">/User/failure.jsp</result>
+		</action>
+		
+		<action name="user_register" class="UserAction" method="register">
+			<result name="success">/User/success.jsp</result>
+			<result name="input">/User/failure.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="Search" namespace="/Search" extends="struts-default">
+	
+		<action name="search_normal" class="SearchAction" method="normal">
+			<result name="success">/User/success.jsp</result>
+			<result name="input">/User/failure.jsp</result>
+		</action>
+		
+		<action name="search_advanced" class="SearchAction" method="advanced">
+			<result name="success">/User/success.jsp</result>
+			<result name="input">/User/failure.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
+
