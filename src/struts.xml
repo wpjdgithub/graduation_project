@@ -24,13 +24,11 @@
 	<package name="Search" namespace="/Search" extends="struts-default">
 	
 		<action name="search_normal" class="SearchAction" method="normal">
-			<result name="success">/User/success.jsp</result>
-			<result name="input">/User/failure.jsp</result>
+			<result name="success">/Search/search.jsp</result>
 		</action>
 		
 		<action name="search_advanced" class="SearchAction" method="advanced">
-			<result name="success">/User/success.jsp</result>
-			<result name="input">/User/failure.jsp</result>
+			<result name="success">/Search/search.jsp</result>
 		</action>
 		
 	</package>
