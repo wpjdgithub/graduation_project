@@ -52,7 +52,7 @@
 	}
 	table.mycontext_summary {
 		border-collapse:separate; border-spacing:10px 5px;
-		font-size:10px;
+		font-size:12px;
 	}
 	
 	td.mycontext_summary_left {

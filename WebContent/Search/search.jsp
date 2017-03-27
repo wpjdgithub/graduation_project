@@ -26,7 +26,6 @@
 	}
 	div.mysearchsort {
 		float:left; margin-left:1%; width:98%; height:50px;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
 	}
 	div.mysearchres {
 		float:left; margin-top:1%; margin-left:1%; width:98%; min-height:150px;
@@ -40,14 +39,14 @@
 	div.mydetailmes {
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 		padding-left:15px; padding-top:10px; padding-bottom:10px;
-		font-size:10px; margin-bottom:3px;
+		font-size:12px; margin-bottom:3px;
 	}
 	div.mymestitle {
 		margin-bottom:5px; font-size:15px;
 	}
 	
 	div.mysource {
-		margin-bottom:3px; font-size:10px;
+		margin-bottom:3px; font-size:12px;
 	}
 	a.detail {
 		float:right;

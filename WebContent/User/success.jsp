@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<s:property value="#session.mes"></s:property>
+success
 </body>
 </html>

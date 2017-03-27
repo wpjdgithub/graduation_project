@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +22,7 @@
 	div.basic_mes {
 		width:70%; height:70px; line-height:70px;
 		border-style:dotted;border-width:2px 0 0 0;border-color:#DCDCDC;
-		font-size:10px;
+		font-size:12px;
 	}
 	
 	div.basic_detail {
@@ -51,12 +52,11 @@
 <%@ include file="/Normal/nav.jsp" %>
 <div class="mytab">
 	<ul id="myTab" class="nav nav-tabs">
-		<li class="active"><a href="#basic" data-toggle="tab">基础信息</a></li>
-		<li><a href="#mycase" data-toggle="tab">个人案例</a></li>
-		<li><a href="#uploadcase" data-toggle="tab">上传案例</a></li>
+		<li><a href="#basic" data-toggle="tab">基础信息</a></li>
+		<li class="active"><a href="#mycase" data-toggle="tab">个人案例</a></li>
 	</ul>
 	<div id="myTabContent" class="tab-content">
-		<div class="tab-pane fade in active" id="basic">
+		<div class="tab-pane fade" id="basic">
 			<div class="basic_mes">
 				<div class="basic_detail">用户名</div>
 				<div class="basic_value">wpjd2</div>
@@ -66,7 +66,7 @@
 				<div class="basic_value">王培霁</div>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="mycase">
+		<div class="tab-pane fade in active" id="mycase">
 			<div class="mycase_list">
 				<table class="table table-striped">
 					<tr>
@@ -89,19 +89,56 @@
 							</td>
 						<td>2017/01/04</td>
 					</tr>
+					<tr>
+						<td>
+							<button type="button" id="upload" class="btn btn-default btn-sm" style="height:30px">
+         					 	<span class="glyphicon glyphicon-plus"></span> 添加
+        					</button>
+        					<s:form namespace="/Case" action="user_uploadcase" 
+              					enctype="multipart/form-data" method="post">
+        						<input type="file" name="file1" id="file" style="display:none"/>
+        						<input type="submit" id="file_submit" style="display:none" />
+        					</s:form> 
+        				</td>
+						<td>
+							<input type="text" id="fileName" disabled="disable" 
+								class="form-control" style="height:30px;display:none" />
+						</td>
+						<td>
+							<button type="button" id="decide" class="btn btn-default btn-sm" style="height:30px;display:none">
+         					 	 上传
+        					</button>
+        				</td>
+					</tr>
 				</table>
 			</div>
 			<div class="mycase_delete">
 				<input type="button" class="btn btn-default" value="删除所选" />
 			</div>
 		</div>
-		<div class="tab-pane fade" id="uploadcase">
-			<div>
-				
-			</div>
-		</div>
 	</div>
 </div>
 	
+<script>
+	$(document).ready(function(){
+		$("#upload").click(function(){
+			$("#file").click();
+		});
+	});
+	
+	$(document).ready(function(){
+		$("#decide").click(function(){
+			$("#file_submit").click();
+		});
+	});
+	
+	$(document).ready(function(){
+		$("#file").change(function(){
+			$("#fileName").show();
+			$("#decide").show();
+			$("#fileName")[0].value = $("#file")[0].value;
+		});
+	});
+</script>
 </body>
 </html>

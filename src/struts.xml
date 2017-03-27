@@ -5,7 +5,12 @@
 
 <struts>
 
-
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+    <!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
+    <constant name="struts.multipart.maxSize" value="4294967296"/>
+    <!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
+    <constant name="struts.multipart.saveDir" value="/tmp" />
+	
 	<package name="User" namespace="/User" extends="struts-default">
 
 
@@ -29,6 +34,14 @@
 		
 		<action name="search_advanced" class="SearchAction" method="advanced">
 			<result name="success">/Search/search.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="Case" namespace="/Case" extends="struts-default">
+	
+		<action name="user_uploadcase" class="CaseAction" method="upload">
+			<result name="success">/Search/searchdetail.jsp</result>
 		</action>
 		
 	</package>
