@@ -18,21 +18,20 @@ public class SearchAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired
+	/*@Autowired
 	@Qualifier("normal")
 	private SearchService service_n;
 	
 	@Autowired
 	@Qualifier("advanced")
 	private SearchService service_a;
+	*/
 
 	public String normal() throws ServletException, IOException {
-		session.put("mes",service_n.search());
 		return SUCCESS;
 	}
 	
 	public String advanced() throws ServletException, IOException {
-		session.put("mes",service_a.search());
 		return SUCCESS;
 	}
 	

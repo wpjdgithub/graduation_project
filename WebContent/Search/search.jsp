@@ -19,6 +19,7 @@
 	div.mysearchfilter {
 		position:absolute; left:15%; top:50%; width:15%; height:auto;
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		z-index:-1;
 	}
 	div.mysearchresult {
 		position:absolute; left:32%; top:50%; width:53%; min-height:50%;
