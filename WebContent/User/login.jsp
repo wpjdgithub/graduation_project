@@ -17,7 +17,7 @@
 <body>
 <%@ include file="/Normal/nav.jsp" %>
 <div class="mylogin">
-	<s:form action="/User/user_login" method="post" theme="simple" class="form-horizontal" role="form">
+	<form class="form-horizontal" role="form">
 		<div class="form-group">
 			<label for="username" class="col-sm-2 control-label">用户名</label>
 			<div class="col-sm-5">
@@ -30,15 +30,6 @@
 				<input id="password" name="user.password" type="password" class="form-control" />
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-5">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox"> 请记住我
-					</label>
-				</div>
-			</div>
-		</div>
 		<div class="form-group" id="error_mes" style="display:none">
 			<label for="blank" class="col-sm-1 control-label"></label>
 			<label for="message" class="col-sm-5 control-label">用户名或密码错误</label>
@@ -49,7 +40,7 @@
 				<s:reset class="btn btn-default" value="重置"></s:reset>
 			</div>
 		</div>
-	</s:form>
+	</form>
 </div>
 </body>
 </html>
@@ -61,12 +52,10 @@
 			var password = $("#password").val();
 			$.ajax({
 				url:"<%=request.getContextPath()+"/User/user_login"%>",
-				contentType:'application/json',
 				type:'POST',
 				async:false,
-				data:{"user.username":username,"user.password":password},
+				data:{"result":"123"},
 				dataType:'json',
-				jsonp:"callback",
 				success:function(res){
 					if(res=="success"){
 						window.location.href = "<%=request.getContextPath()+"/index.jsp"%>";

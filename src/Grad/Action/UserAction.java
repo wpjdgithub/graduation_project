@@ -19,6 +19,23 @@ public class UserAction extends BaseAction{
 	private UserInfo user;
 	private String result;
 
+	public String register() throws ServletException,IOException{
+		return null;
+	}
+	
+	public String login() throws ServletException,IOException{
+		boolean exist = true;
+		System.out.println(result);
+		if(exist){
+			
+		}else{
+			
+		}
+		
+		this.setResult("success");
+		return SUCCESS;
+	}
+	
 	public UserInfo getUser() {
 		return user;
 	}
@@ -33,23 +50,6 @@ public class UserAction extends BaseAction{
 
 	public void setResult(String result) {
 		this.result = result;
-	}
-
-	public String register() throws ServletException,IOException{
-		return null;
-	}
-	
-	public String login() throws ServletException,IOException{
-		boolean exist = true;
-		System.out.println(user.getUsername());
-		if(exist){
-			
-		}else{
-			
-		}
-		
-		this.setResult("success");
-		return SUCCESS;
 	}
 
 }
