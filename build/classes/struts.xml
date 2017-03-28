@@ -11,17 +11,14 @@
     <!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
     <constant name="struts.multipart.saveDir" value="/tmp" />
 	
-	<package name="User" namespace="/User" extends="struts-default">
+	<package name="User" namespace="/User" extends="json-default">
 
 
 		<action name="user_login" class="UserAction" method="login">
-			<result name="success">/User/success.jsp</result>
-			<result name="input">/User/failure.jsp</result>
+			<result name="success" type="json">res</result>
 		</action>
 		
 		<action name="user_register" class="UserAction" method="register">
-			<result name="success">/User/success.jsp</result>
-			<result name="input">/User/failure.jsp</result>
 		</action>
 
 	</package>

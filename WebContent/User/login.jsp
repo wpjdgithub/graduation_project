@@ -19,15 +19,15 @@
 <div class="mylogin">
 	<s:form action="/User/user_login" method="post" theme="simple" class="form-horizontal" role="form">
 		<div class="form-group">
-			<label for="firstname" class="col-sm-2 control-label">用户名</label>
+			<label for="username" class="col-sm-2 control-label">用户名</label>
 			<div class="col-sm-5">
-				<input name="user.username" type="text" class="form-control"/>
+				<input id="username" name="user.username" type="text" class="form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="lastname" class="col-sm-2 control-label">密码</label>
+			<label for="password" class="col-sm-2 control-label">密码</label>
 			<div class="col-sm-5">
-				<input name="user.password" type="password" class="form-control" />
+				<input id="password" name="user.password" type="password" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -39,9 +39,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="form-group" id="error_mes" style="display:none">
+			<label for="blank" class="col-sm-1 control-label"></label>
+			<label for="message" class="col-sm-5 control-label">用户名或密码错误</label>
+		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-5">
-				<s:submit class="btn btn-default" value="登录"></s:submit>&nbsp
+				<button class="btn btn-default" id="submit">登录</button>&nbsp
 				<s:reset class="btn btn-default" value="重置"></s:reset>
 			</div>
 		</div>
@@ -49,3 +53,32 @@
 </div>
 </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		$("#submit").click(function(){
+			var username = $("#username").val();
+			var password = $("#password").val();
+			$.ajax({
+				url:"<%=request.getContextPath()+"/User/user_login"%>",
+				contentType:'application/json',
+				type:'POST',
+				async:false,
+				data:{"user.username":username,"user.password":password},
+				dataType:'json',
+				jsonp:"callback",
+				success:function(res){
+					if(res=="success"){
+						window.location.href = "<%=request.getContextPath()+"/index.jsp"%>";
+					}else{
+						alert(res);
+						$("#error_mes").show();
+					}
+				},
+				error:function(){
+					alert("网络异常");
+				}
+			});
+		});
+	});
+</script>

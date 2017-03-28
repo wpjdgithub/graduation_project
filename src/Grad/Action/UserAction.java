@@ -17,6 +17,7 @@ public class UserAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	
 	private UserInfo user;
+	private String result;
 
 	public UserInfo getUser() {
 		return user;
@@ -26,12 +27,28 @@ public class UserAction extends BaseAction{
 		this.user = user;
 	}
 	
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
 	public String register() throws ServletException,IOException{
-		return INPUT;
+		return null;
 	}
 	
 	public String login() throws ServletException,IOException{
-		session.put("user",user);
+		boolean exist = true;
+		System.out.println(user.getUsername());
+		if(exist){
+			
+		}else{
+			
+		}
+		
+		this.setResult("success");
 		return SUCCESS;
 	}
 

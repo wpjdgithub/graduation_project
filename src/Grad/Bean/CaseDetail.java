@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CaseDetail {
 	private CaseBrief brief;
-	private ArrayList<String> context; //内容分为多段 ，每一个段落一个String
+	private ArrayList<CaseParagraph> context; //内容分为多段 ，每一个段落一个String
 	private ArrayList<String> relatedCase;
 	private ArrayList<String> relatedLaw;
 	
@@ -14,10 +14,10 @@ public class CaseDetail {
 	public void setBrief(CaseBrief brief) {
 		this.brief = brief;
 	}
-	public ArrayList<String> getContext() {
+	public ArrayList<CaseParagraph> getContext() {
 		return context;
 	}
-	public void setContext(ArrayList<String> context) {
+	public void setContext(ArrayList<CaseParagraph> context) {
 		this.context = context;
 	}
 	public ArrayList<String> getRelatedCase() {
