@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <style type="text/css">
 	div.mytopnav {
 		position:absolute; width:100%; text-align:right;height:auto;
@@ -44,26 +45,19 @@
 	}
 </style>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$("#detailbutton").click(function(){
-		$("#detailtable").toggle();
-	});
-	
-	$("#do_search").click(function(){
-		location.href="<%=request.getContextPath() +"/Search/search_normal" %>";
-	});
-});
-
-
-</script>
-
 </head>
 <body>
 <div class="mytopnav">
 	<div class="mymes">
-		<a href="<%=request.getContextPath() +"/User/login.jsp" %>">登录</a>&nbsp&nbsp
-		<a href="<%=request.getContextPath() +"/User/register.jsp" %>">注册</a>&nbsp&nbsp
+		<s:if test="#session.username==null">
+			<a href="<%=request.getContextPath() +"/User/login.jsp" %>">登录</a>&nbsp&nbsp
+			<a href="<%=request.getContextPath() +"/User/register.jsp" %>">注册</a>&nbsp&nbsp
+		</s:if>
+		<s:else>
+			<a href="<%=request.getContextPath() +"/User/user_mes" %>">
+				<s:property value="#session.username"></s:property>
+			</a>&nbsp&nbsp
+		</s:else>
 		<a href="<%=request.getContextPath() +"/index.jsp" %>">返回主页</a>
 	</div>
 	<div class="mysearch">
@@ -81,7 +75,7 @@ $(document).ready(function(){
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" id="detailbutton">高级检索</button>
                     </span>
-                    <input type="text" class="form-control" >
+                    <input id="text_input" type="text" class="form-control" >
                 </div><!-- /input-group -->
             </div>
 			<div class="mysubmit">
@@ -93,3 +87,18 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#detailbutton").click(function(){
+		$("#detailtable").toggle();
+	});
+	
+	$("#do_search").click(function(){
+		var input = $("#text_input").val();
+		location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
+	});
+});
+
+
+</script>

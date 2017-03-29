@@ -59,36 +59,28 @@
 		<div class="tab-pane fade" id="basic">
 			<div class="basic_mes">
 				<div class="basic_detail">用户名</div>
-				<div class="basic_value">wpjd2</div>
+				<div class="basic_value"><s:property value="user.username"></s:property></div>
 			</div>
 			<div class="basic_mes">
 				<div class="basic_detail">姓名</div>
-				<div class="basic_value">王培霁</div>
+				<div class="basic_value"><s:property value="user.name"></s:property></div>
 			</div>
 		</div>
 		<div class="tab-pane fade in active" id="mycase">
 			<div class="mycase_list">
 				<table class="table table-striped">
 					<tr>
-						<td><input type="checkbox"></td>
+						<td><input type="checkbox" id="all"></td>
 						<td style="width:80%">案例标题</td>
 						<td>上传时间</td>
 					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>案例标题案例标题案例标题案例标题案例标题案例标题案例标题
-							案例标题案例标题案例标题案例标题案例标题案例标题案例标题案例标题
-							案例标题案例标题案例标题</td>
-						<td>2017/01/04</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox"></td>
-						<td>案例标题案例标题案例标题案例标题案例标题案例标题案例标题
-							案例标题案例标题案例标题案例标题案例标题案例标题案例标题案例标题
-							案例标题案例标题案例标题
-							</td>
-						<td>2017/01/04</td>
-					</tr>
+					<s:iterator value="caselist">
+						<tr>
+							<td><input type="checkbox" class="case_checkbox"></td>
+							<td><s:property value="title"></s:property></td>
+							<td><s:property value="uploadDate"></s:property></td>
+						</tr>
+					</s:iterator>
 					<tr>
 						<td>
 							<button type="button" id="upload" class="btn btn-default btn-sm" style="height:30px">
@@ -124,19 +116,27 @@
 		$("#upload").click(function(){
 			$("#file").click();
 		});
-	});
-	
-	$(document).ready(function(){
+		
 		$("#decide").click(function(){
 			$("#file_submit").click();
 		});
-	});
-	
-	$(document).ready(function(){
+		
 		$("#file").change(function(){
 			$("#fileName").show();
 			$("#decide").show();
 			$("#fileName")[0].value = $("#file")[0].value;
+		});
+		
+		$("#all").click(function(){
+			if($(this).attr("checked")){
+				$(".case_checkbox").each(function(){
+					$(this).attr("checked",'true');     
+				});
+			}else{
+				$(".case_checkbox").each(function(){   
+					$(this).removeAttr("checked");   
+				});
+			}
 		});
 	});
 </script>

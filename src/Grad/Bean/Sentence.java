@@ -1,6 +1,12 @@
 package Grad.Bean;
 
-public class Sentence {
+import java.io.Serializable;
+
+public class Sentence implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8223233057391523490L;
 	private String value;
 	private boolean needExplain;
 	private String explanation;

@@ -17,12 +17,12 @@
 
 <style type="text/css">
 	div.mysearchfilter {
-		position:absolute; left:15%; top:50%; width:15%; height:auto;
+		position:absolute; left:15%; top:370px; width:15%; height:auto;
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 		z-index:-1;
 	}
 	div.mysearchresult {
-		position:absolute; left:32%; top:50%; width:53%; min-height:50%;
+		position:absolute; left:32%; top:370px; width:53%; min-height:50%;
 		z-index:-1;
 	}
 	div.mysearchsort {
@@ -66,8 +66,6 @@
 	<button type="button" class="btn btn-default">默认按钮&#8595</button>
 	</div>
 	<div class="mysearchres">
-	</div>
-	<div class="mysearchres">
 		<div class="mymestitle">
 			<strong><a>韦永忠滥用职权罪一审刑事判决书</a></strong>
 		</div>
@@ -101,6 +99,39 @@
 		</div>
 	</div>
 	<div class="mysearchres">
+		<div class="mymestitle">
+			<strong><a>韦永忠滥用职权罪一审刑事判决书</a></strong>
+		</div>
+		<div class="mysource">
+			北京市第二中级人民法院/2014.08.18
+		</div>
+		<div class="mysource">
+			<strong>核心词汇：</strong>
+			按时吃大家撒课程表南京市大参加大
+			<a id="" class="detail">展开</a>
+		</div>
+		<div class="mydetailmes">
+			<table>
+				<tr>
+					<td>案由：</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>审理程序：</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>文书类型：</td>
+					<td>判决书</td>
+				</tr>
+				<tr>
+					<td>来源：</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="mysearchres">
 	</div>
 	<div class="mysearchres">
 	</div>
@@ -122,3 +153,11 @@
 </div>
 </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		$(".detail").click(function(){
+			$(this).closest(".mysource").next().toggle(1000);
+		});
+	});
+</script>

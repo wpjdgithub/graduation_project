@@ -17,27 +17,70 @@
 <body>
 <%@ include file="/Normal/nav.jsp" %>
 <div class="myregister">
-	<s:form action="/User/user_register" method="post" theme="simple" class="form-horizontal" role="form">
+	<form class="form-horizontal" role="form">
 		<div class="form-group">
 			<label for="firstname" class="col-sm-2 control-label">用户名</label>
 			<div class="col-sm-5">
-				<input name="user.username" type="text" class="form-control"/>
+				<input id="username" type="text" class="form-control"/>
+			</div>
+			<label id="error_mes" class="col-sm-4 control-label" style="display:none">
+				用户名已存在
+			</label>
+		</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label">姓名</label>
+			<div class="col-sm-5">
+				<input id="name" type="text" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="lastname" class="col-sm-2 control-label">密码</label>
 			<div class="col-sm-5">
-				<input name="user.password" type="password" class="form-control" />
+				<input id="password" type="password" class="form-control" />
 			</div>
 		</div>
 		
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-5">
-				<s:submit class="btn btn-default" value="注册"></s:submit>&nbsp
-				<s:reset class="btn btn-default" value="重置"></s:reset>
+				<button id="submit" class="btn btn-default" type="button">注册</button>&nbsp
+				<button id="reset" class="btn btn-default" type="button">重置</button>
 			</div>
 		</div>
-	</s:form>
+	</form>
 </div>
 </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		$("#submit").click(function(){
+			var username = $("#username").val();
+			var name = $("#name").val();
+			var password = $("#password").val();
+			$.ajax({
+				url:"<%=request.getContextPath()+"/User/user_register"%>",
+				type:'POST',
+				async:false,
+				data:{"user.username":username,"user.name":name,"user.password":password},
+				dataType:'json',
+				success:function(res){
+					if(res=="success"){
+						window.location.href = "<%=request.getContextPath()+"/index.jsp"%>";
+					}else{
+						$("#error_mes").show();
+					}
+				},
+				error:function(){
+					alert("网络异常");
+				}
+			});
+		});
+		
+		$("#reset").click(function(){
+			$("#username").val("");
+			$("#name").val("");
+			$("#password").val("");
+			$("#error_mes").hide();
+		});
+	});
+</script>

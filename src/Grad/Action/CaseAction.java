@@ -13,6 +13,8 @@ import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Controller;
 
+import Grad.Bean.CaseDetail;
+
 @Controller
 public class CaseAction extends BaseAction{
 
@@ -29,7 +31,6 @@ public class CaseAction extends BaseAction{
 		System.out.println(file1FileName);
 		return SUCCESS;
 	}
-	
 	
 	public File getFile1() {
 		return file1;

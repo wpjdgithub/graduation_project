@@ -30,6 +30,8 @@ public class SearchInfo implements Serializable{
 	private String litigant; // 当事人
 	private String legistative_authority; // 法律依据
 	
+	public SearchInfo(){}
+	
 	public String getFull_text() {
 		return full_text;
 	}

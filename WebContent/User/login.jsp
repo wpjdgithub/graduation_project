@@ -21,13 +21,13 @@
 		<div class="form-group">
 			<label for="username" class="col-sm-2 control-label">用户名</label>
 			<div class="col-sm-5">
-				<input id="username" name="user.username" type="text" class="form-control"/>
+				<input id="username" type="text" class="form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="password" class="col-sm-2 control-label">密码</label>
 			<div class="col-sm-5">
-				<input id="password" name="user.password" type="password" class="form-control" />
+				<input id="password" type="password" class="form-control" />
 			</div>
 		</div>
 		<div class="form-group" id="error_mes" style="display:none">
@@ -36,8 +36,8 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-5">
-				<button class="btn btn-default" id="submit">登录</button>&nbsp
-				<s:reset class="btn btn-default" value="重置"></s:reset>
+				<button type="button" class="btn btn-default" id="submit">登录</button>&nbsp
+				<button type="button" class="btn btn-default" id="reset">重置</button>
 			</div>
 		</div>
 	</form>
@@ -54,13 +54,12 @@
 				url:"<%=request.getContextPath()+"/User/user_login"%>",
 				type:'POST',
 				async:false,
-				data:{"result":"123"},
+				data:{"user.username":username,"username.password":password},
 				dataType:'json',
 				success:function(res){
 					if(res=="success"){
 						window.location.href = "<%=request.getContextPath()+"/index.jsp"%>";
 					}else{
-						alert(res);
 						$("#error_mes").show();
 					}
 				},
@@ -68,6 +67,12 @@
 					alert("网络异常");
 				}
 			});
+		});
+		
+		$("#reset").click(function(){
+			$("#username").val("");
+			$("#password").val("");
+			$("#error_mes").hide();
 		});
 	});
 </script>

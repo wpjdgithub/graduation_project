@@ -12,13 +12,34 @@
     <constant name="struts.multipart.saveDir" value="/tmp" />
 	
 	<package name="User" namespace="/User" extends="json-default">
-
+		<interceptors>
+			<interceptor name="login" class="Grad.Interceptor.LoginInterceptor">
+			</interceptor>
+		
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="login"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
 
 		<action name="user_login" class="UserAction" method="login">
-			<result name="success" type="json">res</result>
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
 		</action>
 		
 		<action name="user_register" class="UserAction" method="register">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="user_mes" class="UserAction" method="i_mes">
+			<result name="success">
+				/User/i.jsp
+			</result>
+			<result name="login">/User/login.jsp</result>
+			<interceptor-ref name="loginStack"></interceptor-ref>
 		</action>
 
 	</package>
@@ -44,4 +65,5 @@
 	</package>
 
 </struts>
+
 

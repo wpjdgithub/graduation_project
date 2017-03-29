@@ -10,5 +10,5 @@ public interface CaseService {
 	public boolean uploadCase(String username, InputStream in);
 	public ArrayList<CaseMinMes> getCaseByUser(String username); // 获取用户个人上传文书
 	
-	public CaseDetail getCaseByTitle(String title); // 依据文书标题获取全部信息
+	public CaseDetail getCaseByTitle(String id); // 依据文书id获取全部信息
 }

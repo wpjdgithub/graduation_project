@@ -1,8 +1,13 @@
 package Grad.Bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CaseDetail {
+public class CaseDetail implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4688749351710425283L;
 	private CaseBrief brief;
 	private ArrayList<CaseParagraph> context; //内容分为多段 ，每一个段落一个String
 	private ArrayList<String> relatedCase;

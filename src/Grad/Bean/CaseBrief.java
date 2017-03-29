@@ -1,6 +1,9 @@
 package Grad.Bean;
 
-public class CaseBrief {
+import java.io.Serializable;
+
+public class CaseBrief implements Serializable {
+	private int id;
 	private String title;
 	private String court;
 	private String date;
@@ -10,6 +13,22 @@ public class CaseBrief {
 	private String source; //来源
 	
 	private String core; // 文书核心词汇
+	
+	public CaseBrief(){}
+
+	public CaseBrief(int id,String title, String court, String date, String brief, String process_judgement, String type_text,
+			String source, String core) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.court = court;
+		this.date = date;
+		this.brief = brief;
+		this.process_judgement = process_judgement;
+		this.type_text = type_text;
+		this.source = source;
+		this.core = core;
+	}
 
 	public String getTitle() {
 		return title;
@@ -73,6 +92,14 @@ public class CaseBrief {
 
 	public void setCore(String core) {
 		this.core = core;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

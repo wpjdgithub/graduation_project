@@ -2,6 +2,7 @@ package Grad.Bean;
 
 import java.io.Serializable;
 
+
 public class UserInfo implements Serializable{
 	/**
 	 * 
@@ -10,6 +11,15 @@ public class UserInfo implements Serializable{
 	private String username;
 	private String name;
 	private String password;
+	
+	public UserInfo(){}
+	
+	public UserInfo(String username, String name) {
+		super();
+		this.username = username;
+		this.name = name;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
