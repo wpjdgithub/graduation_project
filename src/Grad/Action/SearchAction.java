@@ -1,17 +1,15 @@
 package Grad.Action;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import Grad.Bean.CaseBrief;
 import Grad.Bean.SearchInfo;
-import Grad.Service.SearchService;
 
 @Controller
 public class SearchAction extends BaseAction {
@@ -42,12 +40,8 @@ public class SearchAction extends BaseAction {
 	}
 	
 	public String advanced() throws ServletException, IOException {
-		
+		System.out.println(info.getSdate());
 		return SUCCESS;
-	}
-	
-	private void pageChange(int page){
-		
 	}
 
 	public String getInput() {
@@ -64,5 +58,13 @@ public class SearchAction extends BaseAction {
 
 	public void setInfo(SearchInfo info) {
 		this.info = info;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 }

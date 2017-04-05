@@ -19,6 +19,8 @@ $(function(){
 			$(this).addClass("on");
 			$(this).siblings("li").removeClass("on");
 		}
+		
+		alert($(this).html());
 	});
 	
 	//点击上一页触发
@@ -33,6 +35,8 @@ $(function(){
 				$("#pageGro ul li").eq(index-1).addClass("on");//选中上一页
 			}
 		}
+		
+		alert($("#pageGro li.on").html());
 	});
 	
 	//点击下一页触发
@@ -47,6 +51,8 @@ $(function(){
 				$("#pageGro ul li").eq(index+1).addClass("on");//选中上一页
 			}
 		}
+		
+		alert($("#pageGro li.on").html());
 	});
 });
 
@@ -99,6 +105,7 @@ function pageUp(pageNum,pageCount){
 			page_icon(pageNum-2,pageNum+2,1);
 		break;
 	}
+
 }
 
 //下一页

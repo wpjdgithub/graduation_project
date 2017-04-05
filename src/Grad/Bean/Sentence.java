@@ -10,6 +10,13 @@ public class Sentence implements Serializable {
 	private String value;
 	private boolean needExplain;
 	private String explanation;
+	public Sentence(){}
+	public Sentence(String value, boolean needExplain, String explanation) {
+		super();
+		this.value = value;
+		this.needExplain = needExplain;
+		this.explanation = explanation;
+	}
 	public String getValue() {
 		return value;
 	}

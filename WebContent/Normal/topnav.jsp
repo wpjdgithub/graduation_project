@@ -36,7 +36,7 @@
 		background:white;
 	}
 	td.left {text-align:left;}
-	td.right {text-align:right;}
+	td.right {text-align:right;width:100px;}
 	input.mysearchinput {
 		width:170px; height:25px;
 	}
@@ -76,7 +76,7 @@
                         <button class="btn btn-default" type="button" id="detailbutton">高级检索</button>
                     </span>
                     <input id="text_input" type="text" class="form-control" >
-                </div><!-- /input-group -->
+                </div>
             </div>
 			<div class="mysubmit">
 				<button type="button" class="btn btn-default" style="width:100%" id="do_search">搜素</button>
@@ -97,6 +97,12 @@ $(document).ready(function(){
 	$("#do_search").click(function(){
 		var input = $("#text_input").val();
 		location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
+	});
+	
+	$("#datetimepicker").datetimepicker({
+
+    	//一堆参数
+
 	});
 });
 

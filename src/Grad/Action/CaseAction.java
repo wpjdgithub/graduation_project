@@ -1,19 +1,14 @@
 package Grad.Action;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Controller;
 
-import Grad.Bean.CaseDetail;
 
 @Controller
 public class CaseAction extends BaseAction{
@@ -27,8 +22,18 @@ public class CaseAction extends BaseAction{
 	private String file1FileName;
 	private String file1ContentType;
 	
+	private ArrayList<String> id_list;
+	
 	public String upload() throws ServletException,IOException{
 		System.out.println(file1FileName);
+		return SUCCESS;
+	}
+	
+	public String remove() throws ServletException, IOException{
+		for(String str:id_list){
+			System.out.println(str);
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -49,6 +54,14 @@ public class CaseAction extends BaseAction{
 	}
 	public void setFile1ContentType(String file1ContentType) {
 		this.file1ContentType = file1ContentType;
+	}
+
+	public ArrayList<String> getId_list() {
+		return id_list;
+	}
+
+	public void setId_list(ArrayList<String> id_list) {
+		this.id_list = id_list;
 	}
 	
 }

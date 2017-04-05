@@ -6,35 +6,33 @@
 	<tr>
 		<td class="right">全文检索</td>
 		<td class="left">
-			<input type="text" class="mysearchinput" >
+			<input type="text" class="mysearchinput form-control" name="info.full_text" >
 		</td>
 		<td class="right">案由</td>
 		<td class="left">
-			<s:set name="causeList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
-			<s:select list="#causeList" listKey="key" listValue="value"  class="mysearchselect"
-				name="cause" headerKey="0" headerValue="--请选择--"></s:select>
+			<input type="text" class="mysearchinput" name="info.brief">
 		</td>
 	</tr>
 	<tr>
 		<td class="right">案件名称</td>
 		<td class="left">
-			<input type="text"  class="mysearchinput" >
+			<input type="text"  class="mysearchinput" name="info.name_case">
 		</td>
 		<td class="right">案号</td>
 		<td class="left">
-			<input type="text"  class="mysearchinput" >
+			<input type="text"  class="mysearchinput" name="info.num">
 		</td>
 	</tr>
 	<tr>
 		<td class="right">法院名称</td>
 		<td class="left">
-			<input type="text"  class="mysearchinput" >
+			<input type="text"  class="mysearchinput" name="info.name_court">
 		</td>
 		<td class="right">法院层级</td>
 		<td class="left">
 			<s:set name="levelList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
 			<s:select list="#levelList" listKey="key" listValue="value"  class="mysearchselect"
-				name="level" headerKey="0" headerValue="--请选择--"></s:select> 
+				name="info.level_court" headerKey="0" headerValue="--请选择--"></s:select> 
 		</td>
 	</tr>
 	<tr>
@@ -42,13 +40,13 @@
 		<td class="left">
 			<s:set name="typeList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
 			<s:select list="#typeList" listKey="key" listValue="value"  class="mysearchselect"
-				name="type" headerKey="0" headerValue="--请选择--"></s:select>
+				name="info.type_case" headerKey="0" headerValue="--请选择--"></s:select>
 		</td>
 		<td class="right">审判程序</td>
 		<td class="left">
 			<s:set name="processList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
 			<s:select list="#processList" listKey="key" listValue="value"  class="mysearchselect"
-				name="process" headerKey="0" headerValue="--请选择--"></s:select>
+				name="info.judgement" headerKey="0" headerValue="--请选择--"></s:select>
 		</td>
 	</tr>
 	<tr>
@@ -56,25 +54,38 @@
 		<td class="left">
 			<s:set name="kindList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
 			<s:select list="#kindList" listKey="key" listValue="value"  class="mysearchselect"
-				name="kind" headerKey="0" headerValue="--请选择--"></s:select> 
+				name="info.type_text" headerKey="0" headerValue="--请选择--"></s:select> 
 		</td>
+		<td class="right">法律依据</td>
+		<td class="left">
+			<input type="text"  class="mysearchinput" 
+			name="info.legistative_authority" >
+		</td>
+	</tr>
+	<tr>
 		<td class="right">裁判日期</td>
-		<td class="left"></td>
+		<td class="left">
+			<div style="width:200%;">
+				<div style="display:inline">
+					<input type="date" style="width:40%" name="info.sdate">
+				</div>
+				<div style="display:inline">
+					<span>--</span>
+				</div>
+				<div style="display:inline">
+					<input type="date" style="width:40%"  name="info.edate">
+				</div>
+			</div>
+		</td>
 	</tr>
 	<tr>
 		<td class="right">审判人员</td>
 		<td class="left">
-			<input type="text"  class="mysearchinput" >
+			<input type="text"  class="mysearchinput" name="info.judex">
 		</td>
 		<td class="right">当事人</td>
 		<td class="left">
-			<input type="text"  class="mysearchinput" >
-		</td>
-	</tr>
-	<tr>
-		<td class="right">法律依据</td>
-		<td class="left">
-			<input type="text"  class="mysearchinput" >
+			<input type="text"  class="mysearchinput" name="info.litigant">
 		</td>
 	</tr>
 	<tr>

@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="/Normal/bootstrap_cong.jsp" %>
-<script src="<%=request.getContextPath() +"/jquery.js" %>"></script>
 
 <style type="text/css">
 	div.mycontext {
@@ -13,13 +12,13 @@
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 	}
 	div.mycontext_title {
-		position:absolute; left:15%; width:55%; height:150px;
+		position:absolute; left:15%; width:54%; height:150px;
 		text-align:center; padding:0 4% 0 4%;
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 	}
 	div.mycontext_main {
-		position:absolute; top:150px; left:15%; width:55%; height:150px;
-		text-align:center;
+		position:absolute; top:150px; left:15%; width:54%; height:auto;
+		padding:2% 4% 2% 4%;
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 	}
 	
@@ -29,12 +28,10 @@
 	}
 	div.mycontext_outline {
 		width:100%; min-height:100px;
-		padding:15px 0 10px 10px;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		padding:5px 0 10px 10px;
 	}
 	div.mycontext_law {
 		width:100%; height:auto;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
 		padding:15px 0 0 10px;
 	}
 	ul.mycontext_law {
@@ -47,7 +44,6 @@
 	}
 	div.mycontext_recommend {
 		width:100%; height:auto;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
 		padding:15px 0 0 10px;
 	}
 	table.mycontext_summary {
@@ -72,6 +68,24 @@
 		
 	</div>
 	<div class="mycontext_main">
+		<div style="height:70%; text-indent:2em">
+			<p style="font-size:15px">原告中国邮政储蓄银行股份有限公司海林市支行（以下简称海林邮政银行）
+			与被告康泽清、肖和龙、朱保勋借款合同纠纷一案，本院于2017年1月4日立案后，
+			依法适用简易程序，公开开庭进行了审理。<a
+			title="法律宝典" data-container="body" 
+			data-toggle="popover" data-placement="right"
+            data-content="&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp肖和龙、朱保勋借款合同纠纷一案，本院于2017年">
+     			《中华人民共和国民事诉讼法》
+    		</a>原告海林邮政银行的委托诉讼代理
+			人杨娟娟到庭参加诉讼，被告康泽清、肖和龙、朱保勋经传票传唤无正当理由拒
+			不到庭参加诉讼。本案现已审理终结。</p>
+			<p>原告中国邮政储蓄银行股份有限公司海林市支行（以下简称海林邮政银行）
+			与被告康泽清、肖和龙、朱保勋借款合同纠纷一案，本院于2017年1月4日立案后，
+			依法适用简易程序，公开开庭进行了审理。原告海林邮政银行的委托诉讼代理
+			人杨娟娟到庭参加诉讼，被告康泽清、肖和龙、朱保勋经传票传唤无正当理由拒
+			不到庭参加诉讼。本案现已审理终结。</p>
+			<p></p>
+		</div>
 	</div>
 	<div class="mycontext_relation">
 	<div class="mycontext_outline">
@@ -115,3 +129,11 @@
 </div>
 </body>
 </html>
+
+<script>
+$(function (){
+    $("[data-toggle='popover']").hover(function(){
+    	$(this).popover("toggle");
+    });
+});
+</script>

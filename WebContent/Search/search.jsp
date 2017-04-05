@@ -18,7 +18,7 @@
 <style type="text/css">
 	div.mysearchfilter {
 		position:absolute; left:15%; top:370px; width:15%; height:auto;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		
 		z-index:-1;
 	}
 	div.mysearchresult {
@@ -29,7 +29,7 @@
 		float:left; margin-left:1%; width:98%; height:50px;
 	}
 	div.mysearchres {
-		float:left; margin-top:1%; margin-left:1%; width:98%; min-height:150px;
+		float:left; margin-top:1%; margin-left:1%; width:98%; min-height:80px;
 		border-style:solid;border-width:2px 0 0 0;border-color:#DCDCDC;
 		padding-left:15px; padding-top:8px;
 	}
@@ -41,6 +41,7 @@
 		border-style:solid;border-width:2px;border-color:#DCDCDC;
 		padding-left:15px; padding-top:10px; padding-bottom:10px;
 		font-size:12px; margin-bottom:3px;
+		display:none;
 	}
 	div.mymestitle {
 		margin-bottom:5px; font-size:15px;
@@ -51,6 +52,16 @@
 	}
 	a.detail {
 		float:right;
+	}
+	
+	div.collapse{
+		padding-left:20px; margin-bottom:10px;
+	}
+	div.main-title {
+		width:100%; height:40px; background:#80FFFF; font-size:18px;
+	}
+	div.panel-body {
+		height:auto; padding:0 0 0 0; margin:0 0 0 0;
 	}
 </style>
 
@@ -67,11 +78,15 @@
 	</div>
 	<div class="mysearchres">
 		<div class="mymestitle">
-			<strong><a>韦永忠滥用职权罪一审刑事判决书</a></strong>
+			<strong><a id="case_" class="case_title">韦永忠滥用职权罪一审刑事判决书</a></strong>
 		</div>
 		<div class="mysource">
 			北京市第二中级人民法院/2014.08.18
-			<a class="detail">展开</a>
+		</div>
+		<div class="mysource">
+			<strong>核心词汇：</strong>
+			按时吃大家撒课程表南京市大参加大
+			<a href="javascript:void(0)" class="detail">展开</a>
 		</div>
 		<div class="mydetailmes">
 			<table>
@@ -93,12 +108,8 @@
 				</tr>
 			</table>
 		</div>
-		<div class="mysource">
-			<strong>核心词汇：</strong>
-			按时吃大家撒课程表南京市大参加大
-		</div>
 	</div>
-	<div class="mysearchres">
+	<div class="mysearchres" >
 		<div class="mymestitle">
 			<strong><a>韦永忠滥用职权罪一审刑事判决书</a></strong>
 		</div>
@@ -108,7 +119,7 @@
 		<div class="mysource">
 			<strong>核心词汇：</strong>
 			按时吃大家撒课程表南京市大参加大
-			<a id="" class="detail">展开</a>
+			<a href="javascript:void(0)" id="" class="detail">展开</a>
 		</div>
 		<div class="mydetailmes">
 			<table>
@@ -158,6 +169,22 @@
 	$(document).ready(function(){
 		$(".detail").click(function(){
 			$(this).closest(".mysource").next().toggle(1000);
+			if($(this).text()=="展开"){
+				$(this).text("收起");
+			}else{
+				$(this).text("展开");
+			}
 		});
+		
+		$(".case_title").click(function(){
+			window.location.href="<%=request.getContextPath() +"/Case/case_detail" %>";
+		});
+		
+		$(".title-1").click(function(e){
+            /*切换折叠指示图标*/
+            $(this).find("span").toggleClass("glyphicon-chevron-down");
+            $(this).find("span").toggleClass("glyphicon-chevron-right");
+        });
+		
 	});
 </script>

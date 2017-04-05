@@ -62,6 +62,14 @@
 			<result name="success">/Search/searchdetail.jsp</result>
 		</action>
 		
+		<action name="case_detail" class="CaseDetailAction" method="access">
+			<result name="success">/Search/searchdetail.jsp</result>
+		</action>
+		
+		<action name="case_remove" class="CaseAction" method="remove">
+			<result name="success" >成功</result>
+		</action>
+		
 	</package>
 
 </struts>
