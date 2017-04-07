@@ -48,6 +48,7 @@
 	
 		<action name="search_normal" class="SearchAction" method="normal">
 			<result name="success">/Search/search.jsp</result>
+			
 		</action>
 		
 		<action name="search_advanced" class="SearchAction" method="advanced">
@@ -68,6 +69,22 @@
 		
 		<action name="case_remove" class="CaseAction" method="remove">
 			<result name="success" >成功</result>
+		</action>
+		
+	</package>
+	
+	<package name="CaseManage" namespace="/CaseManage" extends="json-default">
+	
+		<action name="case_sort" class="CaseManageAction" method="sort">
+			<result name="success" type="json">
+				<param name="root">CaseResult</param>
+			</result>
+		</action>
+		
+		<action name="case_page" class="CaseManageAction" method="page">
+			<result name="success" type="json">
+				<param name="root">CaseResult</param>
+			</result>
 		</action>
 		
 	</package>

@@ -63,28 +63,27 @@
 <div class="mycontext">
 	<div class="mycontext_title">
 		<div style="height:70%">
-			<h3>深圳市迅雷网络技术有限公司与福建网龙计算机网络信息技术有限公司侵害信息网络传播权纠纷再审民事裁定书</h3>
+			<h3><s:property value="detail.brief.title"></s:property></h3>
 		</div>
 		
 	</div>
 	<div class="mycontext_main">
 		<div style="height:70%; text-indent:2em">
-			<p style="font-size:15px">原告中国邮政储蓄银行股份有限公司海林市支行（以下简称海林邮政银行）
-			与被告康泽清、肖和龙、朱保勋借款合同纠纷一案，本院于2017年1月4日立案后，
-			依法适用简易程序，公开开庭进行了审理。<a
-			title="法律宝典" data-container="body" 
-			data-toggle="popover" data-placement="right"
-            data-content="&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp肖和龙、朱保勋借款合同纠纷一案，本院于2017年">
-     			《中华人民共和国民事诉讼法》
-    		</a>原告海林邮政银行的委托诉讼代理
-			人杨娟娟到庭参加诉讼，被告康泽清、肖和龙、朱保勋经传票传唤无正当理由拒
-			不到庭参加诉讼。本案现已审理终结。</p>
-			<p>原告中国邮政储蓄银行股份有限公司海林市支行（以下简称海林邮政银行）
-			与被告康泽清、肖和龙、朱保勋借款合同纠纷一案，本院于2017年1月4日立案后，
-			依法适用简易程序，公开开庭进行了审理。原告海林邮政银行的委托诉讼代理
-			人杨娟娟到庭参加诉讼，被告康泽清、肖和龙、朱保勋经传票传唤无正当理由拒
-			不到庭参加诉讼。本案现已审理终结。</p>
-			<p></p>
+			<s:iterator value="detail.context">
+				<p>
+					<s:iterator value="list">
+						<s:if test="%{needExplain==true}">
+							<a title="法律宝典" data-container="body" 
+								data-toggle="popover" data-placement="right"
+           						data-content=&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<s:property value="explanation"></s:property>>
+           						<s:property value="value" /></a>
+						</s:if>
+						<s:else>
+							<s:property value="value" />
+						</s:else>		
+					</s:iterator>
+				</p>
+			</s:iterator>
 		</div>
 	</div>
 	<div class="mycontext_relation">
@@ -93,36 +92,36 @@
 		<table class="mycontext_summary">
 			<tr>
 				<td class="mycontext_summary_left">案由:</td>
-				<td>知识产权</td>
+				<td><s:property value="detail.brief.brief"></s:property></td>
 			</tr>
 			<tr>
 				<td class="mycontext_summary_left">审理法院:</td>
-				<td>柳州铁路运输法院柳州铁路运输法院</td>
+				<td><s:property value="detail.brief.court"></s:property></td>
 			</tr>
 			<tr>
-				<td class="mycontext_summary_left">案件类型:</td>
-				<td>执行案件</td>
+				<td class="mycontext_summary_left">文书类型:</td>
+				<td><s:property value="detail.brief.type_text"></s:property></td>
 			</tr>
 		</table>
 	</div>
 	<div class="mycontext_law">
 		<h5><b style="font-size:15px;">相关法律依据</b></h5>
 		<ul class="mycontext_law">
-			<li class="mycontext_law">中华人民专利法(2008修正) 第56条</li>
-			<li class="mycontext_law">中华人民专利法(2008修正) 第57条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第58条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第59条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第56条</li>
+			<s:iterator value="detail.relatedLaw">
+				<li class="mycontext_law">
+					<s:property value="title"></s:property>
+				</li>
+			</s:iterator>
 		</ul>
 	</div>
 	<div class="mycontext_recommend">
 		<h5><b style="font-size:15px;">相似案例</b></h5>
 		<ul class="mycontext_law">
-			<li class="mycontext_law">中华人民专利法(2008修正) 第56条</li>
-			<li class="mycontext_law">中华人民专利法(2008修正) 第57条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第58条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第59条</li>
-			<li class="mycontext_law">中华人民共和国专利法(2008修正) 第56条</li>
+			<s:iterator value="detail.relatedCase">
+				<li class="mycontext_law">
+					<s:property value="title"></s:property>
+				</li>
+			</s:iterator>
 		</ul>
 	</div>
 	</div>

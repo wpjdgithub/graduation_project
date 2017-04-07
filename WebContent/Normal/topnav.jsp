@@ -98,12 +98,6 @@ $(document).ready(function(){
 		var input = $("#text_input").val();
 		location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
 	});
-	
-	$("#datetimepicker").datetimepicker({
-
-    	//一堆参数
-
-	});
 });
 
 

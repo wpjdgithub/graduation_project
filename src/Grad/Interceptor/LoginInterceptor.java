@@ -19,6 +19,7 @@ public class LoginInterceptor extends AbstractInterceptor{
 	public String intercept(ActionInvocation invocation) throws Exception {
 		// TODO Auto-generated method stub
 		BaseAction action = (BaseAction) invocation.getAction();
+		@SuppressWarnings("rawtypes")
 		Map session = action.session;
 		if( session==null || session.get("username")==null){
 			System.out.println("尚未登录");

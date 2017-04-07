@@ -63,6 +63,8 @@
 
 	<bean id="CaseDetailAction" class="Grad.Action.CaseDetailAction"></bean>
 	
+	<bean id="CaseManageAction" class="Grad.Action.CaseManageAction"></bean>
+	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"></property>
         <property name="maxInMemorySize" value="10240000"></property>

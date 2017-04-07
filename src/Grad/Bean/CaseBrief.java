@@ -3,6 +3,10 @@ package Grad.Bean;
 import java.io.Serializable;
 
 public class CaseBrief implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3731415786746700236L;
 	private int id;
 	private String title;
 	private String court;

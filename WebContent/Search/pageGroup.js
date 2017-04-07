@@ -2,7 +2,7 @@
 $(function(){
 	//根据总页数判断，如果小于5页，则显示所有页数，如果大于5页，则显示5页。根据当前点击的页数生成
 	
-	var pageCount = 11;//模拟后台总页数
+	var pageCount = 15;//模拟后台总页数
 	//生成分页按钮
 	if(pageCount>5){
 		page_icon(1,5,0);
@@ -20,7 +20,8 @@ $(function(){
 			$(this).siblings("li").removeClass("on");
 		}
 		
-		alert($(this).html());
+		var pageNum = $(this).html();
+		
 	});
 	
 	//点击上一页触发
@@ -36,7 +37,8 @@ $(function(){
 			}
 		}
 		
-		alert($("#pageGro li.on").html());
+		var pageNum = $(this).html();
+		
 	});
 	
 	//点击下一页触发
@@ -52,7 +54,8 @@ $(function(){
 			}
 		}
 		
-		alert($("#pageGro li.on").html());
+		var pageNum = $(this).html();
+		
 	});
 });
 
