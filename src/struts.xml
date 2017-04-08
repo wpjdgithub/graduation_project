@@ -87,6 +87,12 @@
 			</result>
 		</action>
 		
+		<action name="case_filter" class="CaseManageAction" method="filter">
+			<result name="success" type="json">
+				<param name="root">FilterResult</param>
+			</result>
+		</action>
+		
 	</package>
 
 </struts>

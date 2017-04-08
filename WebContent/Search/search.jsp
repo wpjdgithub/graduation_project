@@ -43,6 +43,7 @@
 		font-size:12px; margin-bottom:3px;
 		display:none;
 	}
+	
 	div.mymestitle {
 		margin-bottom:5px; font-size:15px;
 	}
@@ -55,14 +56,18 @@
 		float:right;
 	}
 	
-	div.collapse{
-		padding-left:15px; margin-bottom:10px;
+	div.list{
+		padding-left:15px; display:none;
 	}
 	div.main-title {
 		width:100%; height:40px; background:#498dde; font-size:18px; padding-top:6px;
+		
+	}
+	div.title {
+		margin-bottom:5px;
 	}
 	div.panel-body {
-		height:auto; padding:0 0 0 0; margin:0 0 0 0;
+		height:auto; padding:0 0 0 0; margin:0 0 0 0; height:auto; font-size:15px;
 	}
 </style>
 
@@ -152,12 +157,6 @@
 			var id = $(this).attr("id");
 			window.location.href="<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id;
 		});
-		
-		$(".title-1").click(function(e){
-            /*切换折叠指示图标*/
-            $(this).find("span").toggleClass("glyphicon-chevron-down");
-            $(this).find("span").toggleClass("glyphicon-chevron-right");
-        });
 		
 		$("#sort1").click(function(){
 			sort_choose(1);

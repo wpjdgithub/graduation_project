@@ -2,6 +2,7 @@ package Grad.Action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import com.google.gson.Gson;
 
 import Grad.Bean.CaseBrief;
+import Grad.Bean.CaseFilter;
 import net.sf.json.JSONArray;
 
 @Controller
@@ -22,8 +24,10 @@ public class CaseManageAction extends BaseAction {
 	
 	private String sortType;
 	private int pageNum;
+	private int filterId;
 
 	private String CaseResult;
+	private String FilterResult;
 	
 	public String page() throws ServletException,IOException{
 		getThisPage();
@@ -42,6 +46,13 @@ public class CaseManageAction extends BaseAction {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public String filter() throws ServletException,IOException{
+		getFilter();
+		
+		return SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
 	private void getThisPage(){
 		pageNum = pageNum==0?1:pageNum;
 		ArrayList<CaseBrief> list = (ArrayList<CaseBrief>) session.get("AllData");
@@ -54,6 +65,28 @@ public class CaseManageAction extends BaseAction {
 		CaseResult = gson.toJson(pageList);
 	}
 	
+	private void getFilter(){
+		if(filterId==0){
+			FilterResult = "{'status':'empty'}";
+		}else{
+			List<CaseFilter> list = (ArrayList<CaseFilter>) session.get("AllFilter");
+			String path = "";
+			for(CaseFilter filter:list){
+				if(filterId==filter.getId())
+					path = filter.getName();
+			}
+			String[] pathl = path.split("/");
+			List<CaseFilter> result = new ArrayList<CaseFilter>();
+			for(CaseFilter filter:list){
+				if(filter.getName().startsWith(path)
+						&&filter.getName().split("/").length==(pathl.length+1)){
+					result.add(filter);
+				}
+			}
+			Gson gson = new Gson();
+			FilterResult = gson.toJson(result);
+		}
+	}
 	
 
 	public String getSortType() {
@@ -78,6 +111,22 @@ public class CaseManageAction extends BaseAction {
 
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
+	}
+
+	public String getFilterResult() {
+		return FilterResult;
+	}
+
+	public void setFilterResult(String filterResult) {
+		FilterResult = filterResult;
+	}
+
+	public int getFilterId() {
+		return filterId;
+	}
+
+	public void setFilterId(int filterId) {
+		this.filterId = filterId;
 	}
 
 }
