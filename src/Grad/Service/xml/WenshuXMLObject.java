@@ -13,12 +13,20 @@ import org.w3c.dom.NodeList;
 import Grad.Service.wenshu.Wenshu;
 
 public class WenshuXMLObject {
+	private String filepath;
 	private Document document;
 	private Element rootElement;
 	public WenshuXMLObject(String filepath){
+		this.filepath = filepath;
 		DOMParser parser = new DOMParser();
 		this.document = parser.parse(filepath);
 		this.rootElement = this.document.getDocumentElement();
+	}
+	public String getFilepath() {
+		return filepath;
+	}
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 	public Element getRoot(){
 		return this.rootElement;
@@ -309,6 +317,7 @@ public class WenshuXMLObject {
 	}
 	public Wenshu toWenshu(){
 		Wenshu wenshu = new Wenshu();
+		wenshu.setFilepath(getFilepath());
 		wenshu.setCaseBrief(this.getBriefCase());
 		wenshu.setCaseID(this.getCaseID());
 		wenshu.setCaseProgram(this.getCaseProgram());

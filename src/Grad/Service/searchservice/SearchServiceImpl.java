@@ -1,8 +1,5 @@
 package Grad.Service.searchservice;
 
-import java.util.ArrayList;
-
-import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
 import Grad.Service.SearchService;

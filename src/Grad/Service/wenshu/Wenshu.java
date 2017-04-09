@@ -1,5 +1,7 @@
 package Grad.Service.wenshu;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -10,6 +12,7 @@ import java.util.Set;
 import Grad.Service.nlp.tool.Keywords;
 
 public class Wenshu {
+	private String filepath;//文件路径
 	private String caseID; //案例号
 	private String courtName;//经办法院名称
 	private String courtLevel;//经办法院级别
@@ -25,6 +28,12 @@ public class Wenshu {
 	private Map<String,String> judgerInfo;//审判人员信息
 	private String fullText;//全文
 	private Set<String> keywords;
+	public String getFilepath() {
+		return filepath;
+	}
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
 	public String getCaseID() {
 		return caseID;
 	}
@@ -88,20 +97,76 @@ public class Wenshu {
 	public List<String> getLaws() {
 		return laws;
 	}
+	public String getLawsString(){
+		StringBuilder sb = new StringBuilder();
+		for(String law:laws){
+			sb.append(law+" ");
+		}
+		String result = sb.toString().trim();
+		return result;
+	}
 	public void setLaws(List<String> laws) {
 		this.laws = laws;
+	}
+	public void setLaws(String laws){
+		List<String> list = new ArrayList<String>();
+		String[] law = laws.split(" ");
+		for(String s:law){
+			list.add(s);
+		}
+		this.laws = list;
 	}
 	public Map<String, String> getParticipantInfo() {
 		return participantInfo;
 	}
+	public String getParticipantInfoString(){
+		StringBuilder sb = new StringBuilder();
+		Iterator<String> iterator = this.participantInfo.keySet().iterator();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			String value = this.participantInfo.get(key);
+			sb.append(value+":"+key+" ");
+		}
+		String result = sb.toString().trim();
+		return result;
+	}
 	public void setParticipantInfo(Map<String, String> participantInfo) {
 		this.participantInfo = participantInfo;
+	}
+	public void setParticipantInfo(String info){
+		Map<String,String> map = new HashMap<String,String>();
+		String[] pair = info.split(" ");
+		for(String p:pair){
+			String[] e = p.split(":");
+			map.put(e[1], e[0]);
+		}
+		this.participantInfo = map;
 	}
 	public Map<String, String> getJudgerInfo() {
 		return judgerInfo;
 	}
+	public String getJudgerInfoString(){
+		StringBuilder sb = new StringBuilder();
+		Iterator<String> iterator = this.judgerInfo.keySet().iterator();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			String value = this.judgerInfo.get(key);
+			sb.append(value+":"+key+" ");
+		}
+		String result = sb.toString().trim();
+		return result;
+	}
 	public void setJudgerInfo(Map<String, String> judgerInfo) {
 		this.judgerInfo = judgerInfo;
+	}
+	public void setJudgerInfo(String info){
+		Map<String,String> map = new HashMap<String,String>();
+		String[] pair = info.split(" ");
+		for(String p:pair){
+			String[] e = p.split(":");
+			map.put(e[1], e[0]);
+		}
+		this.judgerInfo = map;
 	}
 	public String getFullText() {
 		return fullText;
@@ -122,5 +187,23 @@ public class Wenshu {
 		for(int i = 0;i < s.length;i++)
 			list.add(s[i]);
 		return list;
+	}
+	public String getKeywords(){
+		StringBuilder sb = new StringBuilder();
+		Iterator<String> iterator = this.keywords.iterator();
+		while(iterator.hasNext()){
+			String keyword = iterator.next();
+			sb.append(keyword+" ");
+		}
+		String result = sb.toString().trim();
+		return result;
+	}
+	public void setKeywords(String keywords){
+		Set<String> set = new HashSet<String>();
+		String[] keyword = keywords.split(" ");
+		for(String word:keyword){
+			set.add(word);
+		}
+		this.keywords = set;
 	}
 }
