@@ -31,8 +31,4 @@ public class StopWords {
 			return false;
 		}
 	}
-	//Test
-	public static void main(String[] args){
-		System.out.println(isStopWords("的"));
-	}
 }
