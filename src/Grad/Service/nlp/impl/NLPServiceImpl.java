@@ -1,11 +1,8 @@
 package Grad.Service.nlp.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Grad.Service.nlp.NLPService;
-import Grad.Service.wenshu.Wenshu;
-import Grad.Service.xml.WenshuXMLObject;
 import huaban.analysis.jieba.JiebaSegmenter;
 
 public class NLPServiceImpl implements NLPService{
@@ -15,17 +12,13 @@ public class NLPServiceImpl implements NLPService{
 		List<String> result = segmenter.sentenceProcess(sentence);
 		return result;
 	}
-	@Override
-	public List<String> chineseWordSegmentation(Wenshu wenshu) {
-		List<String> result = new ArrayList<String>();
-		String fullText = wenshu.getFullText();
-		String[] sentences = fullText.split("[;；,，.。？?‘’“”\"、:：/【】%+-÷〇…()&○（）—#《》]");
-		for(int i = 0;i < sentences.length;i++){
-			List<String> words = this.chineseWordSegmentation(sentences[i]);
-			for(String word:words){
-				result.add(word.trim());
-			}
-		}
-		return result;
+	
+	//Test
+	public static void main(String[] args){
+		NLPService nlpservice = new NLPServiceImpl();
+		String input = "王尼玛是暴走大事件这个节目的主持人";
+		List<String> result = nlpservice.chineseWordSegmentation(input);
+		System.out.println(result);
 	}
+
 }

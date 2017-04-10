@@ -22,28 +22,16 @@ import Grad.Service.wenshu.Wenshu;
 import Grad.Service.xml.WenshuXMLObject;
 
 public class SearchFiles {
-	private Analyzer analyzer;
-	private Path indexPath;
-	private Directory directory;
-    private DirectoryReader ireader;
-    private IndexSearcher isearcher;
 	public SearchFiles(){
-		this.analyzer = new StandardAnalyzer();
-		this.indexPath = Paths.get("luceneIndex/index1.0");
-		try {
-			this.directory = FSDirectory.open(indexPath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	    try {
-			this.ireader = DirectoryReader.open(directory);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	    this.isearcher = new IndexSearcher(ireader);
+		
 	}
 	public List<Wenshu> search(String key,String value) throws IOException, ParseException{
 		List<Wenshu> list = new ArrayList<Wenshu>();
+		Analyzer analyzer = new StandardAnalyzer();
+		Path indexPath = Paths.get("luceneIndex/index1.0");
+		Directory directory = FSDirectory.open(indexPath);
+	    DirectoryReader ireader = DirectoryReader.open(directory);
+	    IndexSearcher isearcher = new IndexSearcher(ireader);
 	    QueryParser parser = new QueryParser(key, analyzer);
 	    Query query = parser.parse(value);
 	    ScoreDoc[] hits = isearcher.search(query, 1000).scoreDocs;//TODO:先来1000个，效果不好后续再改
@@ -56,17 +44,15 @@ public class SearchFiles {
 	    	Wenshu wenshu = wenshuXML.toWenshu();
 	    	list.add(wenshu);
 	    }
-	    return list;
-	}
-	public void close() throws IOException{
 	    ireader.close();
 	    directory.close();
+	    return list;
 	}
 	public static void main(String[] args) throws IOException, ParseException{
 		String key = "keywords";
 		String value = "有期徒刑";
 		SearchFiles searchFiles = new SearchFiles();
 		List<Wenshu> list = searchFiles.search(key, value);
-		System.out.println(list.get(1).getKeywords());
+		System.out.println(list.size());
 	}
 }
