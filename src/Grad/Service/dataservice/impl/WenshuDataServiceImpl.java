@@ -37,26 +37,21 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 	}
 
 	@Override
-	public List<Wenshu> getSmallTestSet() {
+	public List<Wenshu> getSmallTestSet(String dirname) {
 		List<Wenshu> list = new LinkedList<Wenshu>();
-		File rootDataDir = new File("wenshudata/");
-		File[] mainDir = rootDataDir.listFiles();
-		for(int i = 0;i < mainDir.length;i++){
-			if(!mainDir[i].isDirectory())
+		File dir0 = new File("wenshudata/"+dirname+"/");
+		File[] dir1 = dir0.listFiles();
+		for(File dir:dir1){
+			if(!dir.isDirectory()){
 				continue;
-			File[] detailDir = mainDir[i].listFiles();
-			for(int j = 0;j < 2;j++){
-				if(!detailDir[j].isDirectory())
-					continue;
-				String[] filename = detailDir[j].list();
-				for(int k = 0;k < filename.length;k++){
-					String filepath = "wenshudata/"+mainDir[i].getName()+"/"
-							+detailDir[j].getName()+"/"+filename[k];
-					System.out.println(filepath);
-					WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
-					Wenshu wenshu = wenshuXML.toWenshu();
-					list.add(wenshu);
-				}
+			}
+			String[] filenames = dir.list();
+			for(String filename:filenames){
+				String filepath = "wenshudata/"+dir0.getName()+"/"+dir.getName()+"/"+filename;
+				System.out.println(filepath);
+				WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
+				Wenshu wenshu = wenshuXML.toWenshu();
+				list.add(wenshu);
 			}
 		}
 		return list;
