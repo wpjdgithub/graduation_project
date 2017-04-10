@@ -57,6 +57,12 @@
 			var username = $("#username").val();
 			var name = $("#name").val();
 			var password = $("#password").val();
+			
+			var format = format_userinfo(username, name, password);
+			if(!format){
+				return;
+			}
+			
 			$.ajax({
 				url:"<%=request.getContextPath()+"/User/user_register"%>",
 				type:'POST',
@@ -82,5 +88,26 @@
 			$("#password").val("");
 			$("#error_mes").hide();
 		});
+		
+		
 	});
+
+	function format_userinfo(username, name, password){
+		if(username==""){
+			alert("用户名不能为空");
+			return false;
+		}
+		
+		if(username.length<4 || username.length>10){
+			alert("用户名长度不合法，长度应为4-10位");
+			return false;
+		}
+		
+		if(password==""){
+			alert("密码不能为空");
+			return false;
+		}
+		
+		return true;
+	}
 </script>

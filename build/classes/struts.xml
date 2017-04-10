@@ -41,6 +41,12 @@
 			<result name="login">/User/login.jsp</result>
 			<interceptor-ref name="loginStack"></interceptor-ref>
 		</action>
+		
+		<action name="user_logout" class="UserAction" method="logout">
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
 
 	</package>
 	

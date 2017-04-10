@@ -113,17 +113,18 @@ public class SearchAction extends BaseAction {
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
 		
 		List<CaseFilter> filter = new ArrayList<CaseFilter>();
-		filter.add(new CaseFilter(1,"1/",12,true));
-		filter.add(new CaseFilter(2,"1/1/",5,true));
+		filter.add(new CaseFilter(1,"1/",12,false));
+		filter.add(new CaseFilter(2,"1/1/",5,false));
 		filter.add(new CaseFilter(3,"1/2/",23,false));
 		filter.add(new CaseFilter(4,"1/1/1/",67,false));
-		filter.add(new CaseFilter(5,"2/",1,true));
+		filter.add(new CaseFilter(5,"2/",1,false));
 		filter.add(new CaseFilter(6,"2/1/",34,false));
-		filter.add(new CaseFilter(7,"3/",67,true));
+		filter.add(new CaseFilter(7,"3/",67,false));
 		filter.add(new CaseFilter(8,"3/1/",25,false));
-		filter.add(new CaseFilter(9,"3/2/",52,true));
+		filter.add(new CaseFilter(9,"3/2/",52,false));
 		filter.add(new CaseFilter(10,"3/3/",34,false));
-		filter.add(new CaseFilter(11,"3/2/1/",51,true));
+		filter.add(new CaseFilter(11,"3/2/1/",51,false));
+		checkFilter(filter);
 		session.put("AllFilter", filter);
 	}
 	
@@ -136,6 +137,20 @@ public class SearchAction extends BaseAction {
 			pageList.add(list.get(i));
 		}
 		session.put("pageData", pageList);
+	}
+	
+	private void checkFilter(List<CaseFilter> list){
+		for(CaseFilter filter:list){
+			String[] fl = filter.getName().split("/");
+			boolean hasChild = false;
+			for(CaseFilter cs:list){
+				if(cs.getName().startsWith(filter.getName())&&cs.getName().length()>filter.getName().length()){
+					hasChild = true;
+					break;
+				}
+			}
+			filter.setHasChild(hasChild);
+		}
 	}
 	
 

@@ -50,6 +50,7 @@
 		$("#submit").click(function(){
 			var username = $("#username").val();
 			var password = $("#password").val();
+			
 			$.ajax({
 				url:"<%=request.getContextPath()+"/User/user_login"%>",
 				type:'POST',

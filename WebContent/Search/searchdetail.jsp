@@ -132,7 +132,9 @@
 <script>
 $(function (){
     $("[data-toggle='popover']").hover(function(){
-    	$(this).popover("toggle");
+    	$(this).popover("show");
+    },function(){
+    	$(this).popover("hide");
     });
 });
 </script>

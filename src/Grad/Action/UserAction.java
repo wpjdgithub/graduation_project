@@ -58,6 +58,13 @@ public class UserAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public String logout() throws ServletException,IOException{
+		session.put("username", null);
+		this.setResult("success");
+		return SUCCESS;
+	}
+	
 	public UserInfo getUser() {
 		return user;
 	}

@@ -3,11 +3,16 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <style type="text/css">
 	div.mytopnav {
-		position:absolute; width:100%; text-align:right;height:auto;
+		position:absolute; width:100%; text-align:right;
+		z-index:-1;
 	}
 	div.mymes{
-		margin-right:80px;
-		margin-top:5px; text-align:right;
+		position:absolute; left:85%;top:5px;
+	}
+	div.user_opt{
+		position:absolute; left:85%;top:30px; display:none; width:auto; height:auto;
+		border-style:solid;border-width:1px;border-color:#DCDCDC;
+		padding:3px 2px 3px 2px;
 	}
 	div.mysearch {
 		position:absolute; width:100%; height:auto; top:150px; text-align:center;
@@ -32,7 +37,7 @@
 		float:left; width:70%; height:auto;
 		font-size:15px;
 		border-style:solid;border-width:1px;border-color:#DCDCDC;
-		display:none;
+		display:none; z-index:9999;
 		background:white;
 	}
 	td.left {text-align:left;}
@@ -41,7 +46,7 @@
 		width:170px; height:25px;
 	}
 	select.mysearchselect {
-		width:170px; height:25px;
+		width:170px; height:25px; font-size:10px;
 	}
 </style>
 
@@ -54,16 +59,17 @@
 			<a href="<%=request.getContextPath() +"/User/register.jsp" %>">注册</a>&nbsp&nbsp
 		</s:if>
 		<s:else>
-			<a href="<%=request.getContextPath() +"/User/user_mes" %>">
+			<a href="<%=request.getContextPath() +"/User/user_mes" %>" id="user_name">
 				<s:property value="#session.username"></s:property>
 			</a>&nbsp&nbsp
 		</s:else>
 		<a href="<%=request.getContextPath() +"/index.jsp" %>">返回主页</a>
 	</div>
+	
 	<div class="mysearch">
 		<div class="mysearchkind">
 			<a>首页</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>刑事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<a>刑事案件1</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			<a>民事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			<a>行政案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			<a>赔偿案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -79,13 +85,17 @@
                 </div>
             </div>
 			<div class="mysubmit">
-				<button type="button" class="btn btn-default" style="width:100%" id="do_search">搜素</button>
+				<button type="button" class="btn btn-default" style="width:100%" id="do_search">搜索</button>
 			</div>
 			<div class="mysearchtable" id="detailtable">
 				<%@ include file="/Normal/searchtable.html" %>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="user_opt">
+	<a>注销账户</a>
 </div>
 
 <script type="text/javascript">
@@ -97,6 +107,41 @@ $(document).ready(function(){
 	$("#do_search").click(function(){
 		var input = $("#text_input").val();
 		location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
+	});
+
+	$("#user_name").hover(function(){
+		$("div.user_opt").show();
+	},function(){
+		
+	});
+
+	$("div").click(function(){
+		if($(this).hasClass("user_opt")){
+			$("div.user_opt").show();
+		}else{
+			$("div.user_opt").hide();
+		}
+	});
+
+	$("div.user_opt").hover(function(){
+		$(this).css("background", "#005AB5");
+		$(this).find("a").css("color","#FFFFFF");
+	},function(){
+		$(this).css("background", "#FFFFFF");
+		$(this).find("a").css("color","#005AB5");
+	});
+
+	$("div.user_opt").click(function(){
+		$.ajax({
+			type:'post',
+			url:"<%=request.getContextPath() +"/User/user_logout" %>",
+			success:function(data){
+				window.location.reload();
+			},
+			error:function(){
+				alert("网络异常，请稍后再试");
+			}
+		});
 	});
 });
 

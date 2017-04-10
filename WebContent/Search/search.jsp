@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -60,11 +61,12 @@
 		padding-left:15px; display:none;
 	}
 	div.main-title {
-		width:100%; height:40px; background:#498dde; font-size:18px; padding-top:6px;
-		
+		float:left;
+		width:100%; height:auto; 
+		margin-bottom:5px;
 	}
 	div.title {
-		margin-bottom:5px;
+		margin-bottom:5px;height:30px; background:#498dde; font-size:18px;
 	}
 	div.panel-body {
 		height:auto; padding:0 0 0 0; margin:0 0 0 0; height:auto; font-size:15px;
@@ -73,7 +75,6 @@
 
 </head>
 <body>
-<%@ include file="../Normal/topnav.jsp" %>
 <div class="mysearchfilter">
 	<%@ include file="searchfilter.jsp" %>
 </div>
@@ -139,6 +140,7 @@
 		</div>
 	</div>
 </div>
+<%@ include file="../Normal/topnav.jsp" %>
 </body>
 </html>
 

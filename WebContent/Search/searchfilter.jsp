@@ -2,12 +2,32 @@
     pageEncoding="UTF-8"%>
 <div class="main-title" id="1/">
 	<div class="title">
-		<a id="7" style="color:#FFF;z-index:-1">
+		<a id="1" style="color:#FFF;z-index:-1">
            <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
         </a>
         <a style="color:#FFF;">按关键字筛选</a>
     </div>
     <div id="1-l" class="list">
+    </div>
+</div>
+<div class="main-title" id="2/">
+	<div class="title">
+		<a id="5" style="color:#FFF;z-index:-1">
+           <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
+        </a>
+        <a style="color:#FFF;">按关键字筛选</a>
+    </div>
+    <div id="2-l" class="list">
+    </div>
+</div>
+<div class="main-title" id="3/">
+	<div class="title">
+		<a id="7" style="color:#FFF;z-index:-1">
+           <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
+        </a>
+        <a style="color:#FFF;">按关键字筛选</a>
+    </div>
+    <div id="3-l" class="list">
     </div>
 </div>
 
@@ -38,8 +58,9 @@
 			$(this).parent().parent().next().hide();
 		});
 		
-		$(".main-title").on("click",".glyphicon-arrow-right",function(){
+		$(".main-title").on("click",".path",function(){
 			var input = $(this).parent().attr("id");
+			
 			location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
 		});
 		
@@ -51,13 +72,13 @@
 		element.parent().parent().next().html("");
 		$.each(obj,function(i,value){
 			if(value.hasChild==false){
-				var context = "<div class='panel-body' id='"+value.id+"'><span class='glyphicon glyphicon-arrow-right'></span>"+value.name+"&nbsp("+value.num+")"+"</div>";
+				var context = "<div class='panel-body' id='"+value.id+"'><span class='glyphicon glyphicon-arrow-right'></span><a class='path'>"+value.name+"&nbsp("+value.num+")"+"</a></div>";
 				element.parent().parent().next().append(context);
 			}else{
 				var context = "<div class='panel-body' id='"+value.id+"'>";
 				context = context + "<h4 class='title-1'><a id='"+value.id+"'>";
-				context = context + "<span class='glyphicon glyphicon-chevron-right right'></span>";
-				context = context + value.name+"&nbsp&nbsp&nbsp&nbsp("+value.num+")";
+				context = context + "<span class='glyphicon glyphicon-chevron-right right'></span><a class='path'>";
+				context = context + value.name+"&nbsp&nbsp&nbsp&nbsp("+value.num+")</a>";
 				context = context + " </a></h4><div id='"+value.id+"-l' class='list'></div></div>";
 				element.parent().parent().next().append(context);
 			}

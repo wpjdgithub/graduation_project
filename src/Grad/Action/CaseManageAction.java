@@ -1,6 +1,7 @@
 package Grad.Action;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import com.google.gson.Gson;
 
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseFilter;
-import net.sf.json.JSONArray;
 
 @Controller
 public class CaseManageAction extends BaseAction {
