@@ -2,10 +2,8 @@ package Grad.Service.nlp.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import Grad.Service.nlp.NLPService;
 import Grad.Service.wenshu.Wenshu;
-import Grad.Service.xml.WenshuXMLObject;
 import huaban.analysis.jieba.JiebaSegmenter;
 
 public class NLPServiceImpl implements NLPService{

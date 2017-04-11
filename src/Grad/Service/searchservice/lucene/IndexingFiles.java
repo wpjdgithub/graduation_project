@@ -1,10 +1,8 @@
 package Grad.Service.searchservice.lucene;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -14,11 +12,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
-import Grad.Service.dataservice.WenshuDataService;
-import Grad.Service.dataservice.impl.WenshuDataServiceImpl;
 import Grad.Service.wenshu.Wenshu;
-
 public class IndexingFiles {
 	private List<Wenshu> list;
 	public IndexingFiles(List<Wenshu> list){
@@ -34,7 +28,6 @@ public class IndexingFiles {
 		for(int i = 0;i < size;i++){
 			Document document = new Document();
 			Wenshu wenshu = this.list.get(i);
-			System.out.println("已获取文书:"+wenshu.getFilepath());//TODO
 			document.add(new Field("filepath",wenshu.getFilepath(),TextField.TYPE_STORED));
 			document.add(new Field("casebrief",wenshu.getCaseBrief(),TextField.TYPE_STORED));
 			document.add(new Field("caseid",wenshu.getCaseID(),TextField.TYPE_STORED));
@@ -55,16 +48,5 @@ public class IndexingFiles {
 		}
 		indexWriter.close();
 		directory.close();
-	}
-	public static void main(String[] args){
-		WenshuDataService dataservice = new WenshuDataServiceImpl();
-		List<Wenshu> list = dataservice.getAllWenshuData();
-		System.out.println("下面开始建立索引");
-		IndexingFiles indexing = new IndexingFiles(list);
-		try {
-			indexing.index();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

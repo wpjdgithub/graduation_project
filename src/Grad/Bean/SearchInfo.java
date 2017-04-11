@@ -66,11 +66,42 @@ public class SearchInfo implements Serializable{
 	public int getLevel_court() {
 		return level_court;
 	}
+	public String getCourtLevel(){
+		String result;
+		switch(level_court){
+		case 0:
+			result = "基层";
+			break;
+		case 1:
+			result = "中级";
+			break;
+		case 2:
+			result = "最高";
+			break;
+		default:
+			result = "No court Level";
+		}
+		return result;
+	}
 	public void setLevel_court(int level_court) {
 		this.level_court = level_court;
 	}
 	public int getType_case() {
 		return type_case;
+	}
+	public String getCaseType(){
+		String result;
+		switch(type_case){
+		case 0:
+			result = "民事案件";
+			break;
+		case 1:
+			result = "刑事案件";
+			break;
+		default:
+			result = "No Case Type";
+		}
+		return result;
 	}
 	public void setType_case(int type_case) {
 		this.type_case = type_case;
@@ -78,11 +109,39 @@ public class SearchInfo implements Serializable{
 	public int getJudegment() {
 		return judegment;
 	}
+	public String getCaseProgram(){
+		String result;
+		switch(judegment){
+		case 0:
+			result = "一审案件";
+			break;
+		default:
+			result = "No Case Program";
+		}
+		return result;
+	}
 	public void setJudegment(int judegment) {
 		this.judegment = judegment;
 	}
 	public int getType_text() {
 		return type_text;
+	}
+	public String getDocumentType(){
+		String result;
+		switch(type_text){
+		case 0:
+			result = "裁定书";
+			break;
+		case 1:
+			result = "调解书";
+			break;
+		case 2:
+			result = "判决书";
+			break;
+		default:
+			result = "No Document Type";
+		}
+		return result;
 	}
 	public void setType_text(int type_text) {
 		this.type_text = type_text;

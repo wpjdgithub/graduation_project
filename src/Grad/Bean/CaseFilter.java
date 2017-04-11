@@ -14,7 +14,12 @@ public class CaseFilter implements Serializable {
 	private int num;
 	private boolean hasChild;
 	
-	public CaseFilter(){}
+	public CaseFilter(){
+		this.id = 0;
+		this.name = null;
+		this.num = 0;
+		this.hasChild = false;
+	}
 
 	public CaseFilter(int id, String name, int num, boolean hasChild) {
 		super();
@@ -47,6 +52,10 @@ public class CaseFilter implements Serializable {
 	public void setNum(int num) {
 		this.num = num;
 	}
+	
+	public void increase(int count){
+		this.num = this.num + count;
+	}
 
 	public boolean isHasChild() {
 		return hasChild;
@@ -55,7 +64,6 @@ public class CaseFilter implements Serializable {
 	public void setHasChild(boolean hasChild) {
 		this.hasChild = hasChild;
 	}
-	
 	
 
 }

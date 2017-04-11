@@ -329,6 +329,7 @@ public class WenshuXMLObject {
 		wenshu.setDocumentName(this.getDocumentName());
 		wenshu.setDocumentType(this.getDocumentType());
 		wenshu.setFullText(this.getFullText());
+		wenshu.setCaseName(this.getDocumentBeginning());
 		wenshu.setLaws(this.getLawBasis());//TODO
 		Map<String,String> map1 = new HashMap<String,String>();
 		String end = this.getDocumentEnd();

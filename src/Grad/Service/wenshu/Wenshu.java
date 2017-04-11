@@ -14,6 +14,7 @@ import Grad.Service.nlp.tool.Keywords;
 public class Wenshu {
 	private String filepath;//文件路径
 	private String caseID; //案例号
+	private String caseName;
 	private String courtName;//经办法院名称
 	private String courtLevel;//经办法院级别
 	private String courtArea;//行政区划
@@ -33,6 +34,15 @@ public class Wenshu {
 	}
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
+	}
+	public String getCaseName() {
+		return caseName;
+	}
+	public void setCaseName(String caseName) {
+		this.caseName = caseName;
+	}
+	public void setKeywords(Set<String> keywords) {
+		this.keywords = keywords;
 	}
 	public String getCaseID() {
 		return caseID;

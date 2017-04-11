@@ -1,5 +1,10 @@
 package Grad.Service.nlp;
 
-public interface WenshuAnalyzingService {
+import java.util.List;
 
+import Grad.Service.wenshu.Wenshu;
+
+public interface WenshuAnalyzingService {
+	public List<String> calculateKeywords(Wenshu wenshu);
+	public List<String> calculateKeywords(Wenshu wenshu,String input);
 }
