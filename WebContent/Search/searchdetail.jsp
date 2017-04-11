@@ -28,11 +28,16 @@
 	}
 	div.mycontext_outline {
 		width:100%; min-height:100px;
-		padding:5px 0 10px 10px;
+		padding:5px 10px 10px 10px;
 	}
 	div.mycontext_law {
 		width:100%; height:auto;
-		padding:15px 0 0 10px;
+		padding:15px 10px 0 10px;
+	}
+	
+	h5.h5_title {
+		font-size:15px; padding-bottom:10px;
+		border-style:solid;border-width:0 0 2px 0;border-color:#DCDCDC;
 	}
 	ul.mycontext_law {
 		padding:0 0 5px 10px;
@@ -44,7 +49,7 @@
 	}
 	div.mycontext_recommend {
 		width:100%; height:auto;
-		padding:15px 0 0 10px;
+		padding:15px 10px 0 10px;
 	}
 	table.mycontext_summary {
 		border-collapse:separate; border-spacing:10px 5px;
@@ -88,7 +93,7 @@
 	</div>
 	<div class="mycontext_relation">
 	<div class="mycontext_outline">
-		<h5><b style="font-size:15px;">基本信息</b></h5>
+		<h5 class="h5_title"><b>基本信息</b></h5>
 		<table class="mycontext_summary">
 			<tr>
 				<td class="mycontext_summary_left">案由:</td>
@@ -105,7 +110,7 @@
 		</table>
 	</div>
 	<div class="mycontext_law">
-		<h5><b style="font-size:15px;">相关法律依据</b></h5>
+		<h5 class="h5_title"><b>相关法律依据</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
 				<li class="mycontext_law">
@@ -115,7 +120,7 @@
 		</ul>
 	</div>
 	<div class="mycontext_recommend">
-		<h5><b style="font-size:15px;">相似案例</b></h5>
+		<h5 class="h5_title"><b>相似案例</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedCase">
 				<li class="mycontext_law">
