@@ -243,4 +243,10 @@ public class SearchServiceImpl implements SearchService{
 		result.addCaseFilter(listType);
 		return result;
 	}
+
+	@Override
+	public CaseSearchRes search(SearchInfo info, CaseFilter filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
