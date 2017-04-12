@@ -25,9 +25,10 @@ public class SearchFiles {
 	private Directory directory;
     private DirectoryReader ireader;
     private IndexSearcher isearcher;
+    private String path = "G:\\JAVAEE\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
 	public SearchFiles(){
 		this.analyzer = new StandardAnalyzer();
-		this.indexPath = Paths.get("luceneIndex/index1.0");
+		this.indexPath = Paths.get(path+"luceneIndex\\index1.0");
 		try {
 			this.directory = FSDirectory.open(indexPath);
 		} catch (IOException e) {
@@ -38,6 +39,9 @@ public class SearchFiles {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	    System.out.println(this.directory.toString());
+	    if(this.ireader==null)
+	    	System.out.println("rnull");
 	    this.isearcher = new IndexSearcher(ireader);
 	}
 	public List<Wenshu> search(SearchItem searchItem,String value) throws IOException, ParseException{
@@ -45,7 +49,7 @@ public class SearchFiles {
 		List<Wenshu> list = new ArrayList<Wenshu>();
 	    QueryParser parser = new QueryParser(key, analyzer);
 	    Query query = parser.parse(value);
-	    ScoreDoc[] hits = isearcher.search(query, 10000).scoreDocs;
+	    ScoreDoc[] hits = isearcher.search(query, 100).scoreDocs;
 	    for (int i = 0; i < hits.length; i++) {
 	    	Document hitDoc = isearcher.doc(hits[i].doc);
 	    	String filepath = hitDoc.get("filepath");
@@ -75,7 +79,7 @@ public class SearchFiles {
 			clauses[k] = BooleanClause.Occur.SHOULD;//表示or
 		}
 		Query query = MultiFieldQueryParser.parse(value, item, clauses, this.analyzer);
-		ScoreDoc[] hits = this.isearcher.search(query, 10000).scoreDocs;
+		ScoreDoc[] hits = this.isearcher.search(query, 100).scoreDocs;
 		for(int i = 0;i < hits.length;i++){
 			Document hitDoc = this.isearcher.doc(hits[i].doc);
 			String filepath = hitDoc.get("filepath");

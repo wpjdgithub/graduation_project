@@ -98,7 +98,7 @@
 			</div>
 			<div class="mysource">
 				<strong>核心词汇：</strong>
-				<s:property value="core"></s:property>
+					<s:property value="core"></s:property>
 				<a href="javascript:void(0)" class="detail">展开</a>
 			</div>
 			<div class="mydetailmes">

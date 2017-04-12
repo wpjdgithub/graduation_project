@@ -7,11 +7,15 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseFilter;
+import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
+import Grad.Service.SearchService;
+import Grad.Service.searchservice.SearchServiceImpl;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -25,14 +29,8 @@ public class SearchAction extends BaseAction {
 	private String input;
 	private SearchInfo info;
 	
-	/*@Autowired
-	@Qualifier("normal")
-	private SearchService service_n;
-	
-	@Autowired
-	@Qualifier("advanced")
-	private SearchService service_a;
-	*/
+	private SearchService service;
+
 
 	public String normal() throws ServletException, IOException {
 		
@@ -48,13 +46,13 @@ public class SearchAction extends BaseAction {
 	}
 	
 	public String advanced() throws ServletException, IOException {
-		System.out.println(info.getSdate());
+		System.out.println(info.getBrief());
 		return SUCCESS;
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void getResult(){
-		ArrayList<CaseBrief> caselist = new ArrayList<CaseBrief>();
+		/*ArrayList<CaseBrief> caselist = new ArrayList<CaseBrief>();
 		CaseBrief brief = new CaseBrief(123214,"标题1","浙江省法院","2017-01-01",
 				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
 		CaseBrief brief2 = new CaseBrief(123214,"标题2","浙江省法院","2017-01-01",
@@ -109,10 +107,15 @@ public class SearchAction extends BaseAction {
 		caselist.add(brief);
 		caselist.add(brief);
 		caselist.add(brief);
+		*/
+		System.out.println(request.getContextPath());
+		service = new SearchServiceImpl();
+		CaseSearchRes res = service.search(input);
+		List<CaseBrief> caselist = res.getBrief();
 		session.put("AllData", caselist);
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
 		
-		List<CaseFilter> filter = new ArrayList<CaseFilter>();
+		/*List<CaseFilter> filter = new ArrayList<CaseFilter>();
 		filter.add(new CaseFilter(1,"1/",12,false));
 		filter.add(new CaseFilter(2,"1/1/",5,false));
 		filter.add(new CaseFilter(3,"1/2/",23,false));
@@ -124,6 +127,8 @@ public class SearchAction extends BaseAction {
 		filter.add(new CaseFilter(9,"3/2/",52,false));
 		filter.add(new CaseFilter(10,"3/3/",34,false));
 		filter.add(new CaseFilter(11,"3/2/1/",51,false));
+		*/
+		List<CaseFilter> filter = res.getFilter();
 		checkFilter(filter);
 		session.put("AllFilter", filter);
 	}
@@ -135,6 +140,7 @@ public class SearchAction extends BaseAction {
 		ArrayList<CaseBrief> pageList = new ArrayList<CaseBrief>();
 		for(int i=(1*5-5);i<max;i++){
 			pageList.add(list.get(i));
+			System.out.println(list.get(i).getCore());
 		}
 		session.put("pageData", pageList);
 	}
