@@ -16,7 +16,7 @@ public class WenshuXMLObject {
 	private String filepath;
 	private Document document;
 	private Element rootElement;
-	private String path = "G:\\JAVAEE\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
+	private String path = "F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
 	public WenshuXMLObject(String filepath){
 		System.out.println(filepath);
 		this.filepath = filepath;

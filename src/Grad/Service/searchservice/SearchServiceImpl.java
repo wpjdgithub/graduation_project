@@ -15,7 +15,6 @@ import Grad.Bean.CaseFilter;
 import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
 import Grad.Service.SearchService;
-import Grad.Service.nlp.SearchResultSorter;
 import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
@@ -23,7 +22,6 @@ import Grad.Service.wenshu.Wenshu;
 public class SearchServiceImpl implements SearchService{
 	
 	private SearchFiles searchTool;
-//	private SearchResultSorter sorter;
 	public SearchServiceImpl(){
 		this.searchTool = new SearchFiles();
 	}
@@ -44,7 +42,6 @@ public class SearchServiceImpl implements SearchService{
 		} catch (IOException | ParseException e) {
 			list = new ArrayList<Wenshu>();
 		}
-//		this.sorter.sort(list);//对搜索结果进行排序
 		CaseSearchRes result = this.change(list);
 		return result;
 	}

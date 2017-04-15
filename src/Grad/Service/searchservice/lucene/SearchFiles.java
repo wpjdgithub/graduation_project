@@ -25,8 +25,28 @@ public class SearchFiles {
 	private Directory directory;
     private DirectoryReader ireader;
     private IndexSearcher isearcher;
-    private String path = "G:\\JAVAEE\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
+    private String path = "F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
 	public SearchFiles(){
+		this.analyzer = new StandardAnalyzer();
+		this.indexPath = Paths.get(path+"luceneIndex\\index1.0");
+		try {
+			this.directory = FSDirectory.open(indexPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    try {
+			this.ireader = DirectoryReader.open(directory);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    System.out.println(this.directory.toString());
+	    if(this.ireader==null)
+	    	System.out.println("rnull");
+	    this.isearcher = new IndexSearcher(ireader);
+	}
+	//For test
+	public SearchFiles(String path){
+		this.path = path;
 		this.analyzer = new StandardAnalyzer();
 		this.indexPath = Paths.get(path+"luceneIndex\\index1.0");
 		try {
@@ -53,7 +73,7 @@ public class SearchFiles {
 	    for (int i = 0; i < hits.length; i++) {
 	    	Document hitDoc = isearcher.doc(hits[i].doc);
 	    	String filepath = hitDoc.get("filepath");
-	    	System.out.println(filepath);
+//	    	System.out.println(filepath);
 	    	WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
 	    	Wenshu wenshu = wenshuXML.toWenshu();
 	    	list.add(wenshu);
@@ -83,7 +103,7 @@ public class SearchFiles {
 		for(int i = 0;i < hits.length;i++){
 			Document hitDoc = this.isearcher.doc(hits[i].doc);
 			String filepath = hitDoc.get("filepath");
-			System.out.println(filepath);
+//			System.out.println(filepath);
 			WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
 			Wenshu wenshu = wenshuXML.toWenshu();
 			result.add(wenshu);

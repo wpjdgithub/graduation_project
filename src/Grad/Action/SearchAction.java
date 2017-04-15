@@ -1,5 +1,6 @@
 package Grad.Action;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -108,7 +109,7 @@ public class SearchAction extends BaseAction {
 		caselist.add(brief);
 		caselist.add(brief);
 		*/
-		System.out.println(request.getContextPath());
+		System.out.println(request.getRealPath("/"));
 		service = new SearchServiceImpl();
 		CaseSearchRes res = service.search(input);
 		List<CaseBrief> caselist = res.getBrief();

@@ -19,8 +19,12 @@ import Grad.Service.wenshu.Wenshu;
  */
 public class WordCounter {
 	private NLPService nlpService;
+	private String path = "F:/Programming.Project/data/";
 	public WordCounter(){
 		this.nlpService = new NLPServiceImpl();
+	}
+	public void setPath(String path){
+		this.path = path;
 	}
 	//对一个文书进行词频统计
 	public Map<String,Integer> wordcount(Wenshu wenshu){
@@ -95,7 +99,7 @@ public class WordCounter {
 	}
 	//用于保存统计好的词汇集合
 	public void save(Set<String> wordSet){
-		File file = new File("tmp/wordset.txt");
+		File file = new File(this.path+"tmp/wordset.txt");
 		try{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -116,7 +120,7 @@ public class WordCounter {
 	//用于加载保存在文件里面的词汇集合
 	public Set<String> load(){
 		Set<String> result = new HashSet<String>();
-		File file = new File("tmp/wordset.txt");
+		File file = new File(this.path+"tmp/wordset.txt");
 		try{
 			Scanner scanner = new Scanner(file);
 			String line = scanner.nextLine();

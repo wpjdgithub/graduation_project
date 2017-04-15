@@ -24,11 +24,15 @@ public class TFIDF {
 	private List<Wenshu> wenshus;
 	private Map<String,Double> idfMap = null;
 	private Map<String,Map<String,Double> > tfidfMap = null;
+	private String dir = "F:/Programming.Project/data/";
 	public TFIDF(List<Wenshu> wenshus){
 		this.nlpservice = new NLPServiceImpl();
 		this.wordCounter = new WordCounter();
 		this.wordSet = this.wordCounter.load();
 		this.wenshus = wenshus;
+	}
+	public void setDirPath(String dirPath){
+		this.dir = dirPath;
 	}
 	public double getIDFByWord(String word){
 		double result = this.idfMap.get(word);
