@@ -5,10 +5,20 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class LawServiceImpl implements LawService{
+	
+	private String path;
+	
+	public LawServiceImpl(String path){
+		this.path = path;
+	}
+	
+	public void setPath(String path){
+		this.path = path;
+	}
 		
 	@Override
 	public String getLawContent(String lawname, String lawitem) {
-		String filePath = "law/"+lawname+".txt";
+		String filePath = this.path+"law\\"+lawname+".txt";
 		File file = new File(filePath);
 		try {
 			Scanner scanner = new Scanner(file);
@@ -24,10 +34,4 @@ public class LawServiceImpl implements LawService{
 		}
 		return null;
 	}
-	//Test
-	public static void main(String[] args){
-		LawService lawService = new LawServiceImpl();
-		System.out.println(lawService.getLawContent("中华人民共和国刑法","第一百一十一条" ));
-	}
-
 }

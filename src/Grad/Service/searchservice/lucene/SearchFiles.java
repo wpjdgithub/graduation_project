@@ -39,9 +39,6 @@ public class SearchFiles {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	    System.out.println(this.directory.toString());
-	    if(this.ireader==null)
-	    	System.out.println("rnull");
 	    this.isearcher = new IndexSearcher(ireader);
 	}
 	//For test
@@ -59,9 +56,6 @@ public class SearchFiles {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	    System.out.println(this.directory.toString());
-	    if(this.ireader==null)
-	    	System.out.println("rnull");
 	    this.isearcher = new IndexSearcher(ireader);
 	}
 	public List<Wenshu> search(SearchItem searchItem,String value) throws IOException, ParseException{
@@ -73,7 +67,6 @@ public class SearchFiles {
 	    for (int i = 0; i < hits.length; i++) {
 	    	Document hitDoc = isearcher.doc(hits[i].doc);
 	    	String filepath = hitDoc.get("filepath");
-//	    	System.out.println(filepath);
 	    	WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
 	    	Wenshu wenshu = wenshuXML.toWenshu();
 	    	list.add(wenshu);
@@ -103,12 +96,31 @@ public class SearchFiles {
 		for(int i = 0;i < hits.length;i++){
 			Document hitDoc = this.isearcher.doc(hits[i].doc);
 			String filepath = hitDoc.get("filepath");
-//			System.out.println(filepath);
 			WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
 			Wenshu wenshu = wenshuXML.toWenshu();
 			result.add(wenshu);
 		}
 		return result;
+	}
+	public Wenshu search(String caseID) throws IOException, ParseException{
+		QueryParser parser = new QueryParser(SearchItem.caseid.toString(),analyzer);
+		Query query = parser.parse(caseID);
+		ScoreDoc[] hits = isearcher.search(query,1).scoreDocs;
+		if(hits == null || hits.length == 0)
+			return null;
+		else{
+			Document hitDoc = isearcher.doc(hits[0].doc);
+			String filepath = hitDoc.get("filepath");
+			WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
+			Wenshu wenshu = wenshuXML.toWenshu();
+			return wenshu;
+		}
+	}
+	//Test
+	public static void main(String[] args) throws IOException, ParseException{
+		SearchFiles searchFiles = new SearchFiles();
+		Wenshu wenshu = searchFiles.search("(2013)南刑初字第21号刑事判决书（一审公诉案件适用普通程序用）.doc.xml");
+		System.out.println(wenshu.getCaseBrief());
 	}
 	public void close() throws IOException{
 	    ireader.close();

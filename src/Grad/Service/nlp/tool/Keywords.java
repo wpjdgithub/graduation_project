@@ -8,7 +8,7 @@ import java.util.Set;
 public class Keywords {
 	private static Set<String> keywords = new HashSet<String>();
 	static{
-		File file = new File("src/Grad/Service/nlp/keywords.txt");
+		File file = new File("keywords.txt");
 		Scanner scanner;
 		try {
 			scanner = new Scanner(file);

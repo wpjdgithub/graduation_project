@@ -8,6 +8,12 @@ import Grad.Bean.CaseMinMes;
 import Grad.Service.CaseService;
 
 public class CaseServiceImpl implements CaseService{
+	
+	private String path;
+	
+	public CaseServiceImpl(String path){
+		this.path = path;
+	}
 
 	@Override
 	public boolean uploadCase(String username, InputStream in) {

@@ -110,7 +110,7 @@ public class SearchAction extends BaseAction {
 		caselist.add(brief);
 		*/
 		System.out.println(request.getRealPath("/"));
-		service = new SearchServiceImpl();
+		service = new SearchServiceImpl(request.getRealPath("/"));
 		CaseSearchRes res = service.search(input);
 		List<CaseBrief> caselist = res.getBrief();
 		session.put("AllData", caselist);

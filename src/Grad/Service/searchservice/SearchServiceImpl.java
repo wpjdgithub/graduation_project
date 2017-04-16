@@ -25,6 +25,9 @@ public class SearchServiceImpl implements SearchService{
 	public SearchServiceImpl(){
 		this.searchTool = new SearchFiles();
 	}
+	public SearchServiceImpl(String path){
+		this.searchTool = new SearchFiles(path);
+	}
 
 	@Override
 	public CaseSearchRes search(String input) {
@@ -110,7 +113,6 @@ public class SearchServiceImpl implements SearchService{
 		} catch (IOException | ParseException e) {
 			wenshus = new ArrayList<Wenshu>();
 		}
-//		this.sorter.sort(wenshus);
 		CaseSearchRes result = this.change(wenshus);
 		return result;
 	}
