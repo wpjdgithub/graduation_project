@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,15 +25,24 @@ public class TFIDF {
 	private List<Wenshu> wenshus;
 	private Map<String,Double> idfMap = null;
 	private Map<String,Map<String,Double> > tfidfMap = null;
-	private String dir = "F:/Programming.Project/data/";
+	private String dir = "F:\\Programming.Project\\data\\";
 	public TFIDF(List<Wenshu> wenshus){
 		this.nlpservice = new NLPServiceImpl();
 		this.wordCounter = new WordCounter();
+		this.wordCounter.setPath(dir);
 		this.wordSet = this.wordCounter.load();
 		this.wenshus = wenshus;
 	}
+	public TFIDF(){
+		this.nlpservice = new NLPServiceImpl();
+		this.wordCounter = new WordCounter();
+		this.wordCounter.setPath(dir);
+		this.wordSet = this.wordCounter.load();
+		this.wenshus = new ArrayList<Wenshu>();
+	}
 	public void setDirPath(String dirPath){
 		this.dir = dirPath;
+		this.wordCounter.setPath(dirPath);
 	}
 	public double getIDFByWord(String word){
 		double result = this.idfMap.get(word);
@@ -82,7 +92,7 @@ public class TFIDF {
 		return result;
 	}
 	public void saveIDF(){
-		File file = new File("tmp/idf.txt");
+		File file = new File(this.dir+"tmp\\idf.txt");
 		try{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -104,7 +114,7 @@ public class TFIDF {
 	}
 	public void loadIDF(){
 		this.idfMap = new HashMap<String,Double>();
-		File file = new File("tmp/idf.txt");
+		File file = new File(this.dir+"tmp\\idf.txt");
 		try{
 			Scanner scanner = new Scanner(file);
 			String line = scanner.nextLine();
@@ -152,7 +162,7 @@ public class TFIDF {
 		return result;
 	}
 	public void saveTFIDF(){
-		File file = new File("tmp/tfidf.txt");
+		File file = new File(this.dir+"tmp\\tfidf.txt");
 		try{
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -181,7 +191,7 @@ public class TFIDF {
 	}
 	public void loadTFIDF(){
 		this.tfidfMap = new HashMap<String,Map<String,Double> >();
-		File file = new File("tmp/tfidf.txt");
+		File file = new File(this.dir+"tmp\\tfidf.txt");
 		try{
 			Scanner scanner = new Scanner(file);
 			while(scanner.hasNextLine()){
@@ -200,7 +210,7 @@ public class TFIDF {
 			}
 			scanner.close();
 		} catch (IOException e){
-			System.out.println("TF-IDF加载失败");
+			System.out.println("TF-IDF加载失败:"+file.getAbsolutePath());
 		}
 	}
 }

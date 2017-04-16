@@ -16,12 +16,11 @@ public class WenshuXMLObject {
 	private String filepath;
 	private Document document;
 	private Element rootElement;
-	private String path = "F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\";
 	public WenshuXMLObject(String filepath){
 		System.out.println(filepath);
 		this.filepath = filepath;
 		DOMParser parser = new DOMParser();
-		this.document = parser.parse(path+filepath);
+		this.document = parser.parse(filepath);
 		this.rootElement = this.document.getDocumentElement();
 	}
 	public String getFilepath() {
