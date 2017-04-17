@@ -1,10 +1,14 @@
 package Grad.Service.dataservice.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.lucene.queryparser.classic.ParseException;
+
 import Grad.Service.dataservice.WenshuDataService;
+import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.wenshu.Wenshu;
 import Grad.Service.xml.WenshuXMLObject;
 
@@ -69,6 +73,20 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public Wenshu getWenshuByCaseID(String caseID) {
+		SearchFiles searchTool = new SearchFiles(this.path);
+		Wenshu wenshu = null;
+		try {
+			wenshu = searchTool.search(caseID);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return wenshu;
 	}
 
 }

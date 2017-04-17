@@ -111,7 +111,7 @@ public class SearchFiles {
 		else{
 			Document hitDoc = isearcher.doc(hits[0].doc);
 			String filepath = hitDoc.get("filepath");
-			WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
+			WenshuXMLObject wenshuXML = new WenshuXMLObject(this.path+filepath);
 			Wenshu wenshu = wenshuXML.toWenshu();
 			return wenshu;
 		}
