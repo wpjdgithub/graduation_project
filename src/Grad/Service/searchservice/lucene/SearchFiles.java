@@ -96,7 +96,7 @@ public class SearchFiles {
 		for(int i = 0;i < hits.length;i++){
 			Document hitDoc = this.isearcher.doc(hits[i].doc);
 			String filepath = hitDoc.get("filepath");
-			WenshuXMLObject wenshuXML = new WenshuXMLObject(filepath);
+			WenshuXMLObject wenshuXML = new WenshuXMLObject(this.path+filepath);
 			Wenshu wenshu = wenshuXML.toWenshu();
 			result.add(wenshu);
 		}
