@@ -28,7 +28,7 @@ public class Wenshu {
 	private Map<String,String> participantInfo;//参与人基本信息
 	private Map<String,String> judgerInfo;//审判人员信息
 	private String fullText;//全文
-	private Set<String> keywords;
+	private Set<String> keywords = new HashSet<String>();
 	public String getFilepath() {
 		return filepath;
 	}
@@ -208,5 +208,8 @@ public class Wenshu {
 			set.add(word);
 		}
 		this.keywords = set;
+	}
+	public void addKeyword(String keyword){
+		this.keywords.add(keyword);
 	}
 }
