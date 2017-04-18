@@ -17,7 +17,6 @@ public class WenshuXMLObject {
 	private Document document;
 	private Element rootElement;
 	public WenshuXMLObject(String filepath){
-		System.out.println(filepath);
 		this.filepath = filepath;
 		DOMParser parser = new DOMParser();
 		this.document = parser.parse(filepath);
