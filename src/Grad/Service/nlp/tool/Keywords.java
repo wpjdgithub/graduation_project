@@ -6,12 +6,15 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 public class Keywords {
-	private static Set<String> keywords = new HashSet<String>();
-	static{
-		File file = new File("keywords.txt");
+	private String path;
+	private Set<String> keywords = new HashSet<String>();
+	public Keywords(String path){
+		this.path = path;
+		File file = new File(this.path+"keywords.txt");
 		Scanner scanner;
 		try {
 			scanner = new Scanner(file);
+			System.out.println(scanner.hasNextLine());
 			while(scanner.hasNextLine()){
 				keywords.add(scanner.nextLine());
 			}
@@ -20,7 +23,7 @@ public class Keywords {
 			e.printStackTrace();
 		}
 	}
-	public static Iterator<String> getKeywordsIterator(){
-		return Keywords.keywords.iterator();
+	public Iterator<String> getKeywordsIterator(){
+		return keywords.iterator();
 	}
 }

@@ -7,10 +7,13 @@ import java.util.List;
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseMinMes;
+import Grad.Bean.CaseParagraph;
 import Grad.Bean.CaseRelation;
 import Grad.Service.CaseService;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.dataservice.impl.WenshuDataServiceImpl;
+import Grad.Service.nlp.NLPService;
+import Grad.Service.nlp.impl.NLPServiceImpl;
 import Grad.Service.wenshu.Wenshu;
 
 public class CaseServiceImpl implements CaseService{
@@ -48,6 +51,9 @@ public class CaseServiceImpl implements CaseService{
 		caseBrief.setTitle(wenshu.getCaseName());
 		caseBrief.setType_text(wenshu.getDocumentType());
 		caseDetail.setBrief(caseBrief);
+		//案例内容
+		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
+		caseDetail.setContext(paragraphs);
 		//相关案例
 		//相关法律
 		List<String> laws = wenshu.getLaws();
@@ -62,6 +68,19 @@ public class CaseServiceImpl implements CaseService{
 		}
 		caseDetail.setRelatedLaw(relatedLaws);
 		return caseDetail;
+	}
+	
+	private ArrayList<CaseParagraph> fullText2List(Wenshu wenshu){
+		ArrayList<CaseParagraph> list = new ArrayList<CaseParagraph>();
+		String fullText = wenshu.getFullText();
+		String[] line = fullText.split("\n");
+		for(int i = 0;i < line.length;i++){
+			char startChar = line[i].charAt(0);
+			int temp = (int)startChar;
+			if(temp != 13 && temp != 32)
+				System.out.println(line[i].trim());
+		}
+		return list;
 	}
 	
 	//Test

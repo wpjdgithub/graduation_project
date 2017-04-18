@@ -183,13 +183,6 @@ public class Wenshu {
 	}
 	public void setFullText(String fullText) {
 		this.fullText = fullText;
-		this.keywords = new HashSet<String>();
-		Iterator<String> iterator = Keywords.getKeywordsIterator();
-		while(iterator.hasNext()){
-			String keyword = iterator.next();
-			if(fullText.contains(keyword))
-				this.keywords.add(keyword);
-		}
 	}
 	public List<String> getSentences(){
 		List<String> list = new LinkedList<String>();

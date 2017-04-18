@@ -15,6 +15,7 @@ import Grad.Bean.CaseFilter;
 import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
 import Grad.Service.SearchService;
+import Grad.Service.nlp.tool.Keywords;
 import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
@@ -22,11 +23,14 @@ import Grad.Service.wenshu.Wenshu;
 public class SearchServiceImpl implements SearchService{
 	
 	private SearchFiles searchTool;
+	private Keywords keywords;
 	public SearchServiceImpl(){
 		this.searchTool = new SearchFiles();
+		this.keywords = new Keywords("/");
 	}
 	public SearchServiceImpl(String path){
 		this.searchTool = new SearchFiles(path);
+		this.keywords = new Keywords(path);
 	}
 
 	@Override
@@ -136,7 +140,19 @@ public class SearchServiceImpl implements SearchService{
 			casebrief.setType_text(wenshu.getDocumentName());
 			casebrief.setSource("天津最高人民法院");//TODO
 			result.addCaseBrief(casebrief);
+			StringBuilder keywordSB = new StringBuilder();
+			Iterator<String> iterator = this.keywords.getKeywordsIterator();
+			while(iterator.hasNext()){
+				String key = iterator.next();
+				System.out.println(key);
+				if(wenshu.getFullText().contains(key)){
+					keywordSB.append(key+" ");
+				}
+			}
+			wenshu.setKeywords(keywordSB.toString().trim());
 			String keywords = wenshu.getKeywords();
+			System.out.println(keywords);
+			casebrief.setCore(keywords);
 			String[] keyword = keywords.split(" ");
 			for(int j = 0;j < keyword.length;j++){
 				if(keywordMap.containsKey(keyword)){
