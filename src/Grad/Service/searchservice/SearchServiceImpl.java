@@ -136,6 +136,7 @@ public class SearchServiceImpl implements SearchService{
 			CaseBrief casebrief = new CaseBrief();
 			casebrief.setId(i);//TODO
 			casebrief.setTitle(wenshu.getCaseName());
+			casebrief.setCaseID(wenshu.getCaseID());
 			casebrief.setDate(wenshu.getCaseYear());//TODO
 			casebrief.setBrief(wenshu.getCaseBrief());
 			casebrief.setProcess_judgement(wenshu.getCaseProgram());
