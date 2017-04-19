@@ -114,34 +114,34 @@ public class CaseServiceImpl implements CaseService{
 					splitIndexs.add(line.length());
 				Collections.sort(splitIndexs);
 				//下面开始划分段落
-				if(splitIndexs.size() == 0){
-					Sentence sentence = new Sentence(line,false,null);
-					paragraph.addSentence(sentence);
-				}
-				else{
-					String lawname = null;
-					for(int j = 0;j < splitIndexs.size()-1;j++){
-						int startIndex = splitIndexs.get(j);
-						int endIndex = splitIndexs.get(j+1);
-						String substr = line.substring(startIndex, endIndex);
-						if(substr.startsWith("中华人民共和国")){
-							//TODO:加上法律的说明
-							String explanation = "法典说明";
-							lawname = substr;
-							Sentence sentence = new Sentence(substr,true,explanation);
-							paragraph.addSentence(sentence);
-						}
-						else if(isChineseInteger(substr)){
-							String explanation = lawService.getLawContent(lawname, substr);
-							Sentence sentence = new Sentence(substr,true,explanation);
-							paragraph.addSentence(sentence);
-						}
-						else{
-							Sentence sentence = new Sentence(substr,false,null);
-							paragraph.addSentence(sentence);
-						}
-					}
-				}
+//				if(splitIndexs.size() == 0){
+//					Sentence sentence = new Sentence(line,false,null);
+//					paragraph.addSentence(sentence);
+//				}
+//				else{
+//					String lawname = null;
+//					for(int j = 0;j < splitIndexs.size()-1;j++){
+//						int startIndex = splitIndexs.get(j);
+//						int endIndex = splitIndexs.get(j+1);
+//						String substr = line.substring(startIndex, endIndex);
+//						if(substr.startsWith("中华人民共和国")){
+//							//TODO:加上法律的说明
+//							String explanation = "法典说明";
+//							lawname = substr;
+//							Sentence sentence = new Sentence(substr,true,explanation);
+//							paragraph.addSentence(sentence);
+//						}
+//						else if(isChineseInteger(substr)){
+//							String explanation = lawService.getLawContent(lawname, substr);
+//							Sentence sentence = new Sentence(substr,true,explanation);
+//							paragraph.addSentence(sentence);
+//						}
+//						else{
+//							Sentence sentence = new Sentence(substr,false,null);
+//							paragraph.addSentence(sentence);
+//						}
+//					}
+//				}
 				list.add(paragraph);
 			}
 		}
@@ -191,8 +191,8 @@ public class CaseServiceImpl implements CaseService{
 	//Test
 	public static void main(String[] args){
 		CaseService service = new CaseServiceImpl("F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\");
-		CaseDetail caseDetail = service.getCaseByTitle("(2013)南刑初字第21号刑事判决书（一审公诉案件适用普通程序用）.doc.xml");
-		System.out.println(caseDetail.getBrief().getBrief());
+		CaseDetail caseDetail = service.getCaseByTitle("(2013)南刑初字第21号");
+		System.out.println(caseDetail.getBrief().getCore());
 	}
 
 }
