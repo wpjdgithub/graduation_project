@@ -3,6 +3,8 @@ package Grad.Service.searchservice;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -144,25 +146,20 @@ public class SearchServiceImpl implements SearchService{
 			Iterator<String> iterator = this.keywords.getKeywordsIterator();
 			while(iterator.hasNext()){
 				String key = iterator.next();
-				System.out.println(key);
 				if(wenshu.getFullText().contains(key)){
 					keywordSB.append(key+" ");
+					if(keywordMap.containsKey(key)){
+						int count = keywordMap.get(key)+1;
+						keywordMap.put(key, count);
+					}
+					else{
+						keywordMap.put(key, 1);
+					}
 				}
 			}
 			wenshu.setKeywords(keywordSB.toString().trim());
 			String keywords = wenshu.getKeywords();
-			System.out.println(keywords);
 			casebrief.setCore(keywords);
-			String[] keyword = keywords.split(" ");
-			for(int j = 0;j < keyword.length;j++){
-				if(keywordMap.containsKey(keyword)){
-					int count = keywordMap.get(keyword)+1;
-					keywordMap.put(keyword[j], count);
-				}
-				else{
-					keywordMap.put(keyword[j], 1);
-				}
-			}
 			String caseBrief = wenshu.getCaseBrief();
 			if(briefMap.containsKey(caseBrief)){
 				int count = briefMap.get(caseBrief)+1;
@@ -248,10 +245,95 @@ public class SearchServiceImpl implements SearchService{
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = documentTypeMap.get(key);
-			String name = "按案由筛选/"+key;
+			String name = "按文书类型筛选/"+key;
 			listType.get(0).increase(count);
 			listType.add(new CaseFilter(id,name,count,false));
 		}
+		Collections.sort(listKeyword,new Comparator<CaseFilter>(){
+
+			@Override
+			public int compare(CaseFilter arg0, CaseFilter arg1) {
+				int count0 = arg0.getNum();
+				int count1 = arg1.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
+		Collections.sort(listBrief,new Comparator<CaseFilter>(){
+
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
+		Collections.sort(listLevel,new Comparator<CaseFilter>(){
+
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
+		Collections.sort(listYear,new Comparator<CaseFilter>(){
+
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int year1 = 0;
+				try{
+					year1 = Integer.parseInt(o1.getName().split("/")[1].trim());
+				} catch (Exception e){
+					return -1;
+				}
+				int year2 = 0;
+				try{
+					year2 = Integer.parseInt(o2.getName().split("/")[1].trim());
+				} catch(Exception e){
+					return 1;
+				}
+				if(year1 > year2)
+					return -1;
+				else if(year1 < year2)
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
+		Collections.sort(listType,new Comparator<CaseFilter>(){
+
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+			
+		});
 		result.addCaseFilter(listKeyword);
 		result.addCaseFilter(listBrief);
 		result.addCaseFilter(listLevel);
@@ -262,7 +344,48 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public CaseSearchRes search(SearchInfo info, CaseFilter filter) {
-		// TODO Auto-generated method stub
-		return null;
+		String filterName = filter.getName();
+		String[] e = filterName.split("/");
+		if(e.length == 1){
+			CaseSearchRes result = this.search(info);
+			return result;
+		}
+		else{
+			String key = e[0];
+			String value = e[1];
+			if(key.equals("按案由筛选")){
+				info.setBrief(value);
+			}
+			else if(key.equals("按关键词筛选")){
+				info.setFull_text(value);
+			}
+			else if(key.equals("按文书类型筛选")){
+				if(value.equals("裁定书")){
+					info.setType_text(0);
+				}
+				else if(value.equals("调解书")){
+					info.setType_text(1);
+				}
+				else if(value.equals("判决书")){
+					info.setType_text(2);
+				}
+			}
+			else if(key.equals("按年份筛选")){
+				//TODO
+			}
+			else if(key.equals("按法院层级筛选")){
+				if(value.equals("基层")){
+					info.setLevel_court(0);
+				}
+				else if(value.equals("中级")){
+					info.setLevel_court(1);
+				}
+				else if(value.equals("最高")){
+					info.setLevel_court(2);
+				}
+			}
+			CaseSearchRes result = this.search(info);
+			return result;
+		}
 	}
 }

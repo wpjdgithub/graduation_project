@@ -14,7 +14,6 @@ public class Keywords {
 		Scanner scanner;
 		try {
 			scanner = new Scanner(file);
-			System.out.println(scanner.hasNextLine());
 			while(scanner.hasNextLine()){
 				keywords.add(scanner.nextLine());
 			}

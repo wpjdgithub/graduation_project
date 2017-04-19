@@ -13,6 +13,7 @@ import Grad.Service.nlp.tool.Keywords;
 
 public class Wenshu {
 	private String filepath;//文件路径
+	private String filename;
 	private String caseID; //案例号
 	private String caseName;
 	private String courtName;//经办法院名称
@@ -28,7 +29,7 @@ public class Wenshu {
 	private Map<String,String> participantInfo;//参与人基本信息
 	private Map<String,String> judgerInfo;//审判人员信息
 	private String fullText;//全文
-	private Set<String> keywords;
+	private Set<String> keywords = new HashSet<String>();
 	public String getFilepath() {
 		return filepath;
 	}
@@ -73,6 +74,12 @@ public class Wenshu {
 	}
 	public void setDocumentType(String documentType) {
 		this.documentType = documentType;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 	public String getDocumentName() {
 		return documentName;
@@ -208,5 +215,8 @@ public class Wenshu {
 			set.add(word);
 		}
 		this.keywords = set;
+	}
+	public void addKeyword(String keyword){
+		this.keywords.add(keyword);
 	}
 }

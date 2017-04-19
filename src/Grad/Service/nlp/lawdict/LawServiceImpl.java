@@ -2,7 +2,9 @@ package Grad.Service.nlp.lawdict;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class LawServiceImpl implements LawService{
 	
@@ -24,8 +26,9 @@ public class LawServiceImpl implements LawService{
 			Scanner scanner = new Scanner(file);
 			while(scanner.hasNextLine()){
 				String line = scanner.nextLine();
-				if(line.startsWith(lawitem)){
-					return line.split(" ")[1];
+				String[] s = line.split(" ");
+				if(s[0].contains(lawitem)){
+					return s[1];
 				}
 			}
 			scanner.close();
@@ -33,5 +36,18 @@ public class LawServiceImpl implements LawService{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Set<String> getAllLawNames() {
+		Set<String> set = new HashSet<String>();
+		File dir = new File(this.path+"law\\");
+		String[] lawname = dir.list();
+		for(int i = 0;i < lawname.length;i++){
+			if(lawname[i].endsWith(".txt")){
+				set.add(lawname[i]);
+			}
+		}
+		return set;
 	}
 }

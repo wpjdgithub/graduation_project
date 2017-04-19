@@ -11,7 +11,9 @@ public class CaseParagraph implements Serializable {
 	
 	private ArrayList<Sentence> list;
 	
-	public CaseParagraph(){}
+	public CaseParagraph(){
+		this.list = new ArrayList<Sentence>();
+	}
 
 	public CaseParagraph(ArrayList<Sentence> list) {
 		super();
@@ -24,6 +26,10 @@ public class CaseParagraph implements Serializable {
 
 	public void setList(ArrayList<Sentence> list) {
 		this.list = list;
+	}
+	
+	public void addSentence(Sentence sentence){
+		this.list.add(sentence);
 	}
 	
 	
