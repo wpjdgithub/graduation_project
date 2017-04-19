@@ -367,11 +367,11 @@ public class WenshuXMLObject {
 			}
 		}
 		wenshu.setParticipantInfo(map2);
-		String[] e = this.filepath.split("[\\/]");
-		if(e.length == 0 || e == null)
-			wenshu.setFilename(null);
-		else
-			wenshu.setFilename(e[e.length-1]);
+//		String[] e = this.filepath.split("\\");
+//		if(e.length == 0 || e == null)
+//			wenshu.setFilename(null);
+//		else
+//			wenshu.setFilename(e[e.length-1]);
 		return wenshu;
 	}
 }
