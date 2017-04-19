@@ -7,7 +7,7 @@ public class CaseBrief implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3731415786746700236L;
-	private int id;
+	private String id;
 	private String title;
 	private String court;
 	private String date;
@@ -15,12 +15,11 @@ public class CaseBrief implements Serializable {
 	private String process_judgement; // 审判程序
 	private String type_text; // 文书类型
 	private String source; //来源
-	private String caseID;
 	private String core; // 文书核心词汇
 	
 	public CaseBrief(){}
 
-	public CaseBrief(int id,String title, String court, String date, String brief, String process_judgement, String type_text,
+	public CaseBrief(String id,String title, String court, String date, String brief, String process_judgement, String type_text,
 			String source, String core) {
 		super();
 		this.id = id;
@@ -32,14 +31,6 @@ public class CaseBrief implements Serializable {
 		this.type_text = type_text;
 		this.source = source;
 		this.core = core;
-	}
-
-	public String getCaseID() {
-		return caseID;
-	}
-
-	public void setCaseID(String caseID) {
-		this.caseID = caseID;
 	}
 
 	public String getTitle() {
@@ -106,13 +97,12 @@ public class CaseBrief implements Serializable {
 		this.core = core;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	
 	
 }

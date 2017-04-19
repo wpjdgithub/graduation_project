@@ -134,9 +134,8 @@ public class SearchServiceImpl implements SearchService{
 		for(int i = 0;i < size;i++){
 			Wenshu wenshu = list.get(i);
 			CaseBrief casebrief = new CaseBrief();
-			casebrief.setId(i);//TODO
 			casebrief.setTitle(wenshu.getCaseName());
-			casebrief.setCaseID(wenshu.getCaseID());
+			casebrief.setId(wenshu.getCaseID());
 			casebrief.setDate(wenshu.getCaseYear());//TODO
 			casebrief.setBrief(wenshu.getCaseBrief());
 			casebrief.setProcess_judgement(wenshu.getCaseProgram());
