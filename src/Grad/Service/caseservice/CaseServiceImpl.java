@@ -44,6 +44,7 @@ public class CaseServiceImpl implements CaseService{
 
 	@Override
 	public CaseDetail getCaseByTitle(String id) {
+		System.out.println(id);
 		WenshuDataService wenshuDataService = new WenshuDataServiceImpl(this.path);
 		Wenshu wenshu = wenshuDataService.getWenshuByCaseID(id);
 		CaseDetail caseDetail = new CaseDetail();
@@ -66,8 +67,8 @@ public class CaseServiceImpl implements CaseService{
 		caseBrief.setType_text(wenshu.getDocumentType());
 		caseDetail.setBrief(caseBrief);
 		//案例内容
-		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
-		caseDetail.setContext(paragraphs);
+//		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
+//		caseDetail.setContext(paragraphs);
 		//相关案例
 		ArrayList<CaseRelation> relatedCases = this.getSimilarCases();
 		caseDetail.setRelatedCase(relatedCases);

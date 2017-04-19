@@ -2,13 +2,16 @@ package Grad.Service.dataservice.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
+import Grad.Bean.SearchInfo;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.searchservice.lucene.SearchFiles;
+import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
 import Grad.Service.xml.WenshuXMLObject;
 
@@ -80,7 +83,13 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 		SearchFiles searchTool = new SearchFiles(this.path);
 		Wenshu wenshu = null;
 		try {
-			wenshu = searchTool.search(caseID);
+			List<SearchItem> list1 = new ArrayList<SearchItem>();
+			List<String> list2 = new ArrayList<String>();
+			list1.add(SearchItem.caseid);
+			list1.add(SearchItem.fulltext);
+			list2.add(caseID);
+			list2.add(caseID);
+			wenshu = searchTool.search(list1,list2).get(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
