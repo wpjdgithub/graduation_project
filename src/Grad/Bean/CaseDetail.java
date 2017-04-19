@@ -9,7 +9,7 @@ public class CaseDetail implements Serializable {
 	 */
 	private static final long serialVersionUID = 4688749351710425283L;
 	private CaseBrief brief;
-	private ArrayList<CaseParagraph> context; //内容分为多段 ，每一个段落一个String
+	private ArrayList<CaseParagraph> context; //内容分为多段 
 	private ArrayList<CaseRelation> relatedCase;
 	private ArrayList<CaseRelation> relatedLaw;
 	

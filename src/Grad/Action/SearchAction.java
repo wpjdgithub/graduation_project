@@ -113,14 +113,14 @@ public class SearchAction extends BaseAction {
 		service = new SearchServiceImpl(request.getRealPath("/"));
 		CaseSearchRes res = service.search(input);
 		List<CaseBrief> caselist = res.getBrief();
+		List<CaseFilter> filter = res.getFilter();
+		checkFilter(filter);
+		
 		session.put("AllData", caselist);
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
+		session.put("AllFilter", filter);
 		
-		/*List<CaseFilter> filter = new ArrayList<CaseFilter>();
-		filter.add(new CaseFilter(1,"1/",12,false));
-		filter.add(new CaseFilter(2,"1/1/",5,false));
-		filter.add(new CaseFilter(3,"1/2/",23,false));
-		filter.add(new CaseFilter(4,"1/1/1/",67,false));
+		/*List<CaseFilter> filter = new ArrayList<CaseFilter>();c
 		filter.add(new CaseFilter(5,"2/",1,false));
 		filter.add(new CaseFilter(6,"2/1/",34,false));
 		filter.add(new CaseFilter(7,"3/",67,false));
@@ -129,9 +129,6 @@ public class SearchAction extends BaseAction {
 		filter.add(new CaseFilter(10,"3/3/",34,false));
 		filter.add(new CaseFilter(11,"3/2/1/",51,false));
 		*/
-		List<CaseFilter> filter = res.getFilter();
-		checkFilter(filter);
-		session.put("AllFilter", filter);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -141,7 +138,6 @@ public class SearchAction extends BaseAction {
 		ArrayList<CaseBrief> pageList = new ArrayList<CaseBrief>();
 		for(int i=(1*5-5);i<max;i++){
 			pageList.add(list.get(i));
-			System.out.println(list.get(i).getCore());
 		}
 		session.put("pageData", pageList);
 	}

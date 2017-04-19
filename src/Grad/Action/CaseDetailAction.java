@@ -10,9 +10,12 @@ import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseParagraph;
 import Grad.Bean.CaseRelation;
 import Grad.Bean.Sentence;
+import Grad.Service.CaseService;
+import Grad.Service.caseservice.CaseServiceImpl;
 
 public class CaseDetailAction extends BaseAction {
-
+	
+	private CaseService service;
 	/**
 	 * 
 	 */
@@ -22,9 +25,10 @@ public class CaseDetailAction extends BaseAction {
 	private CaseDetail detail;
 	
 	public String access() throws ServletException, IOException {
+		service = new CaseServiceImpl(request.getRealPath("/"));
 		System.out.println(id);
-		detail = new CaseDetail();
-		CaseBrief brief = new CaseBrief(123214,"标题1","浙江省法院","2017-01-01",
+		detail = service.getCaseByTitle(id);
+		/*CaseBrief brief = new CaseBrief(123214,"标题1","浙江省法院","2017-01-01",
 				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
 		detail.setBrief(brief);
 		ArrayList<CaseParagraph> context = new ArrayList<CaseParagraph>();
@@ -45,6 +49,7 @@ public class CaseDetailAction extends BaseAction {
 		relatedCase.add(new CaseRelation(123,"第sabn条"));
 		detail.setRelatedCase(relatedCase);
 		detail.setRelatedLaw(relatedCase);
+		*/
 		return SUCCESS;
 	}
 

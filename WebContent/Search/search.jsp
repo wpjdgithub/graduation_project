@@ -88,7 +88,7 @@
 		<div class="mysearchres">
 			<div class="mymestitle">
 				<strong>
-					<a id="case_1" class="case_title">
+					<a id="<s:property value="id"></s:property>" class="case_title">
 						<s:property value="title"></s:property>
 					</a>
 				</strong>
@@ -304,6 +304,7 @@
 		
 
 //依据获取的信息内容调整当前页面的结果集
+
 		function sort_choose(sort){
 			$.ajax({
 				type:"post",
@@ -347,7 +348,7 @@
 			$.each(obj,function(i, value){
 				var context = "<div class='mysearchres'><div class='mymestitle'><strong><a id='case_1' class='case_title'>";
 				context = context + value.title + "</a></strong></div><div class='mysource'>";
-				context = context + value.court +"</div><div class='mysource'><strong>核心词汇："+value.core+"</strong>";
+				context = context + value.court + "/"+ value.date +"</div><div class='mysource'><strong>核心词汇："+value.core+"</strong>";
 				context = context + "<a href='javascript:void(0)' class='detail'>展开</a></div><div class='mydetailmes'><table><tr>";
 				context = context + "<td>案由：</td><td>"+value.brief+"</td></tr><tr><td>审理程序：</td><td>"+value.process_judgement+"</td></tr>";
 				context = context + "<tr><td>文书类型：</td><td>"+value.type_text+"</td></tr><tr><td>来源：</td><td>"+value.source+"</td></tr></table></div></div>";

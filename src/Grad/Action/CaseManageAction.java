@@ -45,7 +45,6 @@ public class CaseManageAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public String filter() throws ServletException,IOException{
 		getFilter();
 		
@@ -65,6 +64,7 @@ public class CaseManageAction extends BaseAction {
 		CaseResult = gson.toJson(pageList);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void getFilter(){
 		if(filterId==0){
 			FilterResult = "{'status':'empty'}";
