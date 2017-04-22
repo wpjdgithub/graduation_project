@@ -44,7 +44,6 @@ public class CaseServiceImpl implements CaseService{
 
 	@Override
 	public CaseDetail getCaseByTitle(String id) {
-		System.out.println(id);
 		WenshuDataService wenshuDataService = new WenshuDataServiceImpl(this.path);
 		Wenshu wenshu = wenshuDataService.getWenshuByCaseID(id);
 		CaseDetail caseDetail = new CaseDetail();
@@ -114,6 +113,8 @@ public class CaseServiceImpl implements CaseService{
 				if(!splitIndexs.contains(line.length()))
 					splitIndexs.add(line.length());
 				Collections.sort(splitIndexs);
+				Sentence sentence = new Sentence(line,false,null);
+				paragraph.addSentence(sentence);
 				//下面开始划分段落
 //				if(splitIndexs.size() == 0){
 //					Sentence sentence = new Sentence(line,false,null);
