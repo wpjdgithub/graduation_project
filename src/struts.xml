@@ -12,6 +12,7 @@
     <constant name="struts.multipart.saveDir" value="/tmp" />
 	
 	<package name="User" namespace="/User" extends="json-default">
+	
 		<interceptors>
 			<interceptor name="login" class="Grad.Interceptor.LoginInterceptor">
 			</interceptor>

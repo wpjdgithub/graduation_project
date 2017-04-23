@@ -8,6 +8,7 @@ public class UserInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6300309355330698871L;
+	
 	private String username;
 	private String name;
 	private String password;

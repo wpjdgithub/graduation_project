@@ -51,10 +51,10 @@ public class UserAction extends BaseAction{
 		user = new UserInfo("user1", "name1");
 		
 		caselist = new ArrayList<CaseMinMes>();
-		caselist.add(new CaseMinMes("title1","2012/123/13"));
-		caselist.add(new CaseMinMes("title2","2012/a/asd"));
-		caselist.add(new CaseMinMes("title3","2012/dq/safd"));
-		this.setResult("asdsdgsdfgfdgh");
+		caselist.add(new CaseMinMes("1","title1","2012/123/13"));
+		caselist.add(new CaseMinMes("2","title2","2012/a/asd"));
+		caselist.add(new CaseMinMes("3","title3","2012/dq/safd"));
+		this.setResult("true1");
 		return SUCCESS;
 	}
 	

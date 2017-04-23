@@ -7,9 +7,11 @@ public class Sentence implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8223233057391523490L;
+	
 	private String value;
 	private boolean needExplain;
 	private String explanation;
+	
 	public Sentence(){}
 	public Sentence(String value, boolean needExplain, String explanation) {
 		super();

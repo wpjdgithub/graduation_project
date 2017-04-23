@@ -7,10 +7,14 @@ public class CaseMinMes implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -6994288883752244215L;
+	
+	private String id;
 	private String title;
 	private String uploadDate;
 	
-	public CaseMinMes(String title, String uploadDate) {
+	public CaseMinMes(){}
+	
+	public CaseMinMes(String id,String title, String uploadDate) {
 		super();
 		this.title = title;
 		this.uploadDate = uploadDate;
@@ -26,6 +30,12 @@ public class CaseMinMes implements Serializable{
 	}
 	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

@@ -45,6 +45,11 @@
 	div.mycase_delete {
 		width:100%; height:10%; overflow:auto;
 	}
+	
+	div.case_none {
+		width:100%; height:80%; overflow:auto; text-align:center;
+		padding:3% 8% 0 8%;
+	}
 </style>
 <title>个人主页</title>
 </head>
@@ -67,6 +72,7 @@
 			</div>
 		</div>
 		<div class="tab-pane fade in active" id="mycase">
+			<s:if test="result=='true'">
 			<div class="mycase_list">
 				<table class="table table-striped">
 					<tr>
@@ -88,7 +94,7 @@
         					</button>
         					<s:form namespace="/Case" action="user_uploadcase" 
               					enctype="multipart/form-data" method="post">
-        						<input type="file" name="file1" id="file" style="display:none"/>
+        						<input type="file" name="file1" id="file" accept="text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  style="display:none"/>
         						<input type="submit" id="file_submit" style="display:none" />
         					</s:form> 
         				</td>
@@ -107,6 +113,35 @@
 			<div class="mycase_delete">
 				<input type="button" class="btn btn-default" value="删除所选" />
 			</div>
+			</s:if>
+			<s:else>
+			<div class="case_none">
+				<p style="font-size:30px">您没有上传并保存的文书</p>
+				<table class="table">
+					<tr>
+						<td>
+							<button type="button" id="upload" class="btn btn-default btn-sm" style="height:30px">
+         					 	<span class="glyphicon glyphicon-plus"></span> 上传一篇
+        					</button>
+        					<s:form namespace="/Case" action="user_uploadcase" 
+              					enctype="multipart/form-data" method="post">
+        						<input type="file" name="file1" id="file" accept="text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none"/>
+        						<input type="submit" id="file_submit" style="display:none" />
+        					</s:form> 
+        				</td>
+						<td>
+							<input type="text" id="fileName" disabled="disable" 
+								class="form-control" style="height:30px" />
+						</td>
+						<td>
+							<button type="button" id="decide" class="btn btn-default btn-sm" style="height:30px;display:none">
+         					 	 上传
+        					</button>
+        				</td>
+					</tr>
+				</table>
+			</div>
+			</s:else>
 		</div>
 	</div>
 </div>
