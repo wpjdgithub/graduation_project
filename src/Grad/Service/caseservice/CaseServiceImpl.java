@@ -2,7 +2,6 @@ package Grad.Service.caseservice;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +12,12 @@ import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.CaseParagraph;
 import Grad.Bean.CaseRelation;
+import Grad.Bean.CaseUploadDetail;
 import Grad.Bean.Sentence;
 import Grad.Service.CaseService;
+import Grad.Service.dataservice.CaseDataService;
 import Grad.Service.dataservice.WenshuDataService;
+import Grad.Service.dataservice.impl.CaseDataServiceImpl;
 import Grad.Service.dataservice.impl.WenshuDataServiceImpl;
 import Grad.Service.nlp.lawdict.LawService;
 import Grad.Service.nlp.lawdict.LawServiceImpl;
@@ -24,10 +26,13 @@ import Grad.Service.wenshu.Wenshu;
 
 public class CaseServiceImpl implements CaseService{
 	
+	private CaseDataService caseDataService;
+	
 	private String path;
 	
 	public CaseServiceImpl(String path){
 		this.path = path;
+		this.caseDataService = new CaseDataServiceImpl(path);
 	}
 
 	@Override
@@ -38,13 +43,19 @@ public class CaseServiceImpl implements CaseService{
 
 	@Override
 	public ArrayList<CaseMinMes> getCaseByUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CaseUploadDetail> list = this.caseDataService.getCaseUploadDetail(username);
+		ArrayList<CaseMinMes> result = new ArrayList<CaseMinMes>();
+		int size = list.size();
+		for(int i = 0;i < size;i++){
+			CaseUploadDetail detail = list.get(i);
+			CaseMinMes mes = detail.toCaseMinMes();
+			result.add(mes);
+		}
+		return result;
 	}
 
 	@Override
 	public CaseDetail getCaseByTitle(String id) {
-		System.out.println(id);
 		WenshuDataService wenshuDataService = new WenshuDataServiceImpl(this.path);
 		Wenshu wenshu = wenshuDataService.getWenshuByCaseID(id);
 		CaseDetail caseDetail = new CaseDetail();
@@ -67,8 +78,8 @@ public class CaseServiceImpl implements CaseService{
 		caseBrief.setType_text(wenshu.getDocumentType());
 		caseDetail.setBrief(caseBrief);
 		//案例内容
-//		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
-//		caseDetail.setContext(paragraphs);
+		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
+		caseDetail.setContext(paragraphs);
 		//相关案例
 		ArrayList<CaseRelation> relatedCases = this.getSimilarCases();
 		caseDetail.setRelatedCase(relatedCases);
@@ -89,31 +100,33 @@ public class CaseServiceImpl implements CaseService{
 			if(temp != 13 && temp != 32){
 				String line = lines[i].trim();
 				CaseParagraph paragraph = new CaseParagraph();
-				List<Integer> splitIndexs = new ArrayList<Integer>();//用于存放分割的index
-				List<String> relatedLaws = wenshu.getLaws();
-				for(int j = 0;j < relatedLaws.size();j++){
-					String relatedLaw = relatedLaws.get(j);
-					String[] s = relatedLaw.split(" ");
-					String lawname = s[0];
-					String lawnumber = s[1];
-					if(line.contains(lawname)){
-						int startIndex = fullText.indexOf(lawname);
-						int endIndex = startIndex + lawname.length();
-						splitIndexs.add(startIndex);
-						splitIndexs.add(endIndex);
-					}
-					if(line.contains(lawnumber)){
-						int startIndex = fullText.indexOf(lawnumber);
-						int endIndex = startIndex + lawnumber.length();
-						splitIndexs.add(startIndex);
-						splitIndexs.add(endIndex);
-					}
-				}
-				if(!splitIndexs.contains(0))
-					splitIndexs.add(0);
-				if(!splitIndexs.contains(line.length()))
-					splitIndexs.add(line.length());
-				Collections.sort(splitIndexs);
+//				List<Integer> splitIndexs = new ArrayList<Integer>();//用于存放分割的index
+//				List<String> relatedLaws = wenshu.getLaws();
+//				for(int j = 0;j < relatedLaws.size();j++){
+//					String relatedLaw = relatedLaws.get(j);
+//					String[] s = relatedLaw.split(" ");
+//					String lawname = s[0];
+//					String lawnumber = s[1];
+//					if(line.contains(lawname)){
+//						int startIndex = fullText.indexOf(lawname);
+//						int endIndex = startIndex + lawname.length();
+//						splitIndexs.add(startIndex);
+//						splitIndexs.add(endIndex);
+//					}
+//					if(line.contains(lawnumber)){
+//						int startIndex = fullText.indexOf(lawnumber);
+//						int endIndex = startIndex + lawnumber.length();
+//						splitIndexs.add(startIndex);
+//						splitIndexs.add(endIndex);
+//					}
+//				}
+//				if(!splitIndexs.contains(0))
+//					splitIndexs.add(0);
+//				if(!splitIndexs.contains(line.length()))
+//					splitIndexs.add(line.length());
+//				Collections.sort(splitIndexs);
+				Sentence sentence = new Sentence(line,false,null);
+				paragraph.addSentence(sentence);
 				//下面开始划分段落
 //				if(splitIndexs.size() == 0){
 //					Sentence sentence = new Sentence(line,false,null);
@@ -189,11 +202,11 @@ public class CaseServiceImpl implements CaseService{
 		return relatedLaws;
 	}
 	
-	//Test
-	public static void main(String[] args){
-		CaseService service = new CaseServiceImpl("F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\");
-		CaseDetail caseDetail = service.getCaseByTitle("(2013)南刑初字第21号");
-		System.out.println(caseDetail.getBrief().getCore());
-	}
+//	//Test
+//	public static void main(String[] args){
+//		CaseService service = new CaseServiceImpl("F:\\Programming.Project\\GitRepo\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\graduation_project\\");
+//		CaseDetail caseDetail = service.getCaseByTitle("(2013)南刑初字第21号");
+//		System.out.println(caseDetail.getBrief().getCore());
+//	}
 
 }

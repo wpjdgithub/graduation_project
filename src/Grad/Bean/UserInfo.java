@@ -21,6 +21,13 @@ public class UserInfo implements Serializable{
 		this.name = name;
 	}
 	
+	public UserInfo(String username, String name, String password) {
+		super();
+		this.username = username;
+		this.name = name;
+		this.password = password;
+	}
+
 	public String getUsername() {
 		return username;
 	}
