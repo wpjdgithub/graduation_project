@@ -53,7 +53,7 @@ public class CaseUploadDetail {
 		this.uploadDate = uploadDate;
 	}
 	public CaseMinMes toCaseMinMes(){
-		CaseMinMes result = new CaseMinMes(this.caseTitle,this.uploadDate);
+		CaseMinMes result = new CaseMinMes("",this.caseTitle,this.uploadDate);
 		return result;
 	}
 }

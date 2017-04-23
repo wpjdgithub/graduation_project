@@ -16,6 +16,7 @@ public class CaseMinMes implements Serializable{
 	
 	public CaseMinMes(String id,String title, String uploadDate) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.uploadDate = uploadDate;
 	}

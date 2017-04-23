@@ -2,6 +2,7 @@ package Grad.Service.searchservice;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,6 +31,7 @@ public class SearchServiceImpl implements SearchService{
 		this.searchTool = new SearchFiles();
 		this.keywords = new Keywords("/");
 	}
+	
 	public SearchServiceImpl(String path){
 		this.searchTool = new SearchFiles(path);
 		this.keywords = new Keywords(path);

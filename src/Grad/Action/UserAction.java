@@ -3,6 +3,7 @@ package Grad.Action;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
+import Grad.Service.UserSerivice;
+import Grad.Service.userservice.UserServiceImpl;
 
 @Controller
 public class UserAction extends BaseAction{
@@ -21,10 +24,13 @@ public class UserAction extends BaseAction{
 	
 	private UserInfo user;
 	private String result;
-	private ArrayList<CaseMinMes> caselist;
+	private List<CaseMinMes> caselist;
+	
+	private UserSerivice service;
 
 	public String register() throws ServletException,IOException{
-		boolean exist = false;
+		init();
+		boolean exist = service.register(user);
 		System.out.println(user.getName());
 		if(exist){
 			this.setResult("success");
@@ -36,7 +42,9 @@ public class UserAction extends BaseAction{
 	
 	@SuppressWarnings("unchecked")
 	public String login() throws ServletException,IOException{
-		boolean exist = true;
+		init();
+		boolean exist = service.login(user);
+		//boolean exist = true;
 		System.out.println(user.getUsername());
 		if(exist){
 			session.put("username",user.getUsername());
@@ -48,21 +56,38 @@ public class UserAction extends BaseAction{
 	}
 	
 	public String i_mes() throws ServletException,IOException{
-		user = new UserInfo("user1", "name1");
+		
+		/*user = new UserInfo("user1", "name1");
 		
 		caselist = new ArrayList<CaseMinMes>();
 		caselist.add(new CaseMinMes("1","title1","2012/123/13"));
 		caselist.add(new CaseMinMes("2","title2","2012/a/asd"));
 		caselist.add(new CaseMinMes("3","title3","2012/dq/safd"));
-		this.setResult("true1");
+		*/
+		init();
+		String username = (String) session.get("username");
+		user = service.getInfo(username);
+		caselist = service.getMinMes(username);
+		
+		if(caselist==null || caselist.isEmpty()){
+			this.setResult("false");
+		}else{
+			this.setResult("true");
+		}
+		
 		return SUCCESS;
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public String logout() throws ServletException,IOException{
 		session.put("username", null);
 		this.setResult("success");
 		return SUCCESS;
+	}
+	
+	private void init(){
+		service = new UserServiceImpl();
 	}
 	
 	public UserInfo getUser() {
@@ -81,11 +106,11 @@ public class UserAction extends BaseAction{
 		this.result = result;
 	}
 
-	public ArrayList<CaseMinMes> getCaselist() {
+	public List<CaseMinMes> getCaselist() {
 		return caselist;
 	}
 
-	public void setCaselist(ArrayList<CaseMinMes> caselist) {
+	public void setCaselist(List<CaseMinMes> caselist) {
 		this.caselist = caselist;
 	}
 

@@ -1,6 +1,7 @@
 package Grad.Action;
 
 import java.io.File;
+
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import Grad.Bean.CaseBrief;
@@ -17,7 +17,7 @@ import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
 import Grad.Service.SearchService;
 import Grad.Service.searchservice.SearchServiceImpl;
-import net.sf.json.JSONObject;
+
 
 @Controller
 public class SearchAction extends BaseAction {

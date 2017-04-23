@@ -36,9 +36,9 @@ public class CaseServiceImpl implements CaseService{
 	}
 
 	@Override
-	public boolean uploadCase(String username, InputStream in) {
+	public CaseDetail uploadCase(String username, InputStream in) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
@@ -200,6 +200,12 @@ public class CaseServiceImpl implements CaseService{
 			relatedLaws.add(caseRelation);
 		}
 		return relatedLaws;
+	}
+
+	@Override
+	public boolean deleteCase(String[] list) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 //	//Test

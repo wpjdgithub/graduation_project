@@ -2,12 +2,16 @@ package Grad.Action;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
-
 import org.springframework.stereotype.Controller;
+
+import Grad.Bean.CaseDetail;
+import Grad.Service.CaseService;
+import Grad.Service.caseservice.CaseServiceImpl;
 
 
 @Controller
@@ -22,19 +26,31 @@ public class CaseAction extends BaseAction{
 	private String file1FileName;
 	private String file1ContentType;
 	
-	private ArrayList<String> id_list;
+	private String id_list;
+	private CaseDetail detail;
+	
+	private CaseService service;
 	
 	public String upload() throws ServletException,IOException{
 		System.out.println(file1FileName);
+		
+		init();
+		detail = service.uploadCase((String)session.get("username"), new FileInputStream(file1));
 		return SUCCESS;
 	}
 	
 	public String remove() throws ServletException, IOException{
-		for(String str:id_list){
+		String[] list = id_list.split(",");
+		for(String str:list){
 			System.out.println(str);
 		}
-		
+		init();
+		service.deleteCase(list);
 		return SUCCESS;
+	}
+	
+	private void init(){
+		service = new CaseServiceImpl(request.getRealPath("/"));
 	}
 	
 	public File getFile1() {
@@ -56,12 +72,20 @@ public class CaseAction extends BaseAction{
 		this.file1ContentType = file1ContentType;
 	}
 
-	public ArrayList<String> getId_list() {
+	public String getId_list() {
 		return id_list;
 	}
 
-	public void setId_list(ArrayList<String> id_list) {
+	public void setId_list(String id_list) {
 		this.id_list = id_list;
+	}
+
+	public CaseDetail getDetail() {
+		return detail;
+	}
+
+	public void setDetail(CaseDetail detail) {
+		this.detail = detail;
 	}
 	
 }

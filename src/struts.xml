@@ -66,8 +66,20 @@
 	
 	<package name="Case" namespace="/Case" extends="struts-default">
 	
+		<interceptors>
+			<interceptor name="login" class="Grad.Interceptor.LoginInterceptor">
+			</interceptor>
+		
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="login"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+	
 		<action name="user_uploadcase" class="CaseAction" method="upload">
 			<result name="success">/Search/searchdetail.jsp</result>
+			<result name="login">/User/login.jsp</result>
+			<interceptor-ref name="loginStack"></interceptor-ref>
 		</action>
 		
 		<action name="case_detail" class="CaseDetailAction" method="access">
@@ -75,7 +87,10 @@
 		</action>
 		
 		<action name="case_remove" class="CaseAction" method="remove">
-			<result name="success" >成功</result>
+			<result name="success" type= "redirectAction">
+				<param name="actionName">user_mes</param>
+                <param name="namespace">/User</param>
+			</result>
 		</action>
 		
 	</package>

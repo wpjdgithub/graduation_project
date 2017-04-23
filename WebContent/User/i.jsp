@@ -82,7 +82,7 @@
 					</tr>
 					<s:iterator value="caselist">
 						<tr>
-							<td><input type="checkbox" class="case_checkbox"></td>
+							<td><input id="<s:property value="id"></s:property>" type="checkbox" class="case_checkbox"></td>
 							<td><s:property value="title"></s:property></td>
 							<td><s:property value="uploadDate"></s:property></td>
 						</tr>
@@ -111,7 +111,7 @@
 				</table>
 			</div>
 			<div class="mycase_delete">
-				<input type="button" class="btn btn-default" value="删除所选" />
+				<input id="removeChecked" type="button" class="btn btn-default" value="删除所选" />
 			</div>
 			</s:if>
 			<s:else>
@@ -172,6 +172,15 @@
 					$(this).removeAttr("checked");   
 				});
 			}
+		});
+		
+		$("#removeChecked").click(function(){
+			var chk_value = new Array();
+			$('input[class="case_checkbox"]:checked').each(function(){
+				chk_value.push($(this).attr("id"));
+			});
+			alert(chk_value);
+			window.location.href = "<%=request.getContextPath()+"/Case/case_remove?id_list="%>"+chk_value;
 		});
 	});
 </script>

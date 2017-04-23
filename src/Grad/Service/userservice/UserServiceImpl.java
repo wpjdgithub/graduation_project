@@ -1,5 +1,8 @@
 package Grad.Service.userservice;
 
+import java.util.List;
+
+import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
 import Grad.Service.UserSerivice;
 import Grad.Service.dataservice.UserDataService;
@@ -50,6 +53,12 @@ public class UserServiceImpl implements UserSerivice{
 		else{
 			return userInfo;
 		}
+	}
+
+	@Override
+	public List<CaseMinMes> getMinMes(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
