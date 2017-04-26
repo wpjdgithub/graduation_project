@@ -143,6 +143,10 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("body").keydown(function(){
+		$("#do_search").click();
+	});
 });
 
 

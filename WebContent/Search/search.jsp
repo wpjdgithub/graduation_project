@@ -346,7 +346,7 @@
 			var obj = eval('(' + data + ')');
 			$("#resultlist").html("");
 			$.each(obj,function(i, value){
-				var context = "<div class='mysearchres'><div class='mymestitle'><strong><a id='case_1' class='case_title'>";
+				var context = "<div class='mysearchres'><div class='mymestitle'><strong><a id="+value.id+" class='case_title'>";
 				context = context + value.title + "</a></strong></div><div class='mysource'>";
 				context = context + value.court + "/"+ value.date +"</div><div class='mysource'><strong>核心词汇："+value.core+"</strong>";
 				context = context + "<a href='javascript:void(0)' class='detail'>展开</a></div><div class='mydetailmes'><table><tr>";

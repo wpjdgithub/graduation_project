@@ -113,7 +113,7 @@
 		<h5 class="h5_title"><b>相关法律依据</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
-				<li class="mycontext_law">
+				<li class="mycontext_law law">
 					<s:property value="title"></s:property>
 				</li>
 			</s:iterator>
@@ -123,7 +123,7 @@
 		<h5 class="h5_title"><b>相似案例</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedCase">
-				<li class="mycontext_law">
+				<li class="mycontext_law recase" id="<s:property value="id"></s:property>" >
 					<s:property value="title"></s:property>
 				</li>
 			</s:iterator>
@@ -140,6 +140,16 @@ $(function (){
     	$(this).popover("show");
     },function(){
     	$(this).popover("hide");
+    });
+    
+    $(".law").click(function(){
+    	var law = $(this).html();
+    	location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+law;
+    });
+    
+    $(".recase").click(function(){
+    	var id = $(this).addr("id");
+    	alert(id);
     });
 });
 </script>
