@@ -144,9 +144,12 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("body").keydown(function(){
-		$("#do_search").click();
-	});
+	$("body").keypress(function (e) {
+		var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+		if (keyCode == 13){
+			$("#do_search").click();
+		}
+	}); 
 });
 
 
