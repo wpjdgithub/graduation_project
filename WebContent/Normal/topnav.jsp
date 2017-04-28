@@ -69,11 +69,9 @@
 	<div class="mysearch">
 		<div class="mysearchkind">
 			<a>首页</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>刑事案件1</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+			<a>刑事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			<a>民事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 			<a>行政案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>赔偿案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>执行案件</a>
 		</div>
 		<div class="mysearchdetail">
 			<div class="mysearch1">

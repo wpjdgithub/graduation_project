@@ -35,7 +35,7 @@ public class CaseAction extends BaseAction{
 		System.out.println(file1FileName);
 		
 		init();
-		detail = service.uploadCase((String)session.get("username"), new FileInputStream(file1));
+		detail = service.uploadCase((String)session.get("username"),file1FileName ,new FileInputStream(file1));
 		return SUCCESS;
 	}
 	

@@ -44,7 +44,6 @@ public class UserAction extends BaseAction{
 	public String login() throws ServletException,IOException{
 		init();
 		boolean exist = service.login(user);
-		//boolean exist = true;
 		System.out.println(user.getUsername());
 		if(exist){
 			session.put("username",user.getUsername());
@@ -57,13 +56,6 @@ public class UserAction extends BaseAction{
 	
 	public String i_mes() throws ServletException,IOException{
 		
-		/*user = new UserInfo("user1", "name1");
-		
-		caselist = new ArrayList<CaseMinMes>();
-		caselist.add(new CaseMinMes("1","title1","2012/123/13"));
-		caselist.add(new CaseMinMes("2","title2","2012/a/asd"));
-		caselist.add(new CaseMinMes("3","title3","2012/dq/safd"));
-		*/
 		init();
 		String username = (String) session.get("username");
 		user = service.getInfo(username);
