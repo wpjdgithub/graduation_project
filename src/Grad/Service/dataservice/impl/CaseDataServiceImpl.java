@@ -54,7 +54,7 @@ public class CaseDataServiceImpl implements CaseDataService{
 	@Override
 	public void deleteCases(String[] list) {
 		for(String caseid:list){
-			String sql = "delete from upload where count='"+caseid+"';";
+			String sql = "delete from upload where casetitle='"+caseid+"';";
 			connection.execute(sql);
 		}
 	}

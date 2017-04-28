@@ -1,5 +1,7 @@
 package Grad.Service.dataservice.impl;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import Grad.Bean.UserInfo;
 import Grad.Service.dataservice.UserDataService;
@@ -16,7 +18,7 @@ public class UserDataServiceImpl implements UserDataService {
 	}
 	
 	public List<String> getCaseMinMes(String username){
-		List<String> res = this.connection.query("select count,casetitle,uploaddate from upload where username='"+username+"';");
+		List<String> res = this.connection.query("select casetitle,uploaddate from upload where username='"+username+"';");
 		return res;
 	}
 
@@ -57,5 +59,4 @@ public class UserDataServiceImpl implements UserDataService {
 	public void close() {
 		this.connection.release();
 	}
-
 }
