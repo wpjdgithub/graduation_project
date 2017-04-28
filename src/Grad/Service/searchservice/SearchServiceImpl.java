@@ -195,56 +195,61 @@ public class SearchServiceImpl implements SearchService{
 		List<CaseFilter> listKeyword = new ArrayList<CaseFilter>();
 		listKeyword.add(new CaseFilter(id,"按关键词筛选/",0,true));
 		Iterator<String> iterator = keywordMap.keySet().iterator();
+		int c1 = 100;
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = keywordMap.get(key);
 			String name = "按关键词筛选/"+key;
 			listKeyword.get(0).increase(count);
-			listKeyword.add(new CaseFilter(id,name,count,false));
+			listKeyword.add(new CaseFilter(id+(c1++),name,count,false));
 		}
 		id++;
 		List<CaseFilter> listBrief = new ArrayList<CaseFilter>();
 		listBrief.add(new CaseFilter(id,"按案由筛选/",0,true));
 		iterator = briefMap.keySet().iterator();
+		int c2 = 200;
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = briefMap.get(key);
 			String name = "按案由筛选/"+key;
 			listBrief.get(0).increase(count);
-			listBrief.add(new CaseFilter(id,name,count,false));
+			listBrief.add(new CaseFilter(id+(c2++),name,count,false));
 		}
 		id++;
 		List<CaseFilter> listLevel = new ArrayList<CaseFilter>();
 		listLevel.add(new CaseFilter(id,"按法院层级筛选/",0,true));
 		iterator = courtLevelMap.keySet().iterator();
+		int c3 = 300;
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = courtLevelMap.get(key);
 			String name = "按法院层级筛选/"+key;
 			listLevel.get(0).increase(count);
-			listLevel.add(new CaseFilter(id,name,count,false));
+			listLevel.add(new CaseFilter(id+(c3++),name,count,false));
 		}
 		id++;
 		List<CaseFilter> listYear = new ArrayList<CaseFilter>();
 		listYear.add(new CaseFilter(id,"按年份筛选/",0,true));
 		iterator = yearMap.keySet().iterator();
+		int c4 = 400;
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = yearMap.get(key);
 			String name = "按年份筛选/"+key;
 			listYear.get(0).increase(count);
-			listYear.add(new CaseFilter(id,name,count,false));
+			listYear.add(new CaseFilter(id+(c4++),name,count,false));
 		}
 		id++;
 		List<CaseFilter> listType = new ArrayList<CaseFilter>();
 		listType.add(new CaseFilter(id,"按文书类型筛选/",0,true));
 		iterator = documentTypeMap.keySet().iterator();
+		int c5 = 500;
 		while(iterator.hasNext()){
 			String key = iterator.next();
 			int count = documentTypeMap.get(key);
 			String name = "按文书类型筛选/"+key;
 			listType.get(0).increase(count);
-			listType.add(new CaseFilter(id,name,count,false));
+			listType.add(new CaseFilter(id+(c5++),name,count,false));
 		}
 		Collections.sort(listKeyword,new Comparator<CaseFilter>(){
 			@Override

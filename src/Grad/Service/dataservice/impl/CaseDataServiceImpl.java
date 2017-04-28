@@ -23,8 +23,7 @@ public class CaseDataServiceImpl implements CaseDataService{
 	@Override
 	public boolean insert(CaseUploadDetail c) {
 		String sql = "insert into upload value('"+c.getUsername()+
-				"','"+c.getCount()+"','"+c.getPath()+"','"+c.getCaseTitle()
-				+"','"+c.getCaseContext()+"','"+c.getUploadDate()+"');";
+				"','"+c.getCaseTitle()+"','"+c.getCaseContext()+"','"+c.getUploadDate()+"');";
 		return this.connection.execute(sql);
 	}
 	@Override
@@ -36,7 +35,7 @@ public class CaseDataServiceImpl implements CaseDataService{
 		for(int i = 0;i < size;i++){
 			String line = list.get(i);
 			String[] e = line.split(" ");
-			CaseUploadDetail detail = new CaseUploadDetail(e[0],Integer.parseInt(e[1]),e[2],e[3],e[4],e[5]);
+			CaseUploadDetail detail = new CaseUploadDetail(e[0],e[1],e[2],e[3]);
 			result.add(detail);
 		}
 		return result;

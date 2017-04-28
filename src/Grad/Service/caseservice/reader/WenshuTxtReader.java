@@ -1,17 +1,13 @@
 package Grad.Service.caseservice.reader;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
 public class WenshuTxtReader implements IWenshuReader{
 	@Override
-	public List<String> read(String path) {
-		List<String> result = new ArrayList<String>();
+	public String read(String path) {
+		StringBuilder sb = new StringBuilder();
 		File file = new File(path);
 		try{
 			FileInputStream fin = new FileInputStream(file);
@@ -19,7 +15,7 @@ public class WenshuTxtReader implements IWenshuReader{
 			BufferedReader br = new BufferedReader(reader);
 			String line = null;
 			while((line = br.readLine()) != null){
-				result.add(line);
+				sb.append(line).append("\n");
 			}
 			br.close();
 			reader.close();
@@ -27,6 +23,7 @@ public class WenshuTxtReader implements IWenshuReader{
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		String result = sb.toString();
 		return result;
 	}
 }

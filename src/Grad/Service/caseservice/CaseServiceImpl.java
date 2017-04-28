@@ -40,7 +40,7 @@ public class CaseServiceImpl implements CaseService{
 		this.caseDataService = new CaseDataServiceImpl(path);
 	}
 	@Override
-	public CaseDetail uploadCase(String username, InputStream in) {
+	public CaseDetail uploadCase(String username, String filename, InputStream in) {
 		String fileType = null;
 		try {
 			FileOutputStream os = new FileOutputStream(this.path+"tmp\\upload.tmp");
@@ -71,8 +71,8 @@ public class CaseServiceImpl implements CaseService{
 		else{
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.txt);
 		}
-		List<String> content = reader.read(this.path+"tmp\\upload.tmp");
-		StringBuilder sb = new StringBuilder
+		String content = reader.read(this.path+"tmp\\upload.tmp");
+		System.out.println(content);
 		return null;
 	}
 	@Override
