@@ -72,7 +72,7 @@ public class CaseServiceImpl implements CaseService{
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.txt);
 		}
 		List<String> content = reader.read(this.path+"tmp\\upload.tmp");
-		System.out.println(content);
+		StringBuilder sb = new StringBuilder
 		return null;
 	}
 	@Override
