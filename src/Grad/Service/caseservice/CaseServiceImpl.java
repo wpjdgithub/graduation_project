@@ -1,6 +1,16 @@
 package Grad.Service.caseservice;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +22,10 @@ import Grad.Bean.CaseRelation;
 import Grad.Bean.CaseUploadDetail;
 import Grad.Bean.Sentence;
 import Grad.Service.CaseService;
+import Grad.Service.caseservice.reader.FileTypeJudge;
+import Grad.Service.caseservice.reader.IWenshuReader;
+import Grad.Service.caseservice.reader.WenshuReaderTool;
+import Grad.Service.caseservice.reader.WenshuType;
 import Grad.Service.dataservice.CaseDataService;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.dataservice.impl.CaseDataServiceImpl;
@@ -27,6 +41,38 @@ public class CaseServiceImpl implements CaseService{
 	}
 	@Override
 	public CaseDetail uploadCase(String username, InputStream in) {
+		String fileType = null;
+		try {
+			FileOutputStream os = new FileOutputStream(this.path+"tmp\\upload.tmp");
+			FileInputStream is = (FileInputStream)in;
+			FileChannel inChannel = is.getChannel();
+			FileChannel outChannel = os.getChannel();
+			inChannel.transferTo(0, inChannel.size(), outChannel);
+			inChannel.close();
+			is.close();
+			outChannel.close();
+			os.close();
+			InputStream in2 = new FileInputStream(this.path+"tmp\\upload.tmp");
+			byte[] b = new byte[10];
+			in2.read(b, 0, b.length);
+			String hex = FileTypeJudge.bytesToHexString(b);
+			fileType = FileTypeJudge.getFileType(hex);
+			in2.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		IWenshuReader reader;
+		if(fileType.equals("docx")){
+			reader = WenshuReaderTool.getWenshuReader(WenshuType.docx);
+		}
+		else if(fileType.equals("doc")){
+			reader = WenshuReaderTool.getWenshuReader(WenshuType.doc);
+		}
+		else{
+			reader = WenshuReaderTool.getWenshuReader(WenshuType.txt);
+		}
+		List<String> content = reader.read(this.path+"tmp\\upload.tmp");
+		System.out.println(content);
 		return null;
 	}
 	@Override

@@ -10,7 +10,7 @@ public class FileTypeJudge {
     }     
     private static void getAllFileType()     
     {     
-        FILE_TYPE_MAP.put("504b03040a0000000000", "docx"); 
+        FILE_TYPE_MAP.put("504b0304140006000800", "docx"); 
         FILE_TYPE_MAP.put("d0cf11e0a1b11ae10000", "doc");
     } 					  
 	/**
