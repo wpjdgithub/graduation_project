@@ -66,7 +66,7 @@ public class CaseManageAction extends BaseAction {
 	
 	@SuppressWarnings("unchecked")
 	private void getFilter(){
-		if(filterId==0){
+		if(filterId==-1){
 			FilterResult = "{'status':'empty'}";
 		}else{
 			List<CaseFilter> list = (ArrayList<CaseFilter>) session.get("AllFilter");
@@ -80,7 +80,8 @@ public class CaseManageAction extends BaseAction {
 			for(CaseFilter filter:list){
 				if(filter.getName().startsWith(path)
 						&&filter.getName().split("/").length==(pathl.length+1)){
-					result.add(filter);
+					CaseFilter tmp = new CaseFilter(filter.getId(),filter.getLastPath(),filter.getNum(),filter.isHasChild());
+					result.add(tmp);
 				}
 			}
 			Gson gson = new Gson();

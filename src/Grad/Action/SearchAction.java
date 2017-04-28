@@ -116,6 +116,10 @@ public class SearchAction extends BaseAction {
 		List<CaseFilter> filter = res.getFilter();
 		checkFilter(filter);
 		
+		for(CaseFilter f:filter){
+			System.out.println(f.getId()+" "+f.getName());
+		}
+		
 		session.put("AllData", caselist);
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
 		session.put("AllFilter", filter);

@@ -28,6 +28,12 @@ public class CaseFilter implements Serializable {
 		this.num = num;
 		this.hasChild = hasChild;
 	}
+	
+	public String getLastPath(){
+		String path[] = name.split("/");
+		int len = path.length;
+		return path[len-1];
+	}
 
 	public int getId() {
 		return id;

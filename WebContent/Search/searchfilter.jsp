@@ -1,33 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<div class="main-title" id="0/">
+	<div class="title">
+		<a id="0" style="color:#FFF;z-index:-1">
+           <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
+        </a>
+        <a style="color:#FFF;">按关键字筛选</a>
+    </div>
+    <div id="0-l" class="list">
+    </div>
+</div>
 <div class="main-title" id="1/">
 	<div class="title">
 		<a id="1" style="color:#FFF;z-index:-1">
            <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
         </a>
-        <a style="color:#FFF;">按关键字筛选</a>
+        <a style="color:#FFF;">按案由筛选</a>
     </div>
     <div id="1-l" class="list">
     </div>
 </div>
 <div class="main-title" id="2/">
 	<div class="title">
-		<a id="5" style="color:#FFF;z-index:-1">
+		<a id="2" style="color:#FFF;z-index:-1">
            <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
         </a>
-        <a style="color:#FFF;">按关键字筛选</a>
+        <a style="color:#FFF;">按法院层级筛选</a>
     </div>
     <div id="2-l" class="list">
     </div>
 </div>
 <div class="main-title" id="3/">
 	<div class="title">
-		<a id="7" style="color:#FFF;z-index:-1">
+		<a id="3" style="color:#FFF;z-index:-1">
            <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
         </a>
-        <a style="color:#FFF;">按关键字筛选</a>
+        <a style="color:#FFF;">按年份筛选</a>
     </div>
     <div id="3-l" class="list">
+    </div>
+</div>
+<div class="main-title" id="4/">
+	<div class="title">
+		<a id="4" style="color:#FFF;z-index:-1">
+           <span class="glyphicon glyphicon-chevron-right right" style="color:#FFF;"></span>
+        </a>
+        <a style="color:#FFF;">按文书类型筛选</a>
+    </div>
+    <div id="4-l" class="list">
     </div>
 </div>
 

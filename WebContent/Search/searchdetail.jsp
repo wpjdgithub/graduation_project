@@ -148,7 +148,7 @@ $(function (){
     });
     
     $(".recase").click(function(){
-    	var id = $(this).addr("id");
+    	var id = $(this).attr("id");
     	window.location.href="<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id;
     });
 });
