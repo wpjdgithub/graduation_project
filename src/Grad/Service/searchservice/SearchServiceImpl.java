@@ -132,6 +132,7 @@ public class SearchServiceImpl implements SearchService{
 			casebrief.setBrief(wenshu.getCaseBrief());
 			casebrief.setProcess_judgement(wenshu.getCaseProgram());
 			casebrief.setType_text(wenshu.getDocumentName());
+			casebrief.setCourt(wenshu.getCaseName().split(" ")[0]);
 			casebrief.setSource("天津最高人民法院");
 			result.addCaseBrief(casebrief);
 			String keywords = connection.query("select keyword from keyword where caseid='"+wenshu.getCaseID()+"';").get(0);
