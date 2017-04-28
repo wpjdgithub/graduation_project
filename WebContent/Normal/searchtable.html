@@ -30,7 +30,7 @@
 		</td>
 		<td class="right">法院层级</td>
 		<td class="left">
-			<s:set name="levelList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
+			<s:set name="levelList" value="#{'0':'基层','1':'中级','2':'高级'}"></s:set>
 			<s:select list="#levelList" listKey="key" listValue="value"  class="mysearchselect"
 				name="info.level_court" headerKey="0" headerValue="--请选择--"></s:select> 
 		</td>
@@ -38,13 +38,13 @@
 	<tr>
 		<td class="right">案件类型</td>
 		<td class="left">
-			<s:set name="typeList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
+			<s:set name="typeList" value="#{'0':'民事案件','1':'刑事案件'}"></s:set>
 			<s:select list="#typeList" listKey="key" listValue="value"  class="mysearchselect"
 				name="info.type_case" headerKey="0" headerValue="--请选择--"></s:select>
 		</td>
 		<td class="right">审判程序</td>
 		<td class="left">
-			<s:set name="processList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
+			<s:set name="processList" value="#{'0':'一审判决'}"></s:set>
 			<s:select list="#processList" listKey="key" listValue="value"  class="mysearchselect"
 				name="info.judgement" headerKey="0" headerValue="--请选择--"></s:select>
 		</td>
@@ -52,7 +52,7 @@
 	<tr>
 		<td class="right">文书类型</td>
 		<td class="left">
-			<s:set name="kindList" value="#{'1':'质量','2':'成本','3':'进度'}"></s:set>
+			<s:set name="kindList" value="#{'0':'裁定书','1':'调解书','2':'判决书'}"></s:set>
 			<s:select list="#kindList" listKey="key" listValue="value"  class="mysearchselect"
 				name="info.type_text" headerKey="0" headerValue="--请选择--"></s:select> 
 		</td>

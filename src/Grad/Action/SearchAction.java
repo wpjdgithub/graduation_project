@@ -36,7 +36,7 @@ public class SearchAction extends BaseAction {
 	public String normal() throws ServletException, IOException {
 		
 		if(input!=null){
-			getResult();
+			getResult(1);
 			System.out.println("获取了一次数据");
 		}
 		
@@ -47,71 +47,20 @@ public class SearchAction extends BaseAction {
 	}
 	
 	public String advanced() throws ServletException, IOException {
-		System.out.println(info.getBrief());
+		init();
+		
+		getResult(2);
+		
+		getFirstPage();
+		
 		return SUCCESS;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void getResult(){
-		/*ArrayList<CaseBrief> caselist = new ArrayList<CaseBrief>();
-		CaseBrief brief = new CaseBrief(123214,"标题1","浙江省法院","2017-01-01",
-				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
-		CaseBrief brief2 = new CaseBrief(123214,"标题2","浙江省法院","2017-01-01",
-				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
-		CaseBrief brief3 = new CaseBrief(123214,"标题3","浙江省法院","2017-01-01",
-				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
-		CaseBrief brief4 = new CaseBrief(123214,"标题4","浙江省法院","2017-01-01",
-				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
-		CaseBrief brief5 = new CaseBrief(123214,"标题5","浙江省法院","2017-01-01",
-				"案由1","审批程序1","文书类型1","来源1","核心词汇1");
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief2);
-		caselist.add(brief2);
-		caselist.add(brief2);
-		caselist.add(brief2);
-		caselist.add(brief2);
-		caselist.add(brief3);
-		caselist.add(brief3);
-		caselist.add(brief3);
-		caselist.add(brief3);
-		caselist.add(brief3);
-		caselist.add(brief4);
-		caselist.add(brief4);
-		caselist.add(brief4);
-		caselist.add(brief4);
-		caselist.add(brief4);
-		caselist.add(brief5);
-		caselist.add(brief5);
-		caselist.add(brief5);
-		caselist.add(brief5);
-		caselist.add(brief5);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		caselist.add(brief);
-		*/
-		System.out.println(request.getRealPath("/"));
-		service = new SearchServiceImpl(request.getRealPath("/"));
-		CaseSearchRes res = service.search(input);
+	private void getResult(int kind){
+		init();
+		
+		CaseSearchRes res = kind==1?getResByNor():getResByAdv();
 		List<CaseBrief> caselist = res.getBrief();
 		List<CaseFilter> filter = res.getFilter();
 		checkFilter(filter);
@@ -124,15 +73,15 @@ public class SearchAction extends BaseAction {
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
 		session.put("AllFilter", filter);
 		
-		/*List<CaseFilter> filter = new ArrayList<CaseFilter>();c
-		filter.add(new CaseFilter(5,"2/",1,false));
-		filter.add(new CaseFilter(6,"2/1/",34,false));
-		filter.add(new CaseFilter(7,"3/",67,false));
-		filter.add(new CaseFilter(8,"3/1/",25,false));
-		filter.add(new CaseFilter(9,"3/2/",52,false));
-		filter.add(new CaseFilter(10,"3/3/",34,false));
-		filter.add(new CaseFilter(11,"3/2/1/",51,false));
-		*/
+	}
+	
+	private CaseSearchRes getResByNor(){
+		return service.search(input);
+	}
+	
+	private CaseSearchRes getResByAdv(){
+		System.out.println(info.getCourtLevel());
+		return service.search(info);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -158,6 +107,10 @@ public class SearchAction extends BaseAction {
 			}
 			filter.setHasChild(hasChild);
 		}
+	}
+	
+	private void init(){
+		service = new SearchServiceImpl(request.getRealPath("/"));
 	}
 	
 
