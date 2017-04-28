@@ -1,14 +1,8 @@
 package Grad.Service.caseservice;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -72,7 +66,6 @@ public class CaseServiceImpl implements CaseService{
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.txt);
 		}
 		String content = reader.read(this.path+"tmp\\upload.tmp");
-		System.out.println(content);
 		return null;
 	}
 	@Override
@@ -151,7 +144,6 @@ public class CaseServiceImpl implements CaseService{
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			System.out.println(s);
 			CaseRelation relation = new CaseRelation();
 			relation.setId(s);
 			relation.setTitle(s);

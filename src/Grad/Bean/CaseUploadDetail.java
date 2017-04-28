@@ -35,4 +35,11 @@ public class CaseUploadDetail {
 	public void setUploadDate(String uploadDate) {
 		this.uploadDate = uploadDate;
 	}
+	public CaseMinMes toCaseMinMes() {
+		CaseMinMes mes = new CaseMinMes();
+		mes.setId(this.caseTitle);
+		mes.setTitle(this.caseTitle);
+		mes.setUploadDate(uploadDate);
+		return mes;
+	}
 }
