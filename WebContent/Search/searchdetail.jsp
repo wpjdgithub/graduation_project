@@ -149,7 +149,7 @@ $(function (){
     
     $(".recase").click(function(){
     	var id = $(this).addr("id");
-    	alert(id);
+    	window.location.href="<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id;
     });
 });
 </script>

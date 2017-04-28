@@ -17,11 +17,6 @@
 	div.mysearch {
 		position:absolute; width:100%; height:auto; top:150px; text-align:center;
 	}
-	div.mysearchkind {
-		position:absolute; width:100%; height:auto; top:50px;
-		font-weight:bold; font-size:20px;
-		text-align:center;
-	}
 	div.mysearchdetail {
 		position:absolute; width:100%; height:auto; top:150px;
 		padding-left:300px; padding-right:300px;
@@ -67,12 +62,6 @@
 	</div>
 	
 	<div class="mysearch">
-		<div class="mysearchkind">
-			<a>首页</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>刑事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>民事案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-			<a>行政案件</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		</div>
 		<div class="mysearchdetail">
 			<div class="mysearch1">
 				<div class="input-group">
