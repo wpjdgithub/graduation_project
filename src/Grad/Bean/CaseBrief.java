@@ -14,6 +14,8 @@ public class CaseBrief implements Serializable {
 	private String type_text; // 文书类型
 	private String source; //来源
 	private String core; // 文书核心词汇
+	private String courtLevel;
+	private String year;
 	public CaseBrief(){}
 	public CaseBrief(String id,String title, String court, String date, String brief, String process_judgement, String type_text,
 			String source, String core) {
@@ -81,5 +83,17 @@ public class CaseBrief implements Serializable {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getCourtLevel() {
+		return courtLevel;
+	}
+	public void setCourtLevel(String courtLevel) {
+		this.courtLevel = courtLevel;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
 	}
 }
