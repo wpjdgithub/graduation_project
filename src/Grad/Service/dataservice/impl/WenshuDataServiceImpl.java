@@ -1,36 +1,25 @@
 package Grad.Service.dataservice.impl;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.lucene.queryparser.classic.ParseException;
-
-import Grad.Bean.SearchInfo;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
 import Grad.Service.xml.WenshuXMLObject;
-
 public class WenshuDataServiceImpl implements WenshuDataService{
-	
 	private String path = "F:/Programming.Project/data/";
-	
 	public WenshuDataServiceImpl(){
-		
 	}
-	
 	public WenshuDataServiceImpl(String path){
 		this.path = path;
 	}
-	
 	public void setPath(String path){
 		this.path = path;
 	}
-
 	@Override
 	public List<Wenshu> getAllWenshuData() {
 		List<Wenshu> list = new LinkedList<Wenshu>();
@@ -56,7 +45,6 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 		}
 		return list;
 	}
-
 	@Override
 	public List<Wenshu> getSmallTestSet(String dirname) {
 		List<Wenshu> list = new LinkedList<Wenshu>();
@@ -77,7 +65,6 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 		}
 		return list;
 	}
-
 	@Override
 	public Wenshu getWenshuByCaseID(String caseID) {
 		SearchFiles searchTool = new SearchFiles(this.path);
@@ -97,5 +84,4 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 		}
 		return wenshu;
 	}
-
 }

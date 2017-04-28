@@ -1,25 +1,20 @@
 package Grad.Service.userservice;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
 import Grad.Service.UserSerivice;
 import Grad.Service.dataservice.UserDataService;
 import Grad.Service.dataservice.impl.UserDataServiceImpl;
-
 public class UserServiceImpl implements UserSerivice{
-	
 	private UserDataService userDataService ;
-	
 	public UserServiceImpl(){
 		this.userDataService = new UserDataServiceImpl();
 	}
-
 	@Override
 	public boolean register(UserInfo info) {
 		UserInfo u = this.userDataService.getUserInfo(info.getUsername());
-		if(u == null){
+		if(u != null){
 			return false;
 		}
 		else{
@@ -27,7 +22,6 @@ public class UserServiceImpl implements UserSerivice{
 			return true;
 		}
 	}
-
 	@Override
 	public boolean login(UserInfo info) {
 		UserInfo userInfo = this.userDataService.getUserInfo(info.getUsername());
@@ -43,7 +37,6 @@ public class UserServiceImpl implements UserSerivice{
 			}
 		}
 	}
-
 	@Override
 	public UserInfo getInfo(String username) {
 		UserInfo userInfo = this.userDataService.getUserInfo(username);
@@ -54,11 +47,20 @@ public class UserServiceImpl implements UserSerivice{
 			return userInfo;
 		}
 	}
-
 	@Override
 	public List<CaseMinMes> getMinMes(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CaseMinMes> result = new ArrayList<CaseMinMes>();
+		List<String> list = this.userDataService.getCaseMinMes(username);
+		int size = list.size();
+		for(int i = 0;i < size;i++){
+			String line = list.get(i);
+			String[] s = line.split(" ");
+			CaseMinMes mes = new CaseMinMes();
+			mes.setId(s[0]);
+			mes.setTitle(s[1]);
+			mes.setUploadDate(s[2]);
+			result.add(mes);
+		}
+		return result;
 	}
-
 }

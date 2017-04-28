@@ -1,5 +1,4 @@
 package Grad.Service.dataservice.jdbc;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,37 +6,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 public class MySQLConnectionImpl implements MySQLConnection{
-	
-	public static void main(String[] args){
-		MySQLConnection mysqlConnection = new MySQLConnectionImpl("testsql");
-		mysqlConnection.connect();
-	}
-	
 	private String tableName;
 	private Connection connection;
-	
 	public MySQLConnectionImpl(){
 		this.tableName = null;
 		this.connection = null;
 	}
-	
 	public MySQLConnectionImpl(String tableName){
 		this.tableName = tableName;
 		this.connection = null;
 	}
-
 	@Override
 	public void setTableName(String name) {
 		this.tableName = name;
 	}
-
 	@Override
 	public String getTableName() {
 		return this.tableName;
 	}
-
 	@Override
 	public void connect() {
 		if(this.tableName == null){
@@ -60,9 +47,7 @@ public class MySQLConnectionImpl implements MySQLConnection{
 			this.connection = null;
 			System.out.println("连接失败!");
 		}
-		
 	}
-
 	@Override
 	public void release() {
 		try {
@@ -72,7 +57,6 @@ public class MySQLConnectionImpl implements MySQLConnection{
 		}
 		this.connection = null;
 	}
-
 	@Override
 	public boolean execute(String sql) {
 		if(this.connection == null){
@@ -88,7 +72,6 @@ public class MySQLConnectionImpl implements MySQLConnection{
 			return false;
 		}
 	}
-
 	@Override
 	public List<String> query(String sql) {
 		if(this.connection == null){
@@ -115,5 +98,4 @@ public class MySQLConnectionImpl implements MySQLConnection{
 			return null;
 		}
 	}
-
 }

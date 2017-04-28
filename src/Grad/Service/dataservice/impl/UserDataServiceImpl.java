@@ -1,4 +1,5 @@
 package Grad.Service.dataservice.impl;
+import java.util.ArrayList;
 import java.util.List;
 import Grad.Bean.UserInfo;
 import Grad.Service.dataservice.UserDataService;
@@ -13,6 +14,11 @@ public class UserDataServiceImpl implements UserDataService {
 		this.connection = new MySQLConnectionImpl("wenshu");
 		this.connection.connect();
 	}
+	
+	public List<String> getCaseMinMes(String username){
+		List<String> res = this.connection.query("select count,casetitle,uploaddate from upload where username='"+username+"';");
+		return res;
+	}
 
 	@Override
 	public UserInfo getUserInfo(String username) {
@@ -24,6 +30,7 @@ public class UserDataServiceImpl implements UserDataService {
 			String line = list.get(0);
 			String[] e = line.split(" ");
 			UserInfo result = new UserInfo(e[0],e[1]);
+			result.setPassword(e[2]);
 			return result;
 		}
 	}

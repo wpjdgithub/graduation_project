@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import Grad.Service.nlp.NLPService;
@@ -211,6 +214,38 @@ public class TFIDF {
 			scanner.close();
 		} catch (IOException e){
 			System.out.println("TF-IDF加载失败:"+file.getAbsolutePath());
+		}
+	}
+	public static void main(String[] args){
+		TFIDF tfidf = new TFIDF();
+		tfidf.loadIDF();
+		tfidf.loadTFIDF();
+		Map<String,Map<String,Double> > tfidfMap = tfidf.getTFIDFMap();
+		Iterator<String> iterator = tfidfMap.keySet().iterator();
+		while(iterator.hasNext()){
+			String id = iterator.next();
+			Map<String,Double> map = tfidfMap.get(id);
+			List<Map.Entry<String, Double>> list = new ArrayList<Map.Entry<String,Double>>(map.entrySet());
+			Collections.sort(list,new Comparator<Map.Entry<String,Double> >(){
+
+				@Override
+				public int compare(Entry<String, Double> arg0, Entry<String, Double> arg1) {
+					double tfidf0 = arg0.getValue();
+					double tfidf1 = arg1.getValue();
+					if(tfidf0 < tfidf1){
+						return 1;
+					}
+					else if(tfidf0 > tfidf1){
+						return -1;
+					}
+					else{
+						return 0;
+					}
+				}
+				
+			});
+			System.out.println(id+":"+list.get(0).getKey()+" "+list.get(1).getKey()
+					+" "+list.get(2).getKey()+" "+list.get(3).getKey()+" "+list.get(4).getKey());
 		}
 	}
 }

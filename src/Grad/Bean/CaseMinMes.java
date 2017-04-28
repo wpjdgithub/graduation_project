@@ -1,19 +1,14 @@
 package Grad.Bean;
-
 import java.io.Serializable;
-
 public class CaseMinMes implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6994288883752244215L;
-	
 	private String id;
 	private String title;
 	private String uploadDate;
-	
 	public CaseMinMes(){}
-	
 	public CaseMinMes(String id,String title, String uploadDate) {
 		super();
 		this.id = id;
@@ -38,6 +33,4 @@ public class CaseMinMes implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
 }

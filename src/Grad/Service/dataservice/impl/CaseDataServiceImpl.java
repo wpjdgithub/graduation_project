@@ -1,33 +1,25 @@
 package Grad.Service.dataservice.impl;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Grad.Bean.CaseUploadDetail;
 import Grad.Service.dataservice.CaseDataService;
 import Grad.Service.dataservice.jdbc.MySQLConnection;
 import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
-
 public class CaseDataServiceImpl implements CaseDataService{
-	
-	private String path;//TODO
+	private String path;
 	private MySQLConnection connection;
-	
 	public CaseDataServiceImpl(){
 		this.path = null;
 		this.initConnection();
 	}
-	
 	public CaseDataServiceImpl(String path){
 		this.path = path;
 		this.initConnection();
 	}
-	
 	private void initConnection(){
 		this.connection = new MySQLConnectionImpl("wenshu");
 		this.connection.connect();
 	}
-
 	@Override
 	public boolean insert(CaseUploadDetail c) {
 		String sql = "insert into upload value('"+c.getUsername()+
@@ -35,7 +27,6 @@ public class CaseDataServiceImpl implements CaseDataService{
 				+"','"+c.getCaseContext()+"','"+c.getUploadDate()+"');";
 		return this.connection.execute(sql);
 	}
-
 	@Override
 	public List<CaseUploadDetail> getCaseUploadDetail(String username) {
 		List<CaseUploadDetail> result = new ArrayList<CaseUploadDetail>();
@@ -50,5 +41,22 @@ public class CaseDataServiceImpl implements CaseDataService{
 		}
 		return result;
 	}
-
+	@Override
+	public List<String> getSimilarCases(String caseID) {
+		List<String> result = new ArrayList<String>();
+		String sql = "select case1,case2,case3,case4,case5 from sim where caseid='"+caseID+"';";
+		String line = connection.query(sql).get(0);
+		String[] s = line.split(" ");
+		for(int i = 0;i < s.length;i++){
+			result.add(s[i]);
+		}
+		return result;
+	}
+	@Override
+	public void deleteCases(String[] list) {
+		for(String caseid:list){
+			String sql = "delete from upload where count='"+caseid+"';";
+			connection.execute(sql);
+		}
+	}
 }

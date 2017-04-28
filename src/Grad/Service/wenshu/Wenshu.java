@@ -1,5 +1,4 @@
 package Grad.Service.wenshu;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,9 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import Grad.Service.nlp.tool.Keywords;
-
 public class Wenshu {
 	private String filepath;//文件路径
 	private String filename;
@@ -25,6 +21,7 @@ public class Wenshu {
 	private String caseType;//案例类型
 	private String caseProgram;//裁判程序
 	private String caseBrief;//案由
+	private String caseDate;//日期，没有则为null
 	private List<String> laws;//涉及法律，法律名称条目+：+法条内容
 	private Map<String,String> participantInfo;//参与人基本信息
 	private Map<String,String> judgerInfo;//审判人员信息
@@ -218,5 +215,11 @@ public class Wenshu {
 	}
 	public void addKeyword(String keyword){
 		this.keywords.add(keyword);
+	}
+	public String getCaseDate() {
+		return caseDate;
+	}
+	public void setCaseDate(String caseDate) {
+		this.caseDate = caseDate;
 	}
 }

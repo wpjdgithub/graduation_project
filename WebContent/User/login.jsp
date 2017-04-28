@@ -50,12 +50,11 @@
 		$("#submit").click(function(){
 			var username = $("#username").val();
 			var password = $("#password").val();
-			
 			$.ajax({
 				url:"<%=request.getContextPath()+"/User/user_login"%>",
 				type:'POST',
 				async:false,
-				data:{"user.username":username,"username.password":password},
+				data:{"user.password":password,"user.username":username},
 				dataType:'json',
 				success:function(res){
 					if(res=="success"){

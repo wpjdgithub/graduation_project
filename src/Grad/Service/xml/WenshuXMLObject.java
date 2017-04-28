@@ -31,24 +31,15 @@ public class WenshuXMLObject {
 	public Element getRoot(){
 		return this.rootElement;
 	}
-	/*
-	 * This function is to get the full text of the document.
-	 */
 	public String getFullText(){
 		String fullContent = this.rootElement.getAttribute("value");
 		return fullContent;
 	}
-	/*
-	 * This function is to get the beginning of the document.
-	 */
 	public String getDocumentBeginning(){
 		Element element = getWSElement();
 		String documentBeginning = element.getAttribute("value");
 		return documentBeginning;
 	}
-	/*
-	 * This function is called to get the name of the court handling this case.
-	 */
 	public String getHandlingCourt(){
 		Element wsElement = getWSElement();
 		Element jbfyElement = (Element)wsElement.getElementsByTagName("JBFY").item(0);
@@ -70,9 +61,6 @@ public class WenshuXMLObject {
 		String courtLevel = fyjbElement.getAttribute("value");
 		return courtLevel;
 	}
-	/*
-	 * This function is called to get the area of the court.
-	 */
 	public String getCourtArea(){
 		Element wsElement = getWSElement();
 		Element xzqhpElement = (Element)wsElement.getElementsByTagName("XZQH_P").item(0);
@@ -82,80 +70,53 @@ public class WenshuXMLObject {
 		String courtArea = xzqhpElement.getAttribute("value");
 		return courtArea;
 	}
-	/*
-	 * This function is called to get the type of this document.
-	 */
 	public String getDocumentName(){
 		Element wsElement = getWSElement();
 		Element wsmcElement = (Element)wsElement.getElementsByTagName("WSMC").item(0);
 		String documentType = wsmcElement.getAttribute("value");
 		return documentType;
 	}
-	/*
-	 * This function is called to get the id of the case described in this document.
-	 */
 	public String getCaseID(){
 		Element wsElement = getWSElement();
 		Element ahElement = (Element)wsElement.getElementsByTagName("AH").item(0);
 		String caseID = ahElement.getAttribute("value");
 		return caseID;
 	}
-	/*
-	 * This function is called to get the year of the case described in this document.
-	 */
 	public String getCaseYear(){
 		Element wsElement = getWSElement();
 		Element landElement = (Element)wsElement.getElementsByTagName("LAND").item(0);
 		String caseYear = landElement.getAttribute("value");
 		return caseYear;
 	}
-	/*
-	 * This function is called to get the type of the case described in this document.
-	 */
 	public String getCaseType(){
 		Element wsElement = getWSElement();
 		Element ajxzElement = (Element)wsElement.getElementsByTagName("AJXZ").item(0);
 		String caseType= ajxzElement.getAttribute("value");
 		return caseType;
 	}
-	/*
-	 * This function is called to get the type of this document.
-	 */
 	public String getDocumentType(){
 		Element wsElement = getWSElement();
 		Element wszlElement = (Element)wsElement.getElementsByTagName("WSZL").item(0);
 		String documentType = wszlElement.getAttribute("value");
 		return documentType;
 	}
-	/*
-	 * This function is called to get the program of the case in this document.
-	 */
 	public String getCaseProgram(){
 		Element wsElement = getWSElement();
 		Element spcxElement = (Element)wsElement.getElementsByTagName("SPCX").item(0);
 		String caseProgram = spcxElement.getAttribute("value");
 		return caseProgram;
 	}
-	/*
-	 * This function is called to get the detailed type of the case in this document.
-	 */
 	public String getCaseDetailedType(){
 		Element wsElement = getWSElement();
 		Element ajlxElement = (Element)wsElement.getElementsByTagName("AJLX").item(0);
 		String caseDetailedType = ajlxElement.getAttribute("value");
 		return caseDetailedType;
 	}
-	/*
-	 * This function is called to get the node called "WS"
-	 */
 	private Element getWSElement(){
 		NodeList nodeList = this.rootElement.getElementsByTagName("WS");
 		Element element = (Element)nodeList.item(0);
 		return element;
 	}
-	/*
-	 * The result is splited by ";"
-	 */
 	public List<String> getParticipantList(){
 		List<String> list = new ArrayList<String>();
 		Element e0 = this.getSSCYRQJElement();
@@ -187,17 +148,11 @@ public class WenshuXMLObject {
 		}
 		return list;
 	}
-	/*
-	 * This function is called to get the node called "SSCYRQJ"
-	 */
 	private Element getSSCYRQJElement(){
 		NodeList nodeList = this.rootElement.getElementsByTagName("SSCYRQJ");
 		Element element = (Element)nodeList.item(0);
 		return element;
 	}
-	/*
-	 * This function is called to get the record of lawsuit.
-	 */
 	public String getLawsuitRecord(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("SSJL");
 		Node node = nodelist.item(0);
@@ -205,9 +160,6 @@ public class WenshuXMLObject {
 		result = result.substring(0, result.length()-1);
 		return result;
 	}
-	/*
-	 * This function is called to get the brief content of case
-	 */
 	public String getBriefCase(){
 		String lawsuitRecord = this.getLawsuitRecord();
 		String[] s = lawsuitRecord.split(";");
@@ -225,9 +177,6 @@ public class WenshuXMLObject {
 		}
 		return "No Case Brief";
 	}
-	/*
-	 * This function is called to get the basic condition of the case.
-	 */
 	public String getBasicConditionDescription(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("AJJBQK");
 		Node node = nodelist.item(0);
@@ -235,9 +184,6 @@ public class WenshuXMLObject {
 		result = result.substring(0, result.length()-1);
 		return result;
 	}
-	/*
-	 * This function is called to get the process of the analysis of the case.
-	 */
 	public String getAnalyzingProcess(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("CPFXGC");
 		Node node = nodelist.item(0);
@@ -267,9 +213,6 @@ public class WenshuXMLObject {
 		}
 		return result;
 	}
-	/*
-	 * This function is called to get the result of the lawsuit.
-	 */
 	public String getLawsuitResult(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("CPJG");
 		Node node = nodelist.item(0);
@@ -277,9 +220,6 @@ public class WenshuXMLObject {
 		result = result.substring(0, result.length()-1);
 		return result;
 	}
-	/*
-	 * This function is called to get the end of this document.
-	 */
 	public String getDocumentEnd(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("WW");
 		Node node = nodelist.item(0);
@@ -287,9 +227,35 @@ public class WenshuXMLObject {
 		result = result.substring(0, result.length()-1);
 		return result;
 	}
-	/*
-	 * This function is called to get the judger of the case in this document.
-	 */
+	public String getDate(){
+		String end = this.getDocumentEnd();
+		String[] s = end.split(";");
+		String year = getCaseYear();
+		String month = null;
+		String day = null;
+		for(int i = 0;i < s.length;i++){
+			if(s[i].startsWith("月:"))
+				month = s[i].substring(2);
+			if(s[i].startsWith("日:"))
+				day = s[i].substring(2);
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(year).append("/");
+		if(month == null){
+			sb.append("1").append("/");
+		}
+		else{
+			sb.append(month).append("/");
+		}
+		if(day == null){
+			sb.append("1");
+		}
+		else{
+			sb.append(day);
+		}
+		String date = sb.toString();
+		return date;
+	}
 	public List<String> getJudgerNames(){
 		String end = this.getDocumentEnd();
 		String[] s = end.split(";");
@@ -330,7 +296,8 @@ public class WenshuXMLObject {
 		wenshu.setDocumentType(this.getDocumentType());
 		wenshu.setFullText(this.getFullText());
 		wenshu.setCaseName(this.getDocumentBeginning());
-		wenshu.setLaws(this.getLawBasis());//TODO
+		wenshu.setCaseDate(this.getDate());
+		wenshu.setLaws(this.getLawBasis());
 		Map<String,String> map1 = new HashMap<String,String>();
 		String end = this.getDocumentEnd();
 		String[] s = end.split(";");
@@ -367,11 +334,6 @@ public class WenshuXMLObject {
 			}
 		}
 		wenshu.setParticipantInfo(map2);
-//		String[] e = this.filepath.split("\\");
-//		if(e.length == 0 || e == null)
-//			wenshu.setFilename(null);
-//		else
-//			wenshu.setFilename(e[e.length-1]);
 		return wenshu;
 	}
 }

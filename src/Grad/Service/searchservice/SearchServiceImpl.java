@@ -1,8 +1,5 @@
 package Grad.Service.searchservice;
-
 import java.io.IOException;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,33 +7,29 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.lucene.queryparser.classic.ParseException;
-
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseFilter;
 import Grad.Bean.CaseSearchRes;
 import Grad.Bean.SearchInfo;
 import Grad.Service.SearchService;
+import Grad.Service.dataservice.jdbc.MySQLConnection;
+import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
 import Grad.Service.nlp.tool.Keywords;
 import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
-
 public class SearchServiceImpl implements SearchService{
-	
 	private SearchFiles searchTool;
 	private Keywords keywords;
 	public SearchServiceImpl(){
 		this.searchTool = new SearchFiles();
 		this.keywords = new Keywords("/");
 	}
-	
 	public SearchServiceImpl(String path){
 		this.searchTool = new SearchFiles(path);
 		this.keywords = new Keywords(path);
 	}
-
 	@Override
 	public CaseSearchRes search(String input) {
 		String[] keyword = input.split(" ");
@@ -56,14 +49,13 @@ public class SearchServiceImpl implements SearchService{
 		CaseSearchRes result = this.change(list);
 		return result;
 	}
-
 	@Override
 	public CaseSearchRes search(SearchInfo info) {
 		List<SearchItem> items = new ArrayList<SearchItem>();
 		List<String> values = new ArrayList<String>();
 		String fullText = info.getFull_text();
 		String caseBrief = info.getBrief();
-		String caseName = info.getName_case();//TODO
+//		String caseName = info.getName_case();
 		String caseID = info.getNum();
 		String courtLevel = info.getCourtLevel();
 		String caseType = info.getCaseType();
@@ -87,9 +79,6 @@ public class SearchServiceImpl implements SearchService{
 		if(caseBrief.equals("")){
 			items.add(SearchItem.casebrief);
 			values.add(caseBrief);
-		}
-		if(caseName.equals("")){
-			//TODO
 		}
 		if(caseType.equals("")){
 			items.add(SearchItem.casetype);
@@ -124,7 +113,6 @@ public class SearchServiceImpl implements SearchService{
 		CaseSearchRes result = this.change(wenshus);
 		return result;
 	}
-	
 	private CaseSearchRes change(List<Wenshu> list){
 		CaseSearchRes result = new CaseSearchRes();
 		Map<String,Integer> keywordMap = new HashMap<String,Integer>();//按关键词筛选
@@ -132,24 +120,33 @@ public class SearchServiceImpl implements SearchService{
 		Map<String,Integer> courtLevelMap = new HashMap<String,Integer>();//按法院层级筛选
 		Map<String,Integer> yearMap = new HashMap<String,Integer>();//按年份筛选
 		Map<String,Integer> documentTypeMap = new HashMap<String,Integer>();//按文书类型筛选
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
 		int size = list.size();
 		for(int i = 0;i < size;i++){
 			Wenshu wenshu = list.get(i);
 			CaseBrief casebrief = new CaseBrief();
 			casebrief.setTitle(wenshu.getCaseName());
 			casebrief.setId(wenshu.getCaseID());
-			casebrief.setDate(wenshu.getCaseYear());//TODO
+			casebrief.setDate(wenshu.getCaseYear());
 			casebrief.setBrief(wenshu.getCaseBrief());
 			casebrief.setProcess_judgement(wenshu.getCaseProgram());
 			casebrief.setType_text(wenshu.getDocumentName());
-			casebrief.setSource("天津最高人民法院");//TODO
+			casebrief.setSource("天津最高人民法院");
 			result.addCaseBrief(casebrief);
-			StringBuilder keywordSB = new StringBuilder();
+			String keywords = connection.query("select keyword from keyword where caseid='"+wenshu.getCaseID()+"';").get(0);
+			StringBuilder sb = new StringBuilder();
+			String[] w = keywords.split(" ");
+			if(w.length > 6){
+				for(int j = 0;j < 6;j++)
+					sb.append(w[j]).append(" ");
+			}
+			keywords = sb.toString().trim();
+			casebrief.setCore(keywords);
 			Iterator<String> iterator = this.keywords.getKeywordsIterator();
 			while(iterator.hasNext()){
 				String key = iterator.next();
-				if(wenshu.getFullText().contains(key)){
-					keywordSB.append(key+" ");
+				if(keywords.contains(key)){
 					if(keywordMap.containsKey(key)){
 						int count = keywordMap.get(key)+1;
 						keywordMap.put(key, count);
@@ -159,9 +156,6 @@ public class SearchServiceImpl implements SearchService{
 					}
 				}
 			}
-			wenshu.setKeywords(keywordSB.toString().trim());
-			String keywords = wenshu.getKeywords();
-			casebrief.setCore(keywords);
 			String caseBrief = wenshu.getCaseBrief();
 			if(briefMap.containsKey(caseBrief)){
 				int count = briefMap.get(caseBrief)+1;
@@ -195,6 +189,7 @@ public class SearchServiceImpl implements SearchService{
 				documentTypeMap.put(documentType, 1);
 			}
 		}
+		connection.release();
 		//下面处理CaseFilter:关键词、案由、法院层级、年份、文书类型
 		int id = 0;
 		List<CaseFilter> listKeyword = new ArrayList<CaseFilter>();
@@ -252,7 +247,6 @@ public class SearchServiceImpl implements SearchService{
 			listType.add(new CaseFilter(id,name,count,false));
 		}
 		Collections.sort(listKeyword,new Comparator<CaseFilter>(){
-
 			@Override
 			public int compare(CaseFilter arg0, CaseFilter arg1) {
 				int count0 = arg0.getNum();
@@ -264,10 +258,8 @@ public class SearchServiceImpl implements SearchService{
 				else
 					return 0;
 			}
-			
 		});
 		Collections.sort(listBrief,new Comparator<CaseFilter>(){
-
 			@Override
 			public int compare(CaseFilter o1, CaseFilter o2) {
 				int count0 = o1.getNum();
@@ -279,10 +271,8 @@ public class SearchServiceImpl implements SearchService{
 				else
 					return 0;
 			}
-			
 		});
 		Collections.sort(listLevel,new Comparator<CaseFilter>(){
-
 			@Override
 			public int compare(CaseFilter o1, CaseFilter o2) {
 				int count0 = o1.getNum();
@@ -294,10 +284,8 @@ public class SearchServiceImpl implements SearchService{
 				else
 					return 0;
 			}
-			
 		});
 		Collections.sort(listYear,new Comparator<CaseFilter>(){
-
 			@Override
 			public int compare(CaseFilter o1, CaseFilter o2) {
 				int year1 = 0;
@@ -319,10 +307,8 @@ public class SearchServiceImpl implements SearchService{
 				else
 					return 0;
 			}
-			
 		});
 		Collections.sort(listType,new Comparator<CaseFilter>(){
-
 			@Override
 			public int compare(CaseFilter o1, CaseFilter o2) {
 				int count0 = o1.getNum();
@@ -334,7 +320,6 @@ public class SearchServiceImpl implements SearchService{
 				else
 					return 0;
 			}
-			
 		});
 		result.addCaseFilter(listKeyword);
 		result.addCaseFilter(listBrief);
@@ -343,7 +328,6 @@ public class SearchServiceImpl implements SearchService{
 		result.addCaseFilter(listType);
 		return result;
 	}
-
 	@Override
 	public CaseSearchRes search(SearchInfo info, CaseFilter filter) {
 		String filterName = filter.getName();

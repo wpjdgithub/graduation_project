@@ -5,4 +5,6 @@ import Grad.Bean.CaseUploadDetail;
 public interface CaseDataService {
 	public boolean insert(CaseUploadDetail c);
 	public List<CaseUploadDetail> getCaseUploadDetail(String username);
+	public List<String> getSimilarCases(String caseID);
+	public void deleteCases(String[] list);
 }
