@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import Grad.Bean.CaseBrief;
@@ -24,6 +25,8 @@ import Grad.Service.dataservice.CaseDataService;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.dataservice.impl.CaseDataServiceImpl;
 import Grad.Service.dataservice.impl.WenshuDataServiceImpl;
+import Grad.Service.dataservice.jdbc.MySQLConnection;
+import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
 import Grad.Service.nlp.tool.Keywords;
 import Grad.Service.wenshu.Wenshu;
 public class CaseServiceImpl implements CaseService{
@@ -56,17 +59,42 @@ public class CaseServiceImpl implements CaseService{
 			e.printStackTrace();
 		}
 		IWenshuReader reader;
+		String fileTitle;
 		if(fileType.equals("docx")){
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.docx);
+			fileTitle = filename.substring(0,filename.length()-5);
 		}
 		else if(fileType.equals("doc")){
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.doc);
+			fileTitle = filename.substring(0,filename.length()-4);
 		}
 		else{
 			reader = WenshuReaderTool.getWenshuReader(WenshuType.txt);
+			fileTitle = filename.substring(0,filename.length()-4);
 		}
 		String content = reader.read(this.path+"tmp\\upload.tmp");
-		return null;
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		Calendar c = Calendar.getInstance();
+		String date = ""+c.get(Calendar.YEAR)+"/0"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
+		connection.execute("insert into upload value('"+username+"','"+fileTitle+"','"+content+"','"+date+"');");
+		connection.release();
+		CaseDetail res = new CaseDetail();
+		ArrayList<CaseParagraph> paragraphs = new ArrayList<CaseParagraph>();
+		String[] p = content.split("\n");
+		for(String s: p){
+			Sentence sentence = new Sentence();
+			sentence.setValue(s);
+			sentence.setNeedExplain(false);
+			CaseParagraph paragraph = new CaseParagraph();
+			paragraph.addSentence(sentence);
+			paragraphs.add(paragraph);
+		}
+		res.setContext(paragraphs);
+		CaseBrief caseBrief = new CaseBrief();
+		caseBrief.setTitle(fileTitle);
+		res.setBrief(caseBrief);
+		return res;
 	}
 	@Override
 	public ArrayList<CaseMinMes> getCaseByUser(String username) {

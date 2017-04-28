@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserSerivice{
 			String[] s = line.split(" ");
 			CaseMinMes mes = new CaseMinMes();
 			mes.setId(s[0]);
-			mes.setTitle(s[1]);
-			mes.setUploadDate(s[2]);
+			mes.setTitle(s[0]);
+			mes.setUploadDate(s[1]);
 			result.add(mes);
 		}
 		return result;
