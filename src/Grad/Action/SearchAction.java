@@ -57,10 +57,28 @@ public class SearchAction extends BaseAction {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public String filter() throws ServletException, IOException {
+		if(input!=null){
+			getResult(3);
+			System.out.println("筛选了一次数据");
+		}
+		
+		getFirstPage();
+		
+		return SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
 	private void getResult(int kind){
 		init();
+		CaseSearchRes res;
+		if(kind==1)
+			res = getResByNor();
+		else if(kind==2)
+			res = getResByAdv();
+		else
+			res = getResByFil();
 		
-		CaseSearchRes res = kind==1?getResByNor():getResByAdv();
 		List<CaseBrief> caselist = res.getBrief();
 		List<CaseFilter> filter = res.getFilter();
 		checkFilter(filter);
@@ -82,6 +100,22 @@ public class SearchAction extends BaseAction {
 	private CaseSearchRes getResByAdv(){
 		System.out.println(info.getCourtLevel());
 		return service.search(info);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private CaseSearchRes getResByFil(){
+		List<CaseBrief> brief = (List<CaseBrief>) session.get("AllData");
+		List<CaseFilter> filter = (List<CaseFilter>) session.get("AllFilter");
+		CaseSearchRes res = new CaseSearchRes(brief, filter);
+		
+		CaseFilter filter_choosed = new CaseFilter();
+		for(CaseFilter f:filter){
+			if(input.equals(String.valueOf(f.getId()))){
+				filter_choosed = f;
+			}
+		}
+		//System.out.println(filter_choosed.getName());
+		return service.search(res, filter_choosed);
 	}
 	
 	@SuppressWarnings("unchecked")

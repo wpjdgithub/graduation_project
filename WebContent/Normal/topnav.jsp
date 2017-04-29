@@ -14,6 +14,12 @@
 		border-style:solid;border-width:1px;border-color:#DCDCDC;
 		padding:3px 2px 3px 2px;
 	}
+	div.nav_logo {
+		position:absolute; left:44%;top:25px; width:12%;height:auto;
+	}
+	div.nav_title {
+		position:absolute; left:40%;top:220px; width:20%;height:auto;
+	}
 	div.mysearch {
 		position:absolute; width:100%; height:auto; top:150px; text-align:center;
 	}
@@ -59,6 +65,16 @@
 			</a>&nbsp&nbsp
 		</s:else>
 		<a href="<%=request.getContextPath() +"/index.jsp" %>">返回主页</a>
+	</div>
+	
+	<div class='nav_logo'>
+		<img src="<%=request.getContextPath() +"/img/logo.jpg" %>" 
+			width="100%" height="100%" />
+	</div>
+	
+	<div class="nav_title">
+		<img src="<%=request.getContextPath() +"/img/nav_title.png" %>" 
+			width="100%" height="100%"/>
 	</div>
 	
 	<div class="mysearch">

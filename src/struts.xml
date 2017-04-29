@@ -62,6 +62,10 @@
 			<result name="success">/Search/search.jsp</result>
 		</action>
 		
+		<action name="search_filter" class="SearchAction" method="filter">
+			<result name="success">/Search/search.jsp</result>
+		</action>
+		
 	</package>
 	
 	<package name="Case" namespace="/Case" extends="struts-default">

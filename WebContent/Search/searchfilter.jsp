@@ -80,8 +80,7 @@
 		
 		$(".main-title").on("click",".path",function(){
 			var input = $(this).parent().attr("id");
-			
-			location.href= "<%=request.getContextPath() +"/Search/search_normal?input=" %>"+input;
+			location.href= "<%=request.getContextPath() +"/Search/search_filter?input=" %>"+input;
 		});
 		
 	});
