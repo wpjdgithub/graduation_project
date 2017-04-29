@@ -114,7 +114,7 @@
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
 				<li class="mycontext_law law">
-					<s:property value="title"></s:property>
+					<a><s:property value="title"></s:property></a>
 				</li>
 			</s:iterator>
 		</ul>
@@ -124,7 +124,7 @@
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedCase">
 				<li class="mycontext_law recase" id="<s:property value="id"></s:property>" >
-					<s:property value="title"></s:property>
+					<a><s:property value="title"></s:property></a>
 				</li>
 			</s:iterator>
 		</ul>

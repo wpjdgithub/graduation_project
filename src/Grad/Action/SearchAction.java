@@ -48,7 +48,7 @@ public class SearchAction extends BaseAction {
 	
 	public String advanced() throws ServletException, IOException {
 		init();
-		System.out.println(this.info.toString());
+
 		getResult(2);
 		
 		getFirstPage();
@@ -84,7 +84,7 @@ public class SearchAction extends BaseAction {
 		checkFilter(filter);
 		
 		for(CaseFilter f:filter){
-			System.out.println(f.getId()+" "+f.getName());
+			System.out.println(f.getId()+" "+f.getName()+" "+f.getNum());
 		}
 		
 		session.put("AllData", caselist);
@@ -98,7 +98,6 @@ public class SearchAction extends BaseAction {
 	}
 	
 	private CaseSearchRes getResByAdv(){
-		System.out.println(info.getCourtLevel());
 		return service.search(info);
 	}
 	
@@ -131,10 +130,10 @@ public class SearchAction extends BaseAction {
 	
 	private void checkFilter(List<CaseFilter> list){
 		for(CaseFilter filter:list){
-			String[] fl = filter.getName().split("/");
 			boolean hasChild = false;
+			int len = filter.getName().split("/").length;
 			for(CaseFilter cs:list){
-				if(cs.getName().startsWith(filter.getName())&&cs.getName().length()>filter.getName().length()){
+				if(cs.getName().startsWith(filter.getName())&&cs.getName().split("/").length>len){
 					hasChild = true;
 					break;
 				}
