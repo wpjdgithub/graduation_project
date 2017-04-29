@@ -19,7 +19,7 @@
 <style type="text/css">
 	div.mysearchfilter {
 		position:absolute; left:15%; top:370px; width:15%; height:auto;
-		
+		border-style:solid;border-width:2px 0 0 0;border-color:#DCDCDC;
 		z-index:-1;
 	}
 	div.mysearchresult {
@@ -161,14 +161,22 @@
 		});
 		
 		$("#sort1").click(function(){
-			sort_choose(1);
+			var sort = $(this).html();
+			if(sort=="法院层级↑")
+				alert(5);
+			else
+				alert(6);
+			
 		});
 		
 		$("#sort2").click(function(){
-			sort_choose(2);
+			var sort = $(this).html();
+			if(sort=="裁判日期↓")
+				alert(5);
+			else
+				alert(6);
 		});
 		
-		window.scrollTo(0,document.body.scrollHeight);//页面底部
 		
 		$(function(){
 			//根据总页数判断，如果小于5页，则显示所有页数，如果大于5页，则显示5页。根据当前点击的页数生成

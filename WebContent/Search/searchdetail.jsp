@@ -8,23 +8,23 @@
 
 <style type="text/css">
 	div.mycontext {
-		position:absolute; top:30%; width:100%; height:auto;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		position:absolute; top:7%; width:100%; height:auto;
 	}
 	div.mycontext_title {
 		position:absolute; left:15%; width:54%; height:150px;
-		text-align:center; padding:0 4% 0 4%;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		text-align:center; padding:0 4% 0 4%; background-color:#FFFFFF;
+		border-style:solid;border-width:1px 1px 0 1px;border-color:#DCDCDC;
 	}
 	div.mycontext_main {
 		position:absolute; top:150px; left:15%; width:54%; height:auto;
-		padding:2% 4% 2% 4%;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		padding:2% 4% 2% 4%; background-color:#FFFFFF;
+		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
 	}
 	
 	div.mycontext_relation {
 		position:absolute; left:70%; width:15%; height:auto;
-		border-style:solid;border-width:2px;border-color:#DCDCDC;
+		border-style:solid;border-width:1px;border-color:#DCDCDC;
+		background-color:#FFFFFF;
 	}
 	div.mycontext_outline {
 		width:100%; min-height:100px;
@@ -42,10 +42,10 @@
 	ul.mycontext_law {
 		padding:0 0 5px 10px;
 		margin:0 10px 10px 10px;
-		font-size:12px;
+		font-size:12px; 
 	}
 	li.mycontext_law {
-		margin:6px 0 0 0;
+		margin:6px 0 0 0; 
 	}
 	div.mycontext_recommend {
 		width:100%; height:auto;
@@ -63,7 +63,7 @@
 
 <title>判决详情</title>
 </head>
-<body>
+<body style="background-color:#FFEFD5">
 <%@ include file="/Normal/nav.jsp" %>
 <div class="mycontext">
 	<div class="mycontext_title">
@@ -114,7 +114,7 @@
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
 				<li class="mycontext_law law">
-					<a><s:property value="title"></s:property></a>
+					<a style="color:#000000"><s:property value="title"></s:property></a>
 				</li>
 			</s:iterator>
 		</ul>
@@ -124,7 +124,7 @@
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedCase">
 				<li class="mycontext_law recase" id="<s:property value="id"></s:property>" >
-					<a><s:property value="title"></s:property></a>
+					<a style="color:#000000"><s:property value="title"></s:property></a>
 				</li>
 			</s:iterator>
 		</ul>

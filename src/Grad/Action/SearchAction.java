@@ -33,10 +33,12 @@ public class SearchAction extends BaseAction {
 	private SearchService service;
 
 
+	@SuppressWarnings("unchecked")
 	public String normal() throws ServletException, IOException {
 		
 		if(input!=null){
 			getResult(1);
+			session.put("input", input);
 			System.out.println("获取了一次数据");
 		}
 		

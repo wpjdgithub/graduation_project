@@ -84,7 +84,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" id="detailbutton">高级检索</button>
                     </span>
-                    <input id="text_input" type="text" class="form-control" >
+                    <input id="text_input" type="text" class="form-control" value="<s:property value="#session.input"></s:property>">
                 </div>
             </div>
 			<div class="mysubmit">

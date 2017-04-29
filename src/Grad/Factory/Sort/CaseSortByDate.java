@@ -12,7 +12,7 @@ public class CaseSortByDate implements Comparator<CaseBrief>{
 	@Override
 	public int compare(CaseBrief o1, CaseBrief o2) {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy"); 
 		try {
 			Date d1 = sdf.parse(o1.getDate());
 			Date d2 = sdf.parse(o2.getDate());
