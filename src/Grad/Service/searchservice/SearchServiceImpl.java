@@ -573,6 +573,7 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public CaseSearchRes search(CaseSearchRes res0, CaseFilter filter) {
 		String path = filter.getName();
+		System.out.println(path);
 		String[] e = path.split("/");
 		String key = e[0];
 		String value = e[1];
@@ -689,7 +690,7 @@ public class SearchServiceImpl implements SearchService{
 		int c3 = 300;
 		while(iterator.hasNext()){
 			String key3 = iterator.next();
-			int count = courtLevelMap.get(key);
+			int count = courtLevelMap.get(key3);
 			String name = "按法院层级筛选/"+key3;
 			listLevel.get(0).increase(count);
 			listLevel.add(new CaseFilter(id+(c3++),name,count,false));
