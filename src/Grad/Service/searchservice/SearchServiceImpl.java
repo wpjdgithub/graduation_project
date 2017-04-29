@@ -570,4 +570,236 @@ public class SearchServiceImpl implements SearchService{
 		res.addCaseFilter(listType);
 		return res;
 	}
+	@Override
+	public CaseSearchRes search(CaseSearchRes res0, CaseFilter filter) {
+		String path = filter.getName();
+		String[] e = path.split("/");
+		String key = e[0];
+		String value = e[1];
+		List<CaseBrief> briefs = res0.getBrief();
+		Iterator<CaseBrief> iter = briefs.iterator();
+		while(iter.hasNext()){
+			CaseBrief cb = iter.next();
+			if(key.equals("按关键词筛选")){
+				if(!cb.getCore().contains(value)){
+					iter.remove();
+				}
+			}
+			else if(key.equals("按案由筛选")){
+				if(!cb.getBrief().equals(value)){
+					iter.remove();
+				}
+			}
+			else if(key.equals("按法院层级筛选")){
+				if(!cb.getCourtLevel().equals(value)){
+					iter.remove();
+				}
+			}
+			else if(key.equals("按年份筛选")){
+				if(!cb.getYear().equals(value)){
+					iter.remove();
+				}
+			}
+			else if(key.equals("按文书类型筛选")){
+				if(!cb.getType_text().equals(value)){
+					iter.remove();
+				}
+			}
+		}
+		System.out.println("剩余个数："+briefs.size());
+		Map<String,Integer> keywordMap = new HashMap<String,Integer>();//按关键词筛选
+		Map<String,Integer> briefMap = new HashMap<String,Integer>();//按案由筛选
+		Map<String,Integer> courtLevelMap = new HashMap<String,Integer>();//按法院层级筛选
+		Map<String,Integer> yearMap = new HashMap<String,Integer>();//按年份筛选
+		Map<String,Integer> documentTypeMap = new HashMap<String,Integer>();//按文书类型筛选
+		int size = briefs.size();
+		for(int i = 0;i < size;i++){
+			CaseBrief brief = briefs.get(i);
+			String core = brief.getCore();
+			if(core != null && !core.equals("")){
+				String[] words = core.split(" ");
+				for(String word:words){
+					if(keywordMap.containsKey(word)){
+						int count = keywordMap.get(word)+1;
+						keywordMap.put(word, count);
+					}
+					else{
+						keywordMap.put(word, 1);
+					}
+				}			
+			}
+			if(briefMap.containsKey(brief.getBrief())){
+				int count = briefMap.get(brief.getBrief())+1;
+				briefMap.put(brief.getBrief(), count);
+			}
+			else{
+				briefMap.put(brief.getBrief(), 1);
+			}
+			if(courtLevelMap.containsKey(brief.getCourtLevel())){
+				int count = courtLevelMap.get(brief.getCourtLevel())+1;
+				courtLevelMap.put(brief.getCourtLevel(),count);
+			}
+			else{
+				courtLevelMap.put(brief.getCourtLevel(),1);
+			}
+			if(yearMap.containsKey(brief.getYear())){
+				int count = yearMap.get(brief.getYear())+1;
+				yearMap.put(brief.getYear(), count);
+			}
+			else{
+				yearMap.put(brief.getYear(), 1);
+			}
+			if(documentTypeMap.containsKey(brief.getType_text())){
+				int count = documentTypeMap.get(brief.getType_text())+1;
+				documentTypeMap.put(brief.getType_text(), count);
+			}
+			else{
+				documentTypeMap.put(brief.getType_text(), 1);
+			}
+		}
+		//下面处理CaseFilter:关键词、案由、法院层级、年份、文书类型
+		int id = 0;
+		List<CaseFilter> listKeyword = new ArrayList<CaseFilter>();
+		listKeyword.add(new CaseFilter(id,"按关键词筛选/",0,true));
+		Iterator<String> iterator = keywordMap.keySet().iterator();
+		int c1 = 100;
+		while(iterator.hasNext()){
+			String key1 = iterator.next();
+			int count = keywordMap.get(key1);
+			String name = "按关键词筛选/"+key1;
+			listKeyword.get(0).increase(count);
+			listKeyword.add(new CaseFilter(id+(c1++),name,count,false));
+		}
+		id++;
+		List<CaseFilter> listBrief = new ArrayList<CaseFilter>();
+		listBrief.add(new CaseFilter(id,"按案由筛选/",0,true));
+		iterator = briefMap.keySet().iterator();
+		int c2 = 200;
+		while(iterator.hasNext()){
+			String key2 = iterator.next();
+			int count = briefMap.get(key2);
+			String name = "按案由筛选/"+key2;
+			listBrief.get(0).increase(count);
+			listBrief.add(new CaseFilter(id+(c2++),name,count,false));
+		}
+		id++;
+		List<CaseFilter> listLevel = new ArrayList<CaseFilter>();
+		listLevel.add(new CaseFilter(id,"按法院层级筛选/",0,true));
+		iterator = courtLevelMap.keySet().iterator();
+		int c3 = 300;
+		while(iterator.hasNext()){
+			String key3 = iterator.next();
+			int count = courtLevelMap.get(key);
+			String name = "按法院层级筛选/"+key3;
+			listLevel.get(0).increase(count);
+			listLevel.add(new CaseFilter(id+(c3++),name,count,false));
+		}
+		id++;
+		List<CaseFilter> listYear = new ArrayList<CaseFilter>();
+		listYear.add(new CaseFilter(id,"按年份筛选/",0,true));
+		iterator = yearMap.keySet().iterator();
+		int c4 = 400;
+		while(iterator.hasNext()){
+			String key4 = iterator.next();
+			int count = yearMap.get(key4);
+			String name = "按年份筛选/"+key4;
+			listYear.get(0).increase(count);
+			listYear.add(new CaseFilter(id+(c4++),name,count,false));
+		}
+		id++;
+		List<CaseFilter> listType = new ArrayList<CaseFilter>();
+		listType.add(new CaseFilter(id,"按文书类型筛选/",0,true));
+		iterator = documentTypeMap.keySet().iterator();
+		int c5 = 500;
+		while(iterator.hasNext()){
+			String key5 = iterator.next();
+			int count = documentTypeMap.get(key5);
+			String name = "按文书类型筛选/"+key5;
+			listType.get(0).increase(count);
+			listType.add(new CaseFilter(id+(c5++),name,count,false));
+		}
+		Collections.sort(listKeyword,new Comparator<CaseFilter>(){
+			@Override
+			public int compare(CaseFilter arg0, CaseFilter arg1) {
+				int count0 = arg0.getNum();
+				int count1 = arg1.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+		});
+		Collections.sort(listBrief,new Comparator<CaseFilter>(){
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+		});
+		Collections.sort(listLevel,new Comparator<CaseFilter>(){
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+		});
+		Collections.sort(listYear,new Comparator<CaseFilter>(){
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int year1 = 0;
+				try{
+					year1 = Integer.parseInt(o1.getName().split("/")[1].trim());
+				} catch (Exception e){
+					return -1;
+				}
+				int year2 = 0;
+				try{
+					year2 = Integer.parseInt(o2.getName().split("/")[1].trim());
+				} catch(Exception e){
+					return 1;
+				}
+				if(year1 > year2)
+					return -1;
+				else if(year1 < year2)
+					return 1;
+				else
+					return 0;
+			}
+		});
+		Collections.sort(listType,new Comparator<CaseFilter>(){
+			@Override
+			public int compare(CaseFilter o1, CaseFilter o2) {
+				int count0 = o1.getNum();
+				int count1 = o2.getNum();
+				if(count0 > count1)
+					return -1;
+				else if(count0 < count1)
+					return 1;
+				else
+					return 0;
+			}
+		});
+		CaseSearchRes res = new CaseSearchRes();
+		res.setBrief(briefs);
+		res.addCaseFilter(listKeyword);
+		res.addCaseFilter(listBrief);
+		res.addCaseFilter(listLevel);
+		res.addCaseFilter(listYear);
+		res.addCaseFilter(listType);
+		return res;
+	}
 }
