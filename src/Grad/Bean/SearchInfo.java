@@ -1,21 +1,15 @@
 package Grad.Bean;
-
 import java.io.Serializable;
-
 import java.util.Date;
-
 import Grad.Factory.Level_court;
 import Grad.Factory.Process_judgement;
 import Grad.Factory.Type_case;
 import Grad.Factory.Type_text;
-
 public class SearchInfo implements Serializable{
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 515103577292914262L;
-	
 	private String full_text; // 全文
 	private String brief; // 案由
 	private String name_case; // 案件名称
@@ -30,9 +24,14 @@ public class SearchInfo implements Serializable{
 	private String judex; // 审判官
 	private String litigant; // 当事人
 	private String legistative_authority; // 法律依据
-	
 	public SearchInfo(){}
-	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("fulltext:").append("\""+full_text+"\",");
+		sb.append("brief:").append("\""+brief+"\",");
+		String result = sb.toString();
+		return result;
+	}
 	public String getFull_text() {
 		return full_text;
 	}
@@ -164,21 +163,16 @@ public class SearchInfo implements Serializable{
 	public void setLegistative_authority(String legistative_authority) {
 		this.legistative_authority = legistative_authority;
 	}
-
 	public Date getSdate() {
 		return sdate;
 	}
-
 	public void setSdate(Date sdate) {
 		this.sdate = sdate;
 	}
-
 	public Date getEdate() {
 		return edate;
 	}
-
 	public void setEdate(Date edate) {
 		this.edate = edate;
 	}
-	
 }

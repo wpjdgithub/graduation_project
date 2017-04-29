@@ -64,43 +64,43 @@ public class SearchServiceImpl implements SearchService{
 		String judger = info.getJudex();
 		String litigant = info.getLitigant();
 		String laws = info.getLegistative_authority();
-		if(caseID.equals("")){
+		if(!caseID.equals("")){
 			items.add(SearchItem.caseid);
 			values.add(caseID);
 		}
-		if(courtLevel.equals("")){
+		if(!courtLevel.equals("")){
 			items.add(SearchItem.courtlevel);
 			values.add(courtLevel);
 		}
-		if(fullText.equals("")){
+		if(!fullText.equals("")){
 			items.add(SearchItem.fulltext);
 			values.add(fullText);
 		}
-		if(caseBrief.equals("")){
+		if(!caseBrief.equals("")){
 			items.add(SearchItem.casebrief);
 			values.add(caseBrief);
 		}
-		if(caseType.equals("")){
+		if(!caseType.equals("")){
 			items.add(SearchItem.casetype);
 			values.add(caseType);
 		}
-		if(caseProgram.equals("")){
+		if(!caseProgram.equals("")){
 			items.add(SearchItem.caseprogram);
 			values.add(caseProgram);
 		}
-		if(documentType != null){
+		if(!documentType.equals("")){
 			items.add(SearchItem.documenttype);
 			values.add(documentType);
 		}
-		if(judger != null){
+		if(!judger.equals("")){
 			items.add(SearchItem.judgers);
 			values.add(judger);
 		}
-		if(litigant != null){
+		if(!litigant.equals("")){
 			items.add(SearchItem.participants);
 			values.add(litigant);
 		}
-		if(laws != null){
+		if(!laws.equals("")){
 			items.add(SearchItem.laws);
 			values.add(laws);
 		}

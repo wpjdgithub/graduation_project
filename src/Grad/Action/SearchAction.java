@@ -48,7 +48,7 @@ public class SearchAction extends BaseAction {
 	
 	public String advanced() throws ServletException, IOException {
 		init();
-		
+		System.out.println(this.info.toString());
 		getResult(2);
 		
 		getFirstPage();
