@@ -3,6 +3,8 @@ package Grad.Action;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,8 @@ import com.google.gson.Gson;
 
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseFilter;
+import Grad.Factory.Sort.CaseSortByDate;
+import Grad.Factory.Sort.CaseSortByLevel;
 
 @Controller
 public class CaseManageAction extends BaseAction {
@@ -36,12 +40,10 @@ public class CaseManageAction extends BaseAction {
 	
 	@SuppressWarnings("unchecked")
 	public String sort() throws ServletException,IOException{
-		ArrayList<CaseBrief> caselist = (ArrayList<CaseBrief>) session.get("AllData");
-		caselist.remove(1);
-		session.put("AllData", caselist);
-		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
-		pageNum = 1;
+		getSortedRes();
+		
 		getThisPage();
+		
 		return SUCCESS;
 	}
 	
@@ -87,6 +89,28 @@ public class CaseManageAction extends BaseAction {
 			Gson gson = new Gson();
 			FilterResult = gson.toJson(result);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void getSortedRes(){
+		List<CaseBrief> caselist = (List<CaseBrief>) session.get("AllData");
+		
+		if(sortType==null){
+		}else if(sortType.equals("1")){
+			Collections.sort(caselist, new CaseSortByLevel());
+		}else if(sortType.equals("2")){
+			Collections.sort(caselist, new CaseSortByLevel());
+			Collections.reverse(caselist);
+		}else if(sortType.equals("3")){
+			Collections.sort(caselist, new CaseSortByDate());
+		}else if(sortType.equals("4")){
+			Collections.sort(caselist, new CaseSortByDate());
+			Collections.reverse(caselist);
+		}else{}
+		
+		session.put("AllData", caselist);
+		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
+		pageNum = 1;
 	}
 	
 

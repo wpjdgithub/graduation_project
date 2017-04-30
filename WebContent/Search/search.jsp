@@ -162,19 +162,24 @@
 		
 		$("#sort1").click(function(){
 			var sort = $(this).html();
-			if(sort=="法院层级↑")
-				alert(5);
-			else
-				alert(6);
-			
+			if(sort=="法院层级↑"){
+				$(this).html("法院层级↓");
+				sort_choose(1);
+			}else{
+				$(this).html("法院层级↑");
+				sort_choose(2);
+			}
 		});
 		
 		$("#sort2").click(function(){
 			var sort = $(this).html();
-			if(sort=="裁判日期↓")
-				alert(5);
-			else
-				alert(6);
+			if(sort=="裁判日期↓"){
+				$(this).html("裁判日期↑");
+				sort_choose(3);
+			}else{
+				$(this).html("裁判日期↓");
+				sort_choose(4);
+			}
 		});
 		
 		
@@ -317,7 +322,7 @@
 			$.ajax({
 				type:"post",
 				url:"<%=request.getContextPath() +"/CaseManage/case_sort" %>",
-				data:{"sort":sort},
+				data:{"sortType":sort},
 				dataType:"json",
 				success:function(data){
 					show_case(data);

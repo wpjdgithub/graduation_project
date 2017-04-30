@@ -113,8 +113,8 @@
 		<h5 class="h5_title"><b>相关法律依据</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
-				<li class="mycontext_law law">
-					<a style="color:#000000"><s:property value="title"></s:property></a>
+				<li class="mycontext_law law" style="color:#000000">
+					<s:property value="title"></s:property>
 				</li>
 			</s:iterator>
 		</ul>
