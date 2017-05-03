@@ -7,8 +7,18 @@ import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.mysql.cj.api.xdevapi.Result;
+
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseMinMes;
@@ -73,12 +83,6 @@ public class CaseServiceImpl implements CaseService{
 			fileTitle = filename.substring(0,filename.length()-4);
 		}
 		String content = reader.read(this.path+"tmp\\upload.tmp");
-		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
-		connection.connect();
-		Calendar c = Calendar.getInstance();
-		String date = ""+c.get(Calendar.YEAR)+"/0"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
-		connection.execute("insert into upload value('"+username+"','"+fileTitle+"','"+content+"','"+date+"');");
-		connection.release();
 		CaseDetail res = new CaseDetail();
 		ArrayList<CaseParagraph> paragraphs = new ArrayList<CaseParagraph>();
 		String[] p = content.split("\n");
@@ -92,9 +96,150 @@ public class CaseServiceImpl implements CaseService{
 		}
 		res.setContext(paragraphs);
 		CaseBrief caseBrief = new CaseBrief();
-		caseBrief.setTitle(fileTitle);
+		String courtname = this.getCourtName(content);
+		String brief = this.getCaseBrief(content);
+		String wenshuType = this.getWenshuType(content);
+		String caseid = this.getCaseID(content);
+		String title = courtname+" "+wenshuType+" "+caseid;
+		caseBrief.setType_text(wenshuType);
+		caseBrief.setCourt(courtname);
+		caseBrief.setBrief(brief);
+		caseBrief.setTitle(title);
 		res.setBrief(caseBrief);
+		res.setRelatedLaw(this.getRelatedLaws(content));
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		Calendar c = Calendar.getInstance();
+		String date = ""+c.get(Calendar.YEAR)+"/0"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
+		connection.execute("insert into upload value('"+username+"','"+title+"','"+content+"','"+date+"','"+courtname
+				+"','"+brief+"','"+wenshuType+"','"+caseid+"','"+res.getRelatedLaw().toString()+"','"+"default');");
+		connection.release();
 		return res;
+	}
+	private ArrayList<CaseRelation> getRelatedLaws(String content){
+		ArrayList<CaseRelation> res = new ArrayList<CaseRelation>();
+		String sql = "select name from law;";
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		List<String> queryResult = connection.query(sql);
+		connection.release();
+		Map<Integer,String> temp = new HashMap<Integer,String>();
+		for(String lawname: queryResult){
+			int index = content.indexOf(lawname);
+			if(index != -1){
+				temp.put(index, lawname);
+			}
+		}
+		Pattern pattern = Pattern.compile("(第[^条]*条)");
+		Matcher matcher = pattern.matcher(content);
+		List<String> matches = new ArrayList<String>();
+		while(matcher.find()){
+			matches.add(matcher.group());
+		}
+		for(String match: matches){
+			int index = content.indexOf(match);
+			if(index != -1){
+				temp.put(index, match);
+			}
+		}
+		List<Map.Entry<Integer, String>> list = 
+				new ArrayList<Map.Entry<Integer, String>>(temp.entrySet());
+		Collections.sort(list,new Comparator<Map.Entry<Integer,String>>(){
+			@Override
+			public int compare(Entry<Integer, String> arg0, Entry<Integer, String> arg1) {
+				int i0 = arg0.getKey();
+				int i1 = arg1.getKey();
+				if(i0 > i1)
+					return 1;
+				else if(i0 < i1)
+					return -1;
+				else
+					return 0;
+			}
+		});
+		String lawname = null;
+		for(Map.Entry<Integer, String> entry: list){
+			String s = entry.getValue();
+			if(s.startsWith("第")){
+				if(s.length() > 10)
+					continue;
+				String line = lawname+" "+s;
+				CaseRelation relation = new CaseRelation();
+				relation.setId(line);
+				relation.setTitle(line);
+				res.add(relation);
+			}
+			else{
+				lawname = s;
+			}
+		}
+		return res;
+	}
+	private String getCourtName(String content){
+		String result = null;
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		String sql = "select name from court;";
+		List<String> courts = connection.query(sql);
+		for(String court: courts){
+			if(content.contains(court)){
+				result = court;
+				break;
+			}
+		}
+		connection.release();
+		return result;
+	}
+	private String getCaseBrief(String content){
+		String result = null;
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		String sql = "select name,type from brief;";
+		List<String> list = new ArrayList<String>();
+		List<String> briefs = connection.query(sql);
+		for(String line: briefs){
+			String[] s = line.split(" ");
+			if(list.contains(s[1])){
+				if(!s[0].equals(s[1])){
+					result = s[0];
+					break;
+				}
+			}
+			else{
+				list.add(s[0]);
+			}
+		}
+		if(result == null){
+			result = list.get(0);
+		}
+		connection.release();
+		return result;
+	}
+	private String getWenshuType(String content){
+		if(content.contains("民 事 判 决 书")){
+			return "民事判决书";
+		}
+		else if(content.contains("民 事 裁 定 书")){
+			return "民事裁定书";
+		}
+		else if(content.contains("民 事 调 解 书")){
+			return "民事调解书";
+		}
+		else if(content.contains("刑 事 判 决 书")){
+			return "刑事判决书";
+		}
+		else if(content.contains("决 定 书")){
+			return "决定书";
+		}
+		else{
+			return "default";
+		}
+	}
+	private String getCaseID(String content){
+		int start = content.indexOf("（");
+		int end = content.indexOf("号");
+		String result = content.substring(start, end+1);
+		return result;
 	}
 	@Override
 	public ArrayList<CaseMinMes> getCaseByUser(String username) {

@@ -29,4 +29,7 @@ public class CaseRelation implements Serializable {
 	}
 	
 	public CaseRelation(){}
+	public String toString(){
+		return title;
+	}
 }

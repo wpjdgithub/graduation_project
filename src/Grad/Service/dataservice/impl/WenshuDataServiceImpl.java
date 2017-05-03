@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import org.apache.lucene.queryparser.classic.ParseException;
 import Grad.Service.dataservice.WenshuDataService;
+import Grad.Service.dataservice.jdbc.MySQLConnection;
+import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
 import Grad.Service.searchservice.lucene.SearchFiles;
 import Grad.Service.searchservice.lucene.SearchItem;
 import Grad.Service.wenshu.Wenshu;
@@ -83,5 +85,32 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 			e.printStackTrace();
 		}
 		return wenshu;
+	}
+	public static void main(String[] args){
+		WenshuDataService wenshuDataService = new WenshuDataServiceImpl();
+		List<Wenshu> wenshus = wenshuDataService.getAllWenshuData();
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		for(Wenshu wenshu: wenshus){
+			List<String> res0 = connection.query("select keyword from keyword where caseid='"+wenshu.getCaseID()+"';");
+			String keywords;
+			if(res0.size() == 0){
+				keywords = "审理";
+			}
+			else{
+				keywords = res0.get(0);
+			}
+			String sql = "insert into wenshu value('"+wenshu.getCaseID()+"','"
+					+ wenshu.getCaseName() +"','"+wenshu.getCourtName()+"','"
+					+ wenshu.getCourtLevel()+"','"+wenshu.getDocumentType()+"','"
+					+wenshu.getDocumentName()+"','"+wenshu.getCaseYear()+"','"
+					+wenshu.getCaseType()+"','"+wenshu.getCaseProgram()+"','"
+					+wenshu.getCaseBrief()+"','"+wenshu.getCaseDate()+"','"
+					+wenshu.getLawsString()+"','"+wenshu.getParticipantInfoString()+"','"
+					+wenshu.getFullText()+"','"+keywords+"','"+wenshu.getCourtArea()+"');";
+			connection.execute(sql);
+			System.out.println(wenshu.getCaseID());
+		}
+		connection.release();
 	}
 }

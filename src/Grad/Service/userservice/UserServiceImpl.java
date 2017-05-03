@@ -56,9 +56,14 @@ public class UserServiceImpl implements UserSerivice{
 			String line = list.get(i);
 			String[] s = line.split(" ");
 			CaseMinMes mes = new CaseMinMes();
-			mes.setId(s[0]);
-			mes.setTitle(s[0]);
-			mes.setUploadDate(s[1]);
+			StringBuilder sb = new StringBuilder();
+			for(int j = 0;j < s.length-1;j++){
+				sb.append(s[j]).append(" ");
+			}
+			String title = sb.toString().trim();
+			mes.setId(title);
+			mes.setTitle(title);
+			mes.setUploadDate(s[s.length-1]);
 			result.add(mes);
 		}
 		return result;
