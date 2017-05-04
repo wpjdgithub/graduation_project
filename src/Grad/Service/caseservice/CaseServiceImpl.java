@@ -37,8 +37,11 @@ import Grad.Service.dataservice.impl.CaseDataServiceImpl;
 import Grad.Service.dataservice.impl.WenshuDataServiceImpl;
 import Grad.Service.dataservice.jdbc.MySQLConnection;
 import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
+import Grad.Service.nlp.WenshuAnalyzingService;
+import Grad.Service.nlp.impl.WenshuAnalyzingServiceImpl;
 import Grad.Service.nlp.tool.Keywords;
 import Grad.Service.wenshu.Wenshu;
+import tfidf.DistanceCalc;
 public class CaseServiceImpl implements CaseService{
 	private CaseDataService caseDataService;
 	private String path;
@@ -107,6 +110,7 @@ public class CaseServiceImpl implements CaseService{
 		caseBrief.setTitle(title);
 		res.setBrief(caseBrief);
 		res.setRelatedLaw(this.getRelatedLaws(content));
+		res.setRelatedCase(this.getRelatedCases(caseid, brief, content));
 		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
 		connection.connect();
 		Calendar c = Calendar.getInstance();
@@ -114,6 +118,58 @@ public class CaseServiceImpl implements CaseService{
 		connection.execute("insert into upload value('"+username+"','"+title+"','"+content+"','"+date+"','"+courtname
 				+"','"+brief+"','"+wenshuType+"','"+caseid+"','"+res.getRelatedLaw().toString()+"','"+"default');");
 		connection.release();
+		return res;
+	}
+	private ArrayList<CaseRelation> getRelatedCases(String caseid,String casebrief,String content){
+		Wenshu wenshu = new Wenshu();
+		wenshu.setCaseID(caseid);
+		wenshu.setCaseBrief(casebrief);
+		wenshu.setFullText(content);
+		WenshuAnalyzingService service = new WenshuAnalyzingServiceImpl();
+		DistanceCalc calc = new DistanceCalc();
+		Map<String,Double> map = service.calculateTFIDF(wenshu);
+		String sql1 = "select caseid,tfidf from tfidf where casebrief='"+casebrief+"';";
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		List<String> list1 = connection.query(sql1);
+		connection.release();
+		Map<String,Double> distMap = new HashMap<String,Double>();
+		for(String s: list1){
+			String[] e = s.split(" ");
+			String id = e[0];
+			Map<String,Double> vec = new HashMap<String,Double>();
+			String[] v = e[1].split(";");
+			System.out.println(e[1]);
+			for(int i =0;i < v.length;i++){
+				String[] v0 = v[i].split("=");
+				vec.put(v0[0], Double.parseDouble(v0[1]));
+			}
+			double dist = calc.calculateCosDistance(map, vec);
+			distMap.put(id, dist);
+		}
+		List<Map.Entry<String, Double>> list = 
+				new ArrayList<Map.Entry<String,Double>>(distMap.entrySet());
+		Collections.sort(list,new Comparator<Map.Entry<String, Double>>(){
+			@Override
+			public int compare(Entry<String, Double> arg0, Entry<String, Double> arg1) {
+				double v0 = arg0.getValue();
+				double v1 = arg1.getValue();
+				if(v0 < v1)
+					return 1;
+				else if(v0 > v1)
+					return -1;
+				else
+					return 0;
+			}
+		});
+		ArrayList<CaseRelation> res = new ArrayList<CaseRelation>();
+		for(int i = 0;i < 5;i++){
+			CaseRelation relation = new CaseRelation();
+			String v = list.get(i).getKey();
+			relation.setId(v);
+			relation.setTitle(v);
+			res.add(relation);
+		}
 		return res;
 	}
 	private ArrayList<CaseRelation> getRelatedLaws(String content){
@@ -161,9 +217,9 @@ public class CaseServiceImpl implements CaseService{
 		for(Map.Entry<Integer, String> entry: list){
 			String s = entry.getValue();
 			if(s.startsWith("第")){
-				if(s.length() > 10)
+				if(s.length() > 20)
 					continue;
-				String line = lawname+" "+s;
+				String line = lawname+" "+s.substring(1, s.length()-1);
 				CaseRelation relation = new CaseRelation();
 				relation.setId(line);
 				relation.setTitle(line);
@@ -199,18 +255,12 @@ public class CaseServiceImpl implements CaseService{
 		List<String> briefs = connection.query(sql);
 		for(String line: briefs){
 			String[] s = line.split(" ");
-			if(list.contains(s[1])){
-				if(!s[0].equals(s[1])){
-					result = s[0];
-					break;
-				}
-			}
-			else{
+			if(content.contains(s[0])){
 				list.add(s[0]);
 			}
 		}
 		if(result == null){
-			result = list.get(0);
+			result = list.get(list.size()-1);
 		}
 		connection.release();
 		return result;
@@ -238,6 +288,9 @@ public class CaseServiceImpl implements CaseService{
 	private String getCaseID(String content){
 		int start = content.indexOf("（");
 		int end = content.indexOf("号");
+		if(start > end){
+			start = content.indexOf("(");
+		}
 		String result = content.substring(start, end+1);
 		return result;
 	}
