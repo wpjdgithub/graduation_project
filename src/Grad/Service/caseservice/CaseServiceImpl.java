@@ -116,7 +116,7 @@ public class CaseServiceImpl implements CaseService{
 		Calendar c = Calendar.getInstance();
 		String date = ""+c.get(Calendar.YEAR)+"/0"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DAY_OF_MONTH);
 		connection.execute("insert into upload value('"+username+"','"+title+"','"+content+"','"+date+"','"+courtname
-				+"','"+brief+"','"+wenshuType+"','"+caseid+"','"+res.getRelatedLaw().toString()+"','"+"default');");
+				+"','"+brief+"','"+wenshuType+"','"+caseid+"','"+res.getRelatedLaw().toString()+"','"+res.getRelatedCase().toString()+"');");
 		connection.release();
 		return res;
 	}
@@ -308,6 +308,9 @@ public class CaseServiceImpl implements CaseService{
 	}
 	@Override
 	public CaseDetail getCaseByTitle(String id) {
+		if(id.contains(" ")){
+			return this.getCaseUploadedByTitle(id);
+		}
 		WenshuDataService wenshuDataService = new WenshuDataServiceImpl(this.path);
 		Wenshu wenshu = wenshuDataService.getWenshuByCaseID(id);
 		CaseDetail caseDetail = new CaseDetail();
@@ -329,7 +332,7 @@ public class CaseServiceImpl implements CaseService{
 		caseBrief.setTitle(wenshu.getCaseName());
 		caseBrief.setType_text(wenshu.getDocumentType());
 		caseDetail.setBrief(caseBrief);
-		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu);
+		ArrayList<CaseParagraph> paragraphs = this.fullText2List(wenshu.getFullText());
 		caseDetail.setContext(paragraphs);
 		ArrayList<CaseRelation> relatedCases = this.getSimilarCases(wenshu);
 		caseDetail.setRelatedCase(relatedCases);
@@ -337,9 +340,53 @@ public class CaseServiceImpl implements CaseService{
 		caseDetail.setRelatedLaw(relatedLaws);
 		return caseDetail;
 	}
-	private ArrayList<CaseParagraph> fullText2List(Wenshu wenshu){
+	private CaseDetail getCaseUploadedByTitle(String id){
+		CaseDetail res = new CaseDetail();
+		CaseBrief brief = new CaseBrief();
+		brief.setTitle(id);
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		String sql = "select courtname,brief,type,caseid from upload where casetitle='"+id+"';";
+		String queryResult = connection.query(sql).get(0);
+		String[] e = queryResult.split(" ");
+		brief.setCourt(e[0]);
+		brief.setBrief(e[1]);
+		brief.setType_text(e[2]);
+		brief.setId(e[3]);
+		//获取正文内容
+		String content = connection.query("select casecontext from upload where casetitle='"+id+"';").get(0);
+		ArrayList<CaseParagraph> paragraphs = this.fullText2List(content);
+		//获取相关法律
+		String relatedLawList = connection.query("select relatedlaws from upload where casetitle='"+id+"';").get(0);
+		relatedLawList = relatedLawList.substring(1,relatedLawList.length()-1);//去除首尾的[]
+		String[] relatedLaw = relatedLawList.split(",");
+		ArrayList<CaseRelation> relatedLaws = new ArrayList<CaseRelation>();
+		for(int i = 0;i < relatedLaw.length;i++){
+			CaseRelation relation = new CaseRelation();
+			relation.setId(relatedLaw[i].trim());
+			relation.setTitle(relatedLaw[i].trim());
+			relatedLaws.add(relation);
+		}
+		//获取相似案件
+		String relatedCaseList = connection.query("select relatedcases from upload where casetitle='"+id+"';").get(0);
+		relatedCaseList = relatedCaseList.substring(1,relatedCaseList.length()-1);
+		String[] relatedCase = relatedCaseList.split(",");
+		ArrayList<CaseRelation> relatedCases = new ArrayList<CaseRelation>();
+		for(int i = 0;i < relatedCase.length;i++){
+			CaseRelation relation = new CaseRelation();
+			relation.setId(relatedCase[i].trim());
+			relation.setTitle(relatedCase[i].trim());
+			relatedCases.add(relation);
+		}
+		connection.release();
+		res.setBrief(brief);
+		res.setContext(paragraphs);
+		res.setRelatedLaw(relatedLaws);
+		res.setRelatedCase(relatedCases);
+		return res;
+	}
+	private ArrayList<CaseParagraph> fullText2List(String fullText){
 		ArrayList<CaseParagraph> list = new ArrayList<CaseParagraph>();
-		String fullText = wenshu.getFullText();
 		String[] lines = fullText.split("\n");
 		if(lines == null){
 			CaseParagraph paragraph = new CaseParagraph();
@@ -349,6 +396,8 @@ public class CaseServiceImpl implements CaseService{
 			return list;
 		}
 		for(int i = 0;i < lines.length;i++){
+			if(lines[i].equals(""))
+				continue;
 			char startChar = lines[i].charAt(0);
 			int temp = (int)startChar;
 			if(temp != 13 && temp != 32){

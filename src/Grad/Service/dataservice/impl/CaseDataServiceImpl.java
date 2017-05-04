@@ -55,6 +55,7 @@ public class CaseDataServiceImpl implements CaseDataService{
 	public void deleteCases(String[] list) {
 		for(String caseid:list){
 			String sql = "delete from upload where casetitle='"+caseid+"';";
+			System.out.println(sql);
 			connection.execute(sql);
 		}
 	}
