@@ -82,8 +82,8 @@
 					</tr>
 					<s:iterator value="caselist">
 						<tr>
-							<td><input id="<s:property value="id"></s:property>" type="checkbox" class="case_checkbox"></td>
-							<td><s:property value="title"></s:property></td>
+							<td><input type="checkbox" class="case_checkbox"></td>
+							<td id="<s:property value="id"></s:property>" class="case_title"><s:property value="title"></s:property></td>
 							<td><s:property value="uploadDate"></s:property></td>
 						</tr>
 					</s:iterator>
@@ -160,6 +160,11 @@
 			$("#fileName").show();
 			$("#decide").show();
 			$("#fileName")[0].value = $("#file")[0].value;
+		});
+		
+		$(".case_title").click(function(){
+			var id = $(this).attr("id");
+			window.open("<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id);
 		});
 		
 		$("#all").click(function(){

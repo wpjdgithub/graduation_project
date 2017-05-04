@@ -120,6 +120,12 @@
 		</action>
 		
 	</package>
+	
+	<package name="Index" namespace="/Index" extends="struts-default">
+		<action name="index" class="IndexAction" method="index">
+			<result name="success">/index.jsp</result>
+		</action>
+	</package>
 
 </struts>
 

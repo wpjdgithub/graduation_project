@@ -157,7 +157,7 @@
 
 		$("#resultlist").on("click",".case_title",function(){
 			var id = $(this).attr("id");
-			window.location.href="<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id;
+			window.open("<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id);
 		});
 		
 		$("#sort1").click(function(){

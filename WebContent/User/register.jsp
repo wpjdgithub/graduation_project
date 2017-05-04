@@ -9,7 +9,10 @@
 <script src="<%=request.getContextPath() +"/jquery.js" %>"></script>
 <Style type="text/css">
 	div.myregister {
-		position:absolute; top:150px; left:40%; width:30%;
+		position:absolute; top:150px; left:30%; width:40%;
+		padding-left:9%; padding-top:3%; padding-bottom:3%;
+		border-style:dotted;border-width:2px;border-color:#DCDCDC;
+		background-color:#FFEFD5;
 	}
 </Style>
 <title>注册页面</title>
