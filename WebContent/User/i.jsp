@@ -82,7 +82,7 @@
 					</tr>
 					<s:iterator value="caselist">
 						<tr>
-							<td><input type="checkbox" class="case_checkbox"></td>
+							<td><input type="checkbox" class="case_checkbox" id="<s:property value="id"></s:property>" ></td>
 							<td id="<s:property value="id"></s:property>" class="case_title"><s:property value="title"></s:property></td>
 							<td><s:property value="uploadDate"></s:property></td>
 						</tr>
