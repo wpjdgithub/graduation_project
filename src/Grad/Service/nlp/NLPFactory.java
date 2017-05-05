@@ -13,7 +13,7 @@ public class NLPFactory {
 		tfidf.loadIDF();
 		tfidf.loadTFIDF();
 		nlpService = new NLPServiceImpl();
-		wenshuAnalyzingService = new WenshuAnalyzingServiceImpl(tfidf);
+		wenshuAnalyzingService = new WenshuAnalyzingServiceImpl();
 	}
 	public static TFIDF getTFIDFService(){
 		return tfidf;
