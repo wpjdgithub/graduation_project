@@ -88,7 +88,7 @@
 		<div class="mysearchres">
 			<div class="mymestitle">
 				<strong>
-					<a id="<s:property value="id"></s:property>" class="case_title">
+					<a id="<s:property value="id"></s:property>" class="case_title" style="cursor:pointer;">
 						<s:property value="title"></s:property>
 					</a>
 				</strong>

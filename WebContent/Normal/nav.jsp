@@ -24,7 +24,7 @@
 				<s:property value="#session.username"></s:property>
 			</a>&nbsp&nbsp
 		</s:else>
-		<a href="<%=request.getContextPath() +"/index.jsp" %>">返回主页</a>
+		<a href="<%=request.getContextPath() +"/Index/index" %>">返回主页</a>
 	</div>
 </div>
 

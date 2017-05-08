@@ -113,7 +113,7 @@
 		<h5 class="h5_title"><b>相关法律依据</b></h5>
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedLaw">
-				<li class="mycontext_law law" style="color:#000000">
+				<li class="mycontext_law law" style="color:#000000;cursor:pointer;">
 					<s:property value="title"></s:property>
 				</li>
 			</s:iterator>
@@ -124,7 +124,7 @@
 		<ul class="mycontext_law">
 			<s:iterator value="detail.relatedCase">
 				<li class="mycontext_law recase" id="<s:property value="id"></s:property>" >
-					<a style="color:#000000"><s:property value="title"></s:property></a>
+					<a style="color:#000000;cursor:pointer;"><s:property value="title"></s:property></a>
 				</li>
 			</s:iterator>
 		</ul>
