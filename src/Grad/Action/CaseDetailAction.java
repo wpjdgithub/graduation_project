@@ -25,7 +25,7 @@ public class CaseDetailAction extends BaseAction {
 	private CaseDetail detail;
 	
 	public String access() throws ServletException, IOException {
-		service = new CaseServiceImpl(request.getRealPath("/"));
+		init();
 		System.out.println(id);
 		detail = service.getCaseByTitle(id);
 		
@@ -46,5 +46,9 @@ public class CaseDetailAction extends BaseAction {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	private void init(){
+		service = new CaseServiceImpl(request.getRealPath("/"));
 	}
 }

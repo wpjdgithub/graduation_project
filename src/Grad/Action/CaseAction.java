@@ -49,10 +49,6 @@ public class CaseAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	private void init(){
-		service = new CaseServiceImpl(request.getRealPath("/"));
-	}
-	
 	public File getFile1() {
 		return file1;
 	}
@@ -88,4 +84,7 @@ public class CaseAction extends BaseAction{
 		this.detail = detail;
 	}
 	
+	private void init(){
+		service = new CaseServiceImpl(request.getRealPath("/"));
+	}
 }

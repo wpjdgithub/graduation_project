@@ -144,9 +144,6 @@ public class SearchAction extends BaseAction {
 		}
 	}
 	
-	private void init(){
-		service = new SearchServiceImpl(request.getRealPath("/"));
-	}
 	
 
 	public String getInput() {
@@ -163,5 +160,9 @@ public class SearchAction extends BaseAction {
 
 	public void setInfo(SearchInfo info) {
 		this.info = info;
+	}
+	
+	private void init(){
+		service = new SearchServiceImpl(request.getRealPath("/"));
 	}
 }
