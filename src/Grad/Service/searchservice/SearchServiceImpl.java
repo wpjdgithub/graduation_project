@@ -32,22 +32,38 @@ public class SearchServiceImpl implements SearchService{
 	}
 	@Override
 	public CaseSearchRes search(String input) {
-		String[] keyword = input.split(" ");
-		int length = keyword.length;
-		List<SearchItem> items = new ArrayList<SearchItem>();
-		List<String> values = new ArrayList<String>();
-		for(int i = 0;i < length;i++){
-			items.add(SearchItem.fulltext);
-			values.add(keyword[i]);
+		if(input.startsWith("中华人民共和国")){
+			List<SearchItem> items = new ArrayList<SearchItem>();
+			List<String> values = new ArrayList<String>();
+			items.add(SearchItem.laws);
+			values.add(input);
+			List<Wenshu> list;
+			try {
+				list = this.searchTool.search(items, values);
+			} catch (IOException | ParseException e) {
+				list = new ArrayList<Wenshu>();
+			}
+			CaseSearchRes result = this.change(list);
+			return result;
 		}
-		List<Wenshu> list;
-		try {
-			list = this.searchTool.search(items, values);
-		} catch (IOException | ParseException e) {
-			list = new ArrayList<Wenshu>();
+		else{
+			String[] keyword = input.split(" ");
+			int length = keyword.length;
+			List<SearchItem> items = new ArrayList<SearchItem>();
+			List<String> values = new ArrayList<String>();
+			for(int i = 0;i < length;i++){
+				items.add(SearchItem.fulltext);
+				values.add(keyword[i]);
+			}
+			List<Wenshu> list;
+			try {
+				list = this.searchTool.search(items, values);
+			} catch (IOException | ParseException e) {
+				list = new ArrayList<Wenshu>();
+			}
+			CaseSearchRes result = this.change(list);
+			return result;
 		}
-		CaseSearchRes result = this.change(list);
-		return result;
 	}
 	@Override
 	public CaseSearchRes search(SearchInfo info) {
@@ -107,6 +123,19 @@ public class SearchServiceImpl implements SearchService{
 		List<Wenshu> wenshus;
 		try {
 			wenshus = this.searchTool.search(items, values);
+			if(info.getSdate()!=null){
+				int syear = info.getSdate().getYear();
+				int eyear = info.getEdate().getYear();
+				System.out.println(syear+" "+eyear);
+				Iterator<Wenshu> iter = wenshus.iterator();
+				while(iter.hasNext()){
+					Wenshu wenshu = iter.next();
+					int year = Integer.parseInt(wenshu.getCaseYear());
+					if(!(year <= eyear && year >= syear)){
+						iter.remove();
+					}
+				}
+			}
 		} catch (IOException | ParseException e) {
 			wenshus = new ArrayList<Wenshu>();
 		}

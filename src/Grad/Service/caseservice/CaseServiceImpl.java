@@ -139,7 +139,6 @@ public class CaseServiceImpl implements CaseService{
 			String id = e[0];
 			Map<String,Double> vec = new HashMap<String,Double>();
 			String[] v = e[1].split(";");
-			System.out.println(e[1]);
 			for(int i =0;i < v.length;i++){
 				String[] v0 = v[i].split("=");
 				vec.put(v0[0], Double.parseDouble(v0[1]));
@@ -174,27 +173,29 @@ public class CaseServiceImpl implements CaseService{
 	}
 	private ArrayList<CaseRelation> getRelatedLaws(String content){
 		ArrayList<CaseRelation> res = new ArrayList<CaseRelation>();
-		String sql = "select name from law;";
-		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
-		connection.connect();
-		List<String> queryResult = connection.query(sql);
-		connection.release();
 		Map<Integer,String> temp = new HashMap<Integer,String>();
-		for(String lawname: queryResult){
-			int index = content.indexOf(lawname);
-			if(index != -1){
+		Pattern pattern = Pattern.compile("(《[^》]*》)");
+		Matcher matcher = pattern.matcher(content);
+		List<String> lawnames = new ArrayList<String>();
+		while(matcher.find()){
+			lawnames.add(matcher.group());
+		}
+		for(String lawname: lawnames){
+			int index = 0;
+			while((index = content.indexOf(lawname, index+1)) != -1){
 				temp.put(index, lawname);
 			}
 		}
-		Pattern pattern = Pattern.compile("(第[^条]*条)");
-		Matcher matcher = pattern.matcher(content);
+		//匹配出条数的位置
+		pattern = Pattern.compile("(第[^第条]*条)");
+		matcher = pattern.matcher(content);
 		List<String> matches = new ArrayList<String>();
 		while(matcher.find()){
 			matches.add(matcher.group());
 		}
 		for(String match: matches){
-			int index = content.indexOf(match);
-			if(index != -1){
+			int index = 0;
+			while((index = content.indexOf(match, index+1)) != -1){
 				temp.put(index, match);
 			}
 		}
@@ -213,6 +214,7 @@ public class CaseServiceImpl implements CaseService{
 					return 0;
 			}
 		});
+		System.out.println(list);
 		String lawname = null;
 		for(Map.Entry<Integer, String> entry: list){
 			String s = entry.getValue();
@@ -226,7 +228,7 @@ public class CaseServiceImpl implements CaseService{
 				res.add(relation);
 			}
 			else{
-				lawname = s;
+				lawname = s.substring(1,s.length()-1);
 			}
 		}
 		return res;
