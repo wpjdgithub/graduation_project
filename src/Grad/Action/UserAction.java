@@ -97,14 +97,16 @@ public class UserAction extends BaseAction{
 	}
 	
 	private void getCompareMes(){
-		CaseCompare c1 = new CaseCompare("1","bt1",12);
+		/*CaseCompare c1 = new CaseCompare("1","bt1",12);
 		CaseCompare c2 = new CaseCompare("1","bt2",24);
 		CaseCompare c3 = new CaseCompare("1","bt3",48);
-		List<CaseCompare> compare_user = new ArrayList<CaseCompare>();
-		compare_user.add(c1);
+		*/
+		String username = (String) session.get("username");
+		List<CaseCompare> compare_user = service.getCompareMes(username, id, Integer.valueOf(type));
+		/*compare_user.add(c1);
 		compare_user.add(c2);
 		compare_user.add(c3);
-		
+		*/
 		Gson gson = new Gson();
 		compare = gson.toJson(compare_user);
 	}

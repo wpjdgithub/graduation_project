@@ -45,16 +45,18 @@ public class CaseDetailAction extends BaseAction {
 	}
 	
 	private void getJudgeCompare(){
-		CaseJudgeCompare c1 = new CaseJudgeCompare("（2008）东民初字第2614号","2",1,"自由","2003");
+		/*CaseJudgeCompare c1 = new CaseJudgeCompare("（2008）东民初字第2614号","2",1,"自由","2003");
 		CaseJudgeCompare c2 = new CaseJudgeCompare("1","3",2,"平等","2004");
 		CaseJudgeCompare c3 = new CaseJudgeCompare("1","4",3,"博爱","2005");
-		List<CaseJudgeCompare> res = new ArrayList<CaseJudgeCompare>();
-		res.add(c1);
+		*/
+		List<CaseJudgeCompare> res = service.getJudgeMes(id);
+		/*res.add(c1);
 		res.add(c1);
 		res.add(c1);
 		res.add(c2);
 		res.add(c2);
 		res.add(c3);
+		*/
 		choose_compare(res);
 		year_mes(res);
 	}
