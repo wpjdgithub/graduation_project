@@ -2,13 +2,14 @@ package Grad.Action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
 
 import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseJudgeCompare;
-
+import Grad.Bean.CaseOccur;
 import Grad.Service.CaseService;
 import Grad.Service.caseservice.CaseServiceImpl;
 
@@ -27,6 +28,12 @@ public class CaseDetailAction extends BaseAction {
 	private List<CaseJudgeCompare> sometimes_like;
 	private List<CaseJudgeCompare> seldom_like;
 	
+	private int always;
+	private int sometimes;
+	private int seldom;
+	
+	private String year_data;
+	
 	public String access() throws ServletException, IOException {
 		init();
 		System.out.println(id);
@@ -43,9 +50,13 @@ public class CaseDetailAction extends BaseAction {
 		CaseJudgeCompare c3 = new CaseJudgeCompare("1","4",3,"博爱","2005");
 		List<CaseJudgeCompare> res = new ArrayList<CaseJudgeCompare>();
 		res.add(c1);
+		res.add(c1);
+		res.add(c1);
+		res.add(c2);
 		res.add(c2);
 		res.add(c3);
 		choose_compare(res);
+		year_mes(res);
 	}
 	
 	private void choose_compare(List<CaseJudgeCompare> list){
@@ -63,6 +74,34 @@ public class CaseDetailAction extends BaseAction {
 				seldom_like.add(c);
 			}
 		}
+		
+		always = always_like.size();
+		sometimes = sometimes_like.size();
+		seldom = seldom_like.size();
+	}
+	
+	private void year_mes(List<CaseJudgeCompare> list){
+		List<CaseOccur> year_list = new ArrayList<CaseOccur>();
+		int year = 2003;
+		for(int i=0;i<14;i++){
+			year_list.add(new CaseOccur(String.valueOf(year+i),0));
+		}
+		for(CaseJudgeCompare c:list){
+			for(CaseOccur y:year_list){
+				if(y.getDate()!=null && y.getDate().equals(c.getDate())){
+					y.setNum(y.getNum()+1);
+					break;
+				}
+			}
+		}
+		
+		Collections.sort(year_list);
+		year_data = "";
+		for(CaseOccur o:year_list){
+			year_data = year_data + String.valueOf(o.getNum())+",";
+		}
+		
+		System.out.println(year_data);
 	}
 
 	public CaseDetail getDetail() {
@@ -107,6 +146,38 @@ public class CaseDetailAction extends BaseAction {
 
 	public void setSeldom_like(List<CaseJudgeCompare> seldom_like) {
 		this.seldom_like = seldom_like;
+	}
+
+	public int getAlways() {
+		return always;
+	}
+
+	public void setAlways(int always) {
+		this.always = always;
+	}
+
+	public int getSometimes() {
+		return sometimes;
+	}
+
+	public void setSometimes(int sometimes) {
+		this.sometimes = sometimes;
+	}
+
+	public int getSeldom() {
+		return seldom;
+	}
+
+	public void setSeldom(int seldom) {
+		this.seldom = seldom;
+	}
+
+	public String getYear_data() {
+		return year_data;
+	}
+
+	public void setYear_data(String year_data) {
+		this.year_data = year_data;
 	}
 	
 	

@@ -109,7 +109,7 @@ public class SearchAction extends BaseAction {
 	private String getPie_data(List<CaseFilter> filter){
 		int size = filter.size();
 		if(size==0){
-			return "['暂无相关数据',2]";
+			return "[['本次检索无相关数据',1]]";
 		}
 		
 		if(size>5){

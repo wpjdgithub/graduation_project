@@ -21,6 +21,7 @@ import com.mysql.cj.api.xdevapi.Result;
 
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseDetail;
+import Grad.Bean.CaseJudgeCompare;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.CaseParagraph;
 import Grad.Bean.CaseRelation;
@@ -443,5 +444,10 @@ public class CaseServiceImpl implements CaseService{
 	public boolean deleteCase(String[] list) {
 		this.caseDataService.deleteCases(list);
 		return true;
+	}
+	@Override
+	public List<CaseJudgeCompare> getJudgeMes(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

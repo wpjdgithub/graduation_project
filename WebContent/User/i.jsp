@@ -166,9 +166,7 @@
 				<s:select list="caselist" listKey="id" listValue="id" id="caselist_choose" onchange="choosecase(this.value)"
 					headerKey="0" headerValue="--请选择--"></s:select>
 			</div>
-			<div class="myanalyse_chart1" id="chart_1">
-				
-			</div>
+			<div class="myanalyse_chart1" id="chart_1"></div>
 			<div class="myanalyse_chart2" id="chart_2"></div>
 		</div>
 	</div>
@@ -176,7 +174,84 @@
 	
 <script>
 	function choosecase(value){
-		alert(value);
+		$.ajax({
+			async: false,
+			type:"post",
+			url:"<%=request.getContextPath() +"/User/user_compare" %>",
+			data:{"id":value, "type":1},
+			dataType:"json",
+			success:function(data){
+				show_chart(data,"#chart_1");
+			},
+			error:function(){
+				alert("网络异常，请稍后再试");
+			}
+		});
+		
+		$.ajax({
+			async: false,
+			type:"post",
+			url:"<%=request.getContextPath() +"/User/user_compare" %>",
+			data:{"id":value, "type":2},
+			dataType:"json",
+			success:function(data){
+				show_chart(data, "#chart_2");
+			},
+			error:function(){
+				alert("网络异常，请稍后再试");
+			}
+		});
+	}
+	
+	function show_chart(data, ele){
+		var obj = eval('(' + data + ')');
+		var title = [];
+		var rate = [];
+		$.each(obj,function(i, value){
+			title.push(value.title);
+			rate.push(value.rate);
+		});
+		
+		showchart(ele,title,rate);
+	}
+	
+	function showchart(ele ,title, rate){
+		$(ele).highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: '个人案例相似度对比'
+	        },
+	        xAxis: {
+	            categories: title,
+	            crosshair: true
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: '相似度'
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        series: [{
+	            name: '案件名称',
+	            data: rate
+	        }]
+	    });
 	}
 	
 	$(document).ready(function(){
@@ -220,55 +295,6 @@
 			window.location.href = "<%=request.getContextPath()+"/Case/case_remove?id_list="%>"+chk_value;
 		});
 
-			$('#chart_1').highcharts({
-		        chart: {
-		            type: 'column'
-		        },
-		        title: {
-		            text: '个人案例相似度对比'
-		        },
-		        xAxis: {
-		            categories: [
-		                '一月',
-		                '二月',
-		                '三月',
-		                '四月',
-		                '五月',
-		                '六月',
-		                '七月',
-		                '八月',
-		                '九月',
-		                '十月',
-		                '十一月',
-		                '十二月'
-		            ],
-		            crosshair: true
-		        },
-		        yAxis: {
-		            min: 0,
-		            title: {
-		                text: '相似度'
-		            }
-		        },
-		        tooltip: {
-		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-		            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-		            footerFormat: '</table>',
-		            shared: true,
-		            useHTML: true
-		        },
-		        plotOptions: {
-		            column: {
-		                pointPadding: 0.2,
-		                borderWidth: 0
-		            }
-		        },
-		        series: [{
-		            name: '案件名称',
-		            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-		        }]
-		    });
 	});
 </script>
 </body>

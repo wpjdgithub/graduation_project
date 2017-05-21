@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Controller;
 
+import com.google.gson.Gson;
+
 import Grad.Bean.CaseCompare;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
@@ -26,6 +28,8 @@ public class UserAction extends BaseAction{
 	private UserInfo user;
 	private String result;
 	private List<CaseMinMes> caselist;
+	private String id;
+	private String type;
 	
 	private String compare;
 	
@@ -86,6 +90,9 @@ public class UserAction extends BaseAction{
 	
 	public String compare(){
 		getCompareMes();
+		System.out.println(id);
+		System.out.println(type+"type");
+		System.out.println(compare);
 		return SUCCESS;
 	}
 	
@@ -98,7 +105,8 @@ public class UserAction extends BaseAction{
 		compare_user.add(c2);
 		compare_user.add(c3);
 		
-		
+		Gson gson = new Gson();
+		compare = gson.toJson(compare_user);
 	}
 	
 	private void init(){
@@ -135,6 +143,22 @@ public class UserAction extends BaseAction{
 
 	public void setComparer(String compare) {
 		this.compare = compare;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

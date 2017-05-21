@@ -23,6 +23,9 @@
 		position:absolute; left:2%; width:40%; height:90%; top:5%;
 		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
 	}
+	div.myanalyselike_chart {
+		position:absolute; left:10%; width:80%; height:90%; top:5%;
+	}
 	div.myanalyse_table {
 		position:absolute; left:45%; width:52%; height:90%; top:5%;
 		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
@@ -88,6 +91,7 @@
 	<ul id="myTab" class="nav nav-tabs">
 		<li class="active"><a href="#mydetail" data-toggle="tab">案例详情</a></li>
 		<li><a href="#myanalyse" data-toggle="tab">判决解析</a></li>
+		<li><a href="#myanalyselike" data-toggle="tab">案发解析</a></li>
 	</ul>
 	</div>
 	<div id="myTabContent" class="tab-content">
@@ -167,7 +171,7 @@
 			<ul id="myTab" class="nav nav-tabs">
 				<li class="active"><a href="#always_like" data-toggle="tab">极其相似</a></li>
 				<li><a href="#sometimes_like" data-toggle="tab">不完全相似</a></li>
-				<li><a href="#seldom_like" data-toggle="tab">极其不相似</a></li>
+				<li><a href="#seldom_like" data-toggle="tab">不相似</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">
 				<div class="tab-pane fade in active" id="always_like">
@@ -220,6 +224,12 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="tab-pane fade" id="myanalyselike">
+	<div class="myanalyse_main">
+		<div class="myanalyselike_chart" id="like_chart"></div>
 	</div>
 </div>
 
@@ -279,8 +289,43 @@ $(function (){
 	    series: [{
 	        type: 'pie',
 	        name: '判决结果占比',
-	        data: [['相似判决',12],['不相似判决',8],['不相似判决',8]]
+	        data: [['极其相似',<s:property value="always"></s:property>],
+	               ['不完全相似',<s:property value="sometimes"></s:property>],
+	               ['不相似',<s:property value="seldom"></s:property>]]
 	    }]
 	});
+   	
+   	$('#like_chart').highcharts({
+   		credits: {
+	        enabled:false
+		},
+   		title: {
+   	        text: '不同年份的相似案例数量',
+   	    },
+   	    xAxis: {
+   	        categories: ['2003','2004','2005','2006','2007','2008','2009','2010','2011','2012'
+   	                  ,'2013','2014','2015','2016']
+   	    },
+   	    yAxis: {
+   	        title: {
+   	            text: '案发数量'
+   	        },
+   	        plotLines: [{
+   	            value: 0,
+   	            width: 1,
+   	            color: '#808080'
+   	        }]
+   	    },
+   	    legend: {
+   	        layout: 'vertical',
+   	        align: 'right',
+   	        verticalAlign: 'middle',
+   	        borderWidth: 0
+   	    },
+   	    series: [{
+   	        name: '相似案例',
+   	        data: [ <s:property value="year_data"></s:property> ]
+   	    }]
+   	});
 });
 </script>
