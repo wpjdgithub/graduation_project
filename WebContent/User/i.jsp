@@ -181,7 +181,7 @@
 			data:{"id":value, "type":1},
 			dataType:"json",
 			success:function(data){
-				show_chart(data,"#chart_1");
+				show_chart(data,"#chart_1","案例的直接相似度对比");
 			},
 			error:function(){
 				alert("网络异常，请稍后再试");
@@ -195,7 +195,7 @@
 			data:{"id":value, "type":2},
 			dataType:"json",
 			success:function(data){
-				show_chart(data, "#chart_2");
+				show_chart(data, "#chart_2", "案例的相似案例的一致性对比");
 			},
 			error:function(){
 				alert("网络异常，请稍后再试");
@@ -203,7 +203,7 @@
 		});
 	}
 	
-	function show_chart(data, ele){
+	function show_chart(data, ele, text1){
 		var obj = eval('(' + data + ')');
 		var title = [];
 		var rate = [];
@@ -212,16 +212,19 @@
 			rate.push(value.rate);
 		});
 		
-		showchart(ele,title,rate);
+		showchart(ele,title,rate, text1);
 	}
 	
-	function showchart(ele ,title, rate){
+	function showchart(ele ,title, rate, text1){
 		$(ele).highcharts({
+			credits: {
+	             enabled:false
+			},
 	        chart: {
 	            type: 'column'
 	        },
 	        title: {
-	            text: '个人案例相似度对比'
+	            text: text1
 	        },
 	        xAxis: {
 	            categories: title,

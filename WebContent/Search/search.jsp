@@ -78,7 +78,7 @@
 	}
 	
 	div.chart_container{
-		float:left;min-width:500px;height:300px;border-style:solid;border-width:2px;border-color:#DCDCDC;
+		float:left;min-width:550px;height:350px;border-style:solid;border-width:0 0 2px 2px;border-color:#DCDCDC;
 	}
 </style>
 
