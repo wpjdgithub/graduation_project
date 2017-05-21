@@ -61,7 +61,7 @@
 				dataType:'json',
 				success:function(res){
 					if(res=="success"){
-						window.location.href = "<%=request.getContextPath()+"/index.jsp"%>";
+						window.location.href = "<%=request.getContextPath()+"/Index/index"%>";
 					}else{
 						$("#error_mes").show();
 					}

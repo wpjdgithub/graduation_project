@@ -1,10 +1,11 @@
 package Grad.Action;
 
-import java.io.File;
+
 
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,14 @@ public class SearchAction extends BaseAction {
 	private SearchInfo info;
 	
 	private SearchService service;
+
+	private List<CaseFilter> l1 = new ArrayList<CaseFilter>();
+	private List<CaseFilter> l2 = new ArrayList<CaseFilter>();
+	private List<CaseFilter> l3 = new ArrayList<CaseFilter>();
+	private List<CaseFilter> l4 = new ArrayList<CaseFilter>();
+	private List<CaseFilter> l5 = new ArrayList<CaseFilter>();
+	
+	
 
 
 	@SuppressWarnings("unchecked")
@@ -83,16 +92,41 @@ public class SearchAction extends BaseAction {
 		
 		List<CaseBrief> caselist = res.getBrief();
 		List<CaseFilter> filter = res.getFilter();
-		checkFilter(filter);
+		filter_solve(filter);
 		
-		for(CaseFilter f:filter){
-			System.out.println(f.getId()+" "+f.getName()+" "+f.getNum());
-		}
 		
 		session.put("AllData", caselist);
 		session.put("maxPage", (caselist.size()/5)+((caselist.size()%5==0)?0:1));
 		session.put("AllFilter", filter);
 		
+		session.put("key_data", getPie_data(l1));
+		session.put("case_data", getPie_data(l2));
+		session.put("court_data", getPie_data(l3));
+		session.put("year_data", getPie_data(l4));
+		session.put("text_data", getPie_data(l5));
+	}
+	
+	private String getPie_data(List<CaseFilter> filter){
+		int size = filter.size();
+		if(size==0){
+			return "['暂无相关数据',2]";
+		}
+		
+		if(size>5){
+			size=5;
+		}
+		
+		String res = "[";
+		for(int i=0;i<(size-1);i++){
+			CaseFilter f = filter.get(i);
+			res = res+"['"+f.getLastPath()+"',"+String.valueOf(f.getNum())+"],";
+		}
+		
+		CaseFilter f = filter.get(size-1);
+		res = res+"['"+f.getLastPath()+"',"+String.valueOf(f.getNum())+"]";
+		
+		res = res + "]";
+		return res;
 	}
 	
 	private CaseSearchRes getResByNor(){
@@ -101,6 +135,36 @@ public class SearchAction extends BaseAction {
 	
 	private CaseSearchRes getResByAdv(){
 		return service.search(info);
+	}
+	
+	private void filter_solve(List<CaseFilter> filter){
+		
+		l1.clear();
+		l2.clear();
+		l3.clear();
+		l4.clear();
+		l5.clear();
+		
+		
+		for(CaseFilter f:filter){
+			if(f.getName().startsWith("按关键字筛选/")&& f.getName().split("/").length>1){
+				l1.add(new CaseFilter(f.getId(),f.getLastPath(),f.getNum(),f.isHasChild()));
+			}else if(f.getName().startsWith("按案由筛选/")&& f.getName().split("/").length>1){
+				l2.add(new CaseFilter(f.getId(),f.getLastPath(),f.getNum(),f.isHasChild()));
+			}else if(f.getName().startsWith("按法院层级筛选/")&& f.getName().split("/").length>1){
+				l3.add(new CaseFilter(f.getId(),f.getLastPath(),f.getNum(),f.isHasChild()));
+			}else if(f.getName().startsWith("按年份筛选/")&& f.getName().split("/").length>1){
+				l4.add(new CaseFilter(f.getId(),f.getLastPath(),f.getNum(),f.isHasChild()));
+			}else if(f.getName().startsWith("按文书类型筛选/")&& f.getName().split("/").length>1){
+				l5.add(new CaseFilter(f.getId(),f.getLastPath(),f.getNum(),f.isHasChild()));
+			}
+		}
+		
+		Collections.reverse(l1);
+		Collections.reverse(l2);
+		Collections.reverse(l3);
+		Collections.reverse(l4);
+		Collections.reverse(l5);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -130,20 +194,6 @@ public class SearchAction extends BaseAction {
 		session.put("pageData", pageList);
 	}
 	
-	private void checkFilter(List<CaseFilter> list){
-		for(CaseFilter filter:list){
-			boolean hasChild = false;
-			int len = filter.getName().split("/").length;
-			for(CaseFilter cs:list){
-				if(cs.getName().startsWith(filter.getName())&&cs.getName().split("/").length>len){
-					hasChild = true;
-					break;
-				}
-			}
-			filter.setHasChild(hasChild);
-		}
-	}
-	
 	
 
 	public String getInput() {
@@ -164,5 +214,45 @@ public class SearchAction extends BaseAction {
 	
 	private void init(){
 		service = new SearchServiceImpl(request.getRealPath("/"));
+	}
+
+	public List<CaseFilter> getL1() {
+		return l1;
+	}
+
+	public void setL1(List<CaseFilter> l1) {
+		this.l1 = l1;
+	}
+
+	public List<CaseFilter> getL2() {
+		return l2;
+	}
+
+	public void setL2(List<CaseFilter> l2) {
+		this.l2 = l2;
+	}
+
+	public List<CaseFilter> getL3() {
+		return l3;
+	}
+
+	public void setL3(List<CaseFilter> l3) {
+		this.l3 = l3;
+	}
+
+	public List<CaseFilter> getL4() {
+		return l4;
+	}
+
+	public void setL4(List<CaseFilter> l4) {
+		this.l4 = l4;
+	}
+
+	public List<CaseFilter> getL5() {
+		return l5;
+	}
+
+	public void setL5(List<CaseFilter> l5) {
+		this.l5 = l5;
 	}
 }

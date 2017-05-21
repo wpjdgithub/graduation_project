@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Controller;
 
+import Grad.Bean.CaseCompare;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
 import Grad.Service.UserSerivice;
@@ -25,6 +26,9 @@ public class UserAction extends BaseAction{
 	private UserInfo user;
 	private String result;
 	private List<CaseMinMes> caselist;
+	
+	private String compare;
+	
 	
 	private UserSerivice service;
 
@@ -67,8 +71,10 @@ public class UserAction extends BaseAction{
 			this.setResult("true");
 		}
 		
+		
 		return SUCCESS;
 	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -76,6 +82,23 @@ public class UserAction extends BaseAction{
 		session.put("username", null);
 		this.setResult("success");
 		return SUCCESS;
+	}
+	
+	public String compare(){
+		getCompareMes();
+		return SUCCESS;
+	}
+	
+	private void getCompareMes(){
+		CaseCompare c1 = new CaseCompare("1","bt1",12);
+		CaseCompare c2 = new CaseCompare("1","bt2",24);
+		CaseCompare c3 = new CaseCompare("1","bt3",48);
+		List<CaseCompare> compare_user = new ArrayList<CaseCompare>();
+		compare_user.add(c1);
+		compare_user.add(c2);
+		compare_user.add(c3);
+		
+		
 	}
 	
 	private void init(){
@@ -104,6 +127,14 @@ public class UserAction extends BaseAction{
 
 	public void setCaselist(List<CaseMinMes> caselist) {
 		this.caselist = caselist;
+	}
+
+	public String getCompare() {
+		return compare;
+	}
+
+	public void setComparer(String compare) {
+		this.compare = compare;
 	}
 
 }

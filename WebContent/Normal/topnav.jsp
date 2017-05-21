@@ -42,7 +42,7 @@
 		background:white;
 	}
 	td.left {text-align:left;}
-	td.right {text-align:right;width:100px;}
+	td.right {text-align:right;width:120px;}
 	input.mysearchinput {
 		width:170px; height:25px;
 	}

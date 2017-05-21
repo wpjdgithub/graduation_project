@@ -5,24 +5,42 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="/Normal/bootstrap_cong.jsp" %>
-
+<script src="<%=request.getContextPath() +"/jquery.js" %>"></script>
+<%@ include file="/Normal/highChart.jsp" %>
 <style type="text/css">
 	div.mycontext {
 		position:absolute; top:7%; width:100%; height:auto;
 	}
+	div.mytab {
+		position:absolute; left:15%;height:50px;
+	}
+	div.myanalyse_main {
+		position:absolute; left:15%; width:70%; height:400px; top:50px;
+		text-align:center; padding:0 4% 0 4%; background-color:#FFFFFF;
+		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
+	}
+	div.myanalyse_chart {
+		position:absolute; left:2%; width:40%; height:90%; top:5%;
+		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
+	}
+	div.myanalyse_table {
+		position:absolute; left:45%; width:52%; height:90%; top:5%;
+		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
+		padding:5px 10px 10px 10px;
+	}
 	div.mycontext_title {
-		position:absolute; left:15%; width:54%; height:150px;
+		position:absolute; left:15%; width:54%; height:150px; top:50px;
 		text-align:center; padding:0 4% 0 4%; background-color:#FFFFFF;
 		border-style:solid;border-width:1px 1px 0 1px;border-color:#DCDCDC;
 	}
 	div.mycontext_main {
-		position:absolute; top:150px; left:15%; width:54%; height:auto;
+		position:absolute; top:200px; left:15%; width:54%; height:auto;
 		padding:2% 4% 2% 4%; background-color:#FFFFFF;
 		border-style:solid;border-width:1px 1px 1px 1px;border-color:#DCDCDC;
 	}
 	
 	div.mycontext_relation {
-		position:absolute; left:70%; width:15%; height:auto;
+		position:absolute; left:70%; width:15%; height:auto; top:50px;
 		border-style:solid;border-width:1px;border-color:#DCDCDC;
 		background-color:#FFFFFF;
 	}
@@ -63,9 +81,18 @@
 
 <title>判决详情</title>
 </head>
-<body style="background-color:#FFEFD5">
+<body>
 <%@ include file="/Normal/nav.jsp" %>
 <div class="mycontext">
+	<div class="mytab">
+	<ul id="myTab" class="nav nav-tabs">
+		<li class="active"><a href="#mydetail" data-toggle="tab">案例详情</a></li>
+		<li><a href="#myanalyse" data-toggle="tab">判决解析</a></li>
+	</ul>
+	</div>
+	<div id="myTabContent" class="tab-content">
+
+<div class="tab-pane fade in active" id="mydetail">
 	<div class="mycontext_title">
 		<div style="height:70%">
 			<h3><s:property value="detail.brief.title"></s:property></h3>
@@ -131,6 +158,73 @@
 	</div>
 	</div>
 </div>
+<div class="tab-pane fade" id="myanalyse">
+	<div class="myanalyse_main">
+		<div class="myanalyse_chart">
+			<div id="judge_pie" style="width:400px;height:300px"></div>
+		</div>
+		<div class="myanalyse_table">
+			<ul id="myTab" class="nav nav-tabs">
+				<li class="active"><a href="#always_like" data-toggle="tab">极其相似</a></li>
+				<li><a href="#sometimes_like" data-toggle="tab">不完全相似</a></li>
+				<li><a href="#seldom_like" data-toggle="tab">极其不相似</a></li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade in active" id="always_like">
+					<table class="table table-striped">
+						<tr>
+							<td style="width:65%">文书标题</td>
+							<td>共同核心词汇</td>
+						</tr>
+						<s:iterator value="always_like">
+							<tr>
+								<td id="<s:property value="id"></s:property>" class="case_title">
+									<a><s:property value="title"></s:property></a>
+								</td>
+								<td><s:property value="same_core"></s:property></td>
+							</tr>
+						</s:iterator>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="sometimes_like">
+					<table class="table table-striped">
+						<tr>
+							<td style="width:65%">文书标题</td>
+							<td>共同核心词汇</td>
+						</tr>
+						<s:iterator value="always_like">
+							<tr>
+								<td id="<s:property value="id"></s:property>" class="case_title">
+									<a><s:property value="title"></s:property></a>
+								</td>
+								<td><s:property value="same_core"></s:property></td>
+							</tr>
+						</s:iterator>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="seldom_like">
+					<table class="table table-striped">
+						<tr>
+							<td style="width:65%">文书标题</td>
+							<td>共同核心词汇</td>
+						</tr>
+						<s:iterator value="always_like">
+							<tr>
+								<td id="<s:property value="id"></s:property>" class="case_title">
+									<a><s:property value="title"></s:property></a>
+								</td>
+								<td><s:property value="same_core"></s:property></td>
+							</tr>
+						</s:iterator>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+</div>
 </body>
 </html>
 
@@ -151,5 +245,42 @@ $(function (){
     	var id = $(this).attr("id");
     	window.location.href="<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id;
     });
+
+    $(".case_title").click(function(){
+		var id = $(this).attr("id");
+		window.open("<%=request.getContextPath() +"/Case/case_detail?id=" %>"+id);
+	});
+
+   	$('#judge_pie').highcharts({
+		credits: {
+	        enabled:false
+		},
+	    chart: {
+	        plotBackgroundColor: null,
+	        plotBorderWidth: null,
+	        plotShadow: false
+	    },
+	    title: {
+	        text: '判决详情占比'
+	    },
+	    plotOptions: {
+	        pie: {
+	            allowPointSelect: true,
+	            cursor: 'pointer',
+	            dataLabels: {
+	              enabled: true,
+	                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                style: {
+	                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                }
+	            }
+	        }
+	    },
+	    series: [{
+	        type: 'pie',
+	        name: '判决结果占比',
+	        data: [['相似判决',12],['不相似判决',8],['不相似判决',8]]
+	    }]
+	});
 });
 </script>

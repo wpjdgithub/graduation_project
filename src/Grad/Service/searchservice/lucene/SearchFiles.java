@@ -89,7 +89,7 @@ public class SearchFiles {
 		int size = itemSize < valueSize ? itemSize:valueSize;
 		BooleanClause.Occur[] clauses = new BooleanClause.Occur[size];
 		for(int k = 0;k < size;k++){
-			clauses[k] = BooleanClause.Occur.MUST;
+			clauses[k] = BooleanClause.Occur.SHOULD;//表示or
 		}
 		Query query = MultiFieldQueryParser.parse(value, item, clauses, this.analyzer);
 		ScoreDoc[] hits = this.isearcher.search(query, 100).scoreDocs;
