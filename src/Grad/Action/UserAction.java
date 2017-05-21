@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Controller;
 
+import com.google.gson.Gson;
+
+import Grad.Bean.CaseCompare;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
 import Grad.Service.UserSerivice;
@@ -25,6 +28,11 @@ public class UserAction extends BaseAction{
 	private UserInfo user;
 	private String result;
 	private List<CaseMinMes> caselist;
+	private String id;
+	private String type;
+	
+	private String compare;
+	
 	
 	private UserSerivice service;
 
@@ -67,8 +75,10 @@ public class UserAction extends BaseAction{
 			this.setResult("true");
 		}
 		
+		
 		return SUCCESS;
 	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -76,6 +86,27 @@ public class UserAction extends BaseAction{
 		session.put("username", null);
 		this.setResult("success");
 		return SUCCESS;
+	}
+	
+	public String compare(){
+		getCompareMes();
+		System.out.println(id);
+		System.out.println(type+"type");
+		System.out.println(compare);
+		return SUCCESS;
+	}
+	
+	private void getCompareMes(){
+		CaseCompare c1 = new CaseCompare("1","bt1",12);
+		CaseCompare c2 = new CaseCompare("1","bt2",24);
+		CaseCompare c3 = new CaseCompare("1","bt3",48);
+		List<CaseCompare> compare_user = new ArrayList<CaseCompare>();
+		compare_user.add(c1);
+		compare_user.add(c2);
+		compare_user.add(c3);
+		
+		Gson gson = new Gson();
+		compare = gson.toJson(compare_user);
 	}
 	
 	private void init(){
@@ -104,6 +135,30 @@ public class UserAction extends BaseAction{
 
 	public void setCaselist(List<CaseMinMes> caselist) {
 		this.caselist = caselist;
+	}
+
+	public String getCompare() {
+		return compare;
+	}
+
+	public void setComparer(String compare) {
+		this.compare = compare;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

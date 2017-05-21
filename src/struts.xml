@@ -48,6 +48,12 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+		
+		<action name="user_compare" class="UserAction" method="compare">
+			<result name="success" type="json">
+				<param name="root">compare</param>
+			</result>
+		</action>
 
 	</package>
 	
@@ -110,12 +116,6 @@
 		<action name="case_page" class="CaseManageAction" method="page">
 			<result name="success" type="json">
 				<param name="root">CaseResult</param>
-			</result>
-		</action>
-		
-		<action name="case_filter" class="CaseManageAction" method="filter">
-			<result name="success" type="json">
-				<param name="root">FilterResult</param>
 			</result>
 		</action>
 		

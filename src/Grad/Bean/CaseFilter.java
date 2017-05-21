@@ -2,7 +2,7 @@ package Grad.Bean;
 
 import java.io.Serializable;
 
-public class CaseFilter implements Serializable {
+public class CaseFilter implements Serializable, Comparable<CaseFilter> {
 
 	/**
 	 * 
@@ -34,6 +34,7 @@ public class CaseFilter implements Serializable {
 		int len = path.length;
 		return path[len-1];
 	}
+	
 
 	public int getId() {
 		return id;
@@ -69,6 +70,12 @@ public class CaseFilter implements Serializable {
 
 	public void setHasChild(boolean hasChild) {
 		this.hasChild = hasChild;
+	}
+
+	@Override
+	public int compareTo(CaseFilter o) {
+		// TODO Auto-generated method stub
+		return this.num-o.num;
 	}
 	
 

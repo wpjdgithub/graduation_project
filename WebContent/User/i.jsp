@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%@ include file="/Normal/bootstrap_cong.jsp" %>
 <script src="<%=request.getContextPath() +"/jquery.js" %>"></script>
+<%@ include file="/Normal/highChart.jsp" %>
 
 <style type="text/css">
 	div.mytab {
@@ -50,6 +51,21 @@
 		width:100%; height:80%; overflow:auto; text-align:center;
 		padding:3% 8% 0 8%;
 	}
+	
+	#myanalyse {
+		position:absolute; top:10%; width:100%; height:80%;
+	}
+	div.myanalyse_choose {
+		position:absolute; width:90%; height:20%; top:10%;
+	}
+	div.myanalyse_chart1 {
+		position:absolute; top:20%; width:45%; height:80%;
+		border-style:dotted;border-width:=2px;border-color:#DCDCDC;
+	}
+	div.myanalyse_chart2 {
+		position:absolute; top:20%; width:45%; height:80%; left:50%;
+		border-style:dotted;border-width:2px;border-color:#DCDCDC;
+	}
 </style>
 <title>个人主页</title>
 </head>
@@ -59,6 +75,7 @@
 	<ul id="myTab" class="nav nav-tabs">
 		<li><a href="#basic" data-toggle="tab">基础信息</a></li>
 		<li class="active"><a href="#mycase" data-toggle="tab">个人案例</a></li>
+		<li><a href="#myanalyse" data-toggle="tab">案例解析</a></li>
 	</ul>
 	<div id="myTabContent" class="tab-content">
 		<div class="tab-pane fade" id="basic">
@@ -143,10 +160,100 @@
 			</div>
 			</s:else>
 		</div>
+		<div class="tab-pane fade" id="myanalyse">
+			<div class="myanalyse_choose">
+				个人案例选择：
+				<s:select list="caselist" listKey="id" listValue="id" id="caselist_choose" onchange="choosecase(this.value)"
+					headerKey="0" headerValue="--请选择--"></s:select>
+			</div>
+			<div class="myanalyse_chart1" id="chart_1"></div>
+			<div class="myanalyse_chart2" id="chart_2"></div>
+		</div>
 	</div>
 </div>
 	
 <script>
+	function choosecase(value){
+		$.ajax({
+			async: false,
+			type:"post",
+			url:"<%=request.getContextPath() +"/User/user_compare" %>",
+			data:{"id":value, "type":1},
+			dataType:"json",
+			success:function(data){
+				show_chart(data,"#chart_1");
+			},
+			error:function(){
+				alert("网络异常，请稍后再试");
+			}
+		});
+		
+		$.ajax({
+			async: false,
+			type:"post",
+			url:"<%=request.getContextPath() +"/User/user_compare" %>",
+			data:{"id":value, "type":2},
+			dataType:"json",
+			success:function(data){
+				show_chart(data, "#chart_2");
+			},
+			error:function(){
+				alert("网络异常，请稍后再试");
+			}
+		});
+	}
+	
+	function show_chart(data, ele){
+		var obj = eval('(' + data + ')');
+		var title = [];
+		var rate = [];
+		$.each(obj,function(i, value){
+			title.push(value.title);
+			rate.push(value.rate);
+		});
+		
+		showchart(ele,title,rate);
+	}
+	
+	function showchart(ele ,title, rate){
+		$(ele).highcharts({
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: '个人案例相似度对比'
+	        },
+	        xAxis: {
+	            categories: title,
+	            crosshair: true
+	        },
+	        yAxis: {
+	            min: 0,
+	            title: {
+	                text: '相似度'
+	            }
+	        },
+	        tooltip: {
+	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+	            footerFormat: '</table>',
+	            shared: true,
+	            useHTML: true
+	        },
+	        plotOptions: {
+	            column: {
+	                pointPadding: 0.2,
+	                borderWidth: 0
+	            }
+	        },
+	        series: [{
+	            name: '案件名称',
+	            data: rate
+	        }]
+	    });
+	}
+	
 	$(document).ready(function(){
 		$("#upload").click(function(){
 			$("#file").click();
@@ -187,6 +294,7 @@
 			alert(chk_value);
 			window.location.href = "<%=request.getContextPath()+"/Case/case_remove?id_list="%>"+chk_value;
 		});
+
 	});
 </script>
 </body>

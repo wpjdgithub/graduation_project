@@ -5,25 +5,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<%@ include file="/Normal/bootstrap_cong.jsp" %>
 <script type="text/javascript" src="../jquery.js"></script>
+<%@ include file="/Normal/bootstrap_cong.jsp" %>
+<%@ include file="/Normal/highChart.jsp" %>
 
 <!--可无视-->
 <link rel="stylesheet" type="text/css" href="../Paginator/base.css"/>
 
 <!--主要样式-->
 <link rel="stylesheet" type="text/css" href="../Paginator/pageGroup.css"/>
-<script type="text/javascript" src="../Paginator/jquery-1.8.3.min.js"></script>
 <title>列表页</title>
 
 <style type="text/css">
+
+	div.mytab {
+		position:absolute; left:10%; top:370px; width:80%; height:auto;
+	}
+	
 	div.mysearchfilter {
-		position:absolute; left:15%; top:370px; width:15%; height:auto;
+		position:absolute; top:70px; width:20%; height:auto;
 		border-style:solid;border-width:2px 0 0 0;border-color:#DCDCDC;
 		z-index:-1;
 	}
 	div.mysearchresult {
-		position:absolute; left:32%; top:370px; width:53%; min-height:50%;
+		position:absolute; left:27%; top:70px; width:70%; min-height:50%;
 		z-index:-1;
 	}
 	div.mysearchsort {
@@ -71,10 +76,24 @@
 	div.panel-body {
 		height:auto; padding:0 0 0 0; margin:0 0 0 0; height:auto; font-size:15px;
 	}
+	
+	div.chart_container{
+		float:left;min-width:500px;height:300px;border-style:solid;border-width:2px;border-color:#DCDCDC;
+	}
 </style>
 
 </head>
 <body>
+<div class="mytab">
+
+	<ul id="myTab" class="nav nav-tabs">
+		<li class="active"><a href="#mycase" data-toggle="tab">检查结果</a></li>
+		<li><a href="#myanalyse" data-toggle="tab">统计分析</a></li>
+	</ul>
+	
+	<div id="myTabContent" class="tab-content">
+	
+<div class="tab-pane fade in active" id="mycase">
 <div class="mysearchfilter">
 	<%@ include file="searchfilter.jsp" %>
 </div>
@@ -139,6 +158,28 @@
     		<div class="pageDown">下一页</div>
 		</div>
 	</div>
+</div>
+</div>
+
+<div class="tab-pane fade" id="myanalyse">
+	<div class="chart_container" id="key_container">
+		<div id="chart_key" style="min-width:400px;height:300px"></div>
+	</div>
+	<div class="chart_container">
+		<div id="chart_case" style="min-width:400px;height:300px"></div>
+	</div>
+	<div class="chart_container">
+		<div id="chart_court" style="min-width:400px;height:300px"></div>
+	</div>
+	<div class="chart_container">
+		<div id="chart_year" style="min-width:400px;height:300px"></div>
+	</div>
+	<div class="chart_container">
+		<div id="chart_text" style="min-width:400px;height:300px"></div>
+	</div>
+</div>
+
+</div>
 </div>
 <%@ include file="../Normal/topnav.jsp" %>
 </body>
@@ -370,7 +411,166 @@
 			$("#resultlist").append("");
 		}
 
+		$('#chart_key').highcharts({
+			credits: {
+	             enabled:false
+			},
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: '关键字占比'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                    style: {
+	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '关键字信息占比',
+	            data: <s:property value='#session.key_data'></s:property>
+	        }]
+	    });
 
+		$('#chart_case').highcharts({
+			credits: {
+	             enabled:false
+			},
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: '案由占比'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                    style: {
+	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '案由信息占比',
+	            data: <s:property value='#session.case_data'></s:property>
+	        }]
+	    });
+
+		$('#chart_court').highcharts({
+			credits: {
+	             enabled:false
+			},
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: '法院层级占比'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                    style: {
+	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '法院层级信息占比',
+	            data: <s:property value='#session.court_data'></s:property>
+	        }]
+	    });
+
+		$('#chart_year').highcharts({
+			credits: {
+	             enabled:false
+			},
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: '判决时间占比'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                    style: {
+	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '判决时间信息占比',
+	            data: <s:property value='#session.year_data'></s:property>
+	        }]
+	    });
+
+		$('#chart_text').highcharts({
+			credits: {
+	             enabled:false
+			},
+	        chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: '文本占比'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+	                    style: {
+	                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: '文本信息占比',
+	            data: <s:property value='#session.text_data'></s:property>
+	        }]
+	    });
+		
 	});
 
 </script>

@@ -1,6 +1,8 @@
 package Grad.Service.userservice;
 import java.util.ArrayList;
 import java.util.List;
+
+import Grad.Bean.CaseCompare;
 import Grad.Bean.CaseMinMes;
 import Grad.Bean.UserInfo;
 import Grad.Service.UserSerivice;
@@ -67,5 +69,10 @@ public class UserServiceImpl implements UserSerivice{
 			result.add(mes);
 		}
 		return result;
+	}
+	@Override
+	public List<CaseCompare> getCompareMes(String username, String id, int type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

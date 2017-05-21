@@ -47,11 +47,6 @@ public class CaseManageAction extends BaseAction {
 		return SUCCESS;
 	}
 	
-	public String filter() throws ServletException,IOException{
-		getFilter();
-		
-		return SUCCESS;
-	}
 	
 	@SuppressWarnings("unchecked")
 	private void getThisPage(){
@@ -66,30 +61,6 @@ public class CaseManageAction extends BaseAction {
 		CaseResult = gson.toJson(pageList);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void getFilter(){
-		if(filterId==-1){
-			FilterResult = "{'status':'empty'}";
-		}else{
-			List<CaseFilter> list = (ArrayList<CaseFilter>) session.get("AllFilter");
-			String path = "";
-			for(CaseFilter filter:list){
-				if(filterId==filter.getId())
-					path = filter.getName();
-			}
-			String[] pathl = path.split("/");
-			List<CaseFilter> result = new ArrayList<CaseFilter>();
-			for(CaseFilter filter:list){
-				if(filter.getName().startsWith(path)
-						&&filter.getName().split("/").length==(pathl.length+1)){
-					CaseFilter tmp = new CaseFilter(filter.getId(),filter.getLastPath(),filter.getNum(),filter.isHasChild());
-					result.add(tmp);
-				}
-			}
-			Gson gson = new Gson();
-			FilterResult = gson.toJson(result);
-		}
-	}
 	
 	@SuppressWarnings("unchecked")
 	private void getSortedRes(){
