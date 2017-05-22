@@ -26,4 +26,16 @@ public class NLPServiceImpl implements NLPService{
 		}
 		return result;
 	}
+	@Override
+	public List<String> chineseParaWordSegmentation(String paragraph) {
+		List<String> result = new ArrayList<String>();
+		String[] sentences = paragraph.split("[;；,，.。？?‘’“”\"、:：/【】%+-÷〇…()&○（）—#《》]");
+		for(int i = 0;i < sentences.length;i++){
+			List<String> words = this.chineseWordSegmentation(sentences[i]);
+			for(String word:words){
+				result.add(word.trim());
+			}
+		}
+		return result;
+	}
 }

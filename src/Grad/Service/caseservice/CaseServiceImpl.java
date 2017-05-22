@@ -10,15 +10,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.mysql.cj.api.xdevapi.Result;
-
 import Grad.Bean.CaseBrief;
 import Grad.Bean.CaseDetail;
 import Grad.Bean.CaseJudgeCompare;
@@ -133,14 +132,12 @@ public class CaseServiceImpl implements CaseService{
 		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
 		connection.connect();
 		List<String> list1 = connection.query(sql1);
-		connection.release();
 		Map<String,Double> distMap = new HashMap<String,Double>();
 		for(String s: list1){
 			String[] e = s.split(" ");
 			String id = e[0];
 			Map<String,Double> vec = new HashMap<String,Double>();
 			String[] v = e[1].split(";");
-			System.out.println(e[1]);
 			for(int i =0;i < v.length;i++){
 				String[] v0 = v[i].split("=");
 				vec.put(v0[0], Double.parseDouble(v0[1]));
@@ -171,6 +168,10 @@ public class CaseServiceImpl implements CaseService{
 			relation.setTitle(v);
 			res.add(relation);
 		}
+		String insertSQL = "insert into sim value('"+caseid+"','"+res.get(0).getId()
+				+"','"+res.get(1).getId()+"','"+res.get(2).getId()+"','"+res.get(3).getId()+"','"+res.get(4).getId()+"');";
+		connection.execute(insertSQL);
+		connection.release();
 		return res;
 	}
 	private ArrayList<CaseRelation> getRelatedLaws(String content){
@@ -447,7 +448,91 @@ public class CaseServiceImpl implements CaseService{
 	}
 	@Override
 	public List<CaseJudgeCompare> getJudgeMes(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!id.contains(" "))
+			return new ArrayList<CaseJudgeCompare>();
+		id = id.split(" ")[2];
+		System.out.println("id:"+id);
+		List<CaseJudgeCompare> res = new ArrayList<CaseJudgeCompare>();
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		String fullText = connection.query("select casecontext from upload where caseid='"+id+"';").get(0);
+		String caseBrief = connection.query("select brief from upload where caseid='"+id+"';").get(0);
+		Wenshu wenshu = new Wenshu();
+		wenshu.setCaseBrief(caseBrief);
+		wenshu.setCaseID(id);
+		wenshu.setFullText(fullText);
+		Map<String,Double> vec = new WenshuAnalyzingServiceImpl().calculateTFIDF(wenshu);
+		List<String> idList = this.caseDataService.getCaseIDsByBrief(caseBrief);
+		DistanceCalc dc = new DistanceCalc();
+		Map<String,Double> simMap = new HashMap<String,Double>();
+		WenshuDataService wenshuDataService = new WenshuDataServiceImpl();
+		for(String caseid:idList){
+			Map<String,Double> vector = wenshuDataService.getTFIDFVector(caseid);
+			double distance = dc.calculateCosDistance(vec, vector);
+			simMap.put(caseid, distance);
+			System.out.println(simMap.size());
+		}
+		List<Map.Entry<String, Double>> list = 
+				new ArrayList<Map.Entry<String,Double>>(simMap.entrySet());
+		Collections.sort(list,new Comparator<Map.Entry<String, Double>>(){
+			@Override
+			public int compare(Entry<String, Double> arg0, Entry<String, Double> arg1) {
+				double d0 = arg0.getValue();
+				double d1 = arg1.getValue();
+				if(d0 < d1){
+					return 1;
+				}
+				else if(d0 > d1){
+					return -1;
+				}
+				else{
+					return 0;
+				}
+			}
+		});
+		for(Map.Entry<String, Double> entry: list){
+			int alike = 0;
+			double value = entry.getValue();
+			if(value < 0.10){
+				continue;
+			}
+			else if(value > 0.17){
+				alike = 1;
+			}
+			else if(value <= 0.17 && value > 0.15){
+				alike = 2;
+			}
+			else{
+				alike = 3;
+			}
+			String caseid = entry.getKey();
+			String title = connection.query("select casename from wenshu where caseid='"+caseid+"';").get(0);
+			String date = connection.query("select date from wenshu where caseid='"+caseid+"';").get(0);
+			String core = connection.query("select vector from newtfidf where caseid='"+caseid+"';").get(0);
+			StringBuilder sb = new StringBuilder();
+			String[] lines = core.split(";");
+			int count = 0;
+			for(String line: lines){
+				String[] s = line.split("=");
+				double v = Double.parseDouble(s[1]);
+				if(v != 0.0 && fullText.contains(s[0])){
+					sb.append(s[0]).append(" ");
+					count++;
+					if(count > 15)
+						break;
+				}
+			}
+			String same_core = sb.toString().trim();
+			CaseJudgeCompare compare = new CaseJudgeCompare();
+			compare.setAlike(alike);
+			compare.setDate(date.split("/")[0]);
+			compare.setId(caseid);
+			compare.setSame_core(same_core);
+			compare.setTitle(title);
+			res.add(compare);
+			System.out.println(entry.getKey()+" "+entry.getValue());
+		}
+		connection.release();
+		return res;
 	}
 }

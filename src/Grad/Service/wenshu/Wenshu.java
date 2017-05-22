@@ -27,6 +27,13 @@ public class Wenshu {
 	private Map<String,String> judgerInfo;//审判人员信息
 	private String fullText;//全文
 	private Set<String> keywords = new HashSet<String>();
+	private String judgment;
+	public String getJudgment() {
+		return judgment;
+	}
+	public void setJudgment(String judgment) {
+		this.judgment = judgment;
+	}
 	public String getFilepath() {
 		return filepath;
 	}

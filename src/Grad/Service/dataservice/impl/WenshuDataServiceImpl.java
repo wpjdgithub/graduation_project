@@ -2,8 +2,11 @@ package Grad.Service.dataservice.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.lucene.queryparser.classic.ParseException;
 import Grad.Service.dataservice.WenshuDataService;
 import Grad.Service.dataservice.jdbc.MySQLConnection;
@@ -14,7 +17,10 @@ import Grad.Service.wenshu.Wenshu;
 import Grad.Service.xml.WenshuXMLObject;
 public class WenshuDataServiceImpl implements WenshuDataService{
 	private String path = "F:/Programming.Project/data/";
+	private MySQLConnection connection;
 	public WenshuDataServiceImpl(){
+		connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
 	}
 	public WenshuDataServiceImpl(String path){
 		this.path = path;
@@ -112,5 +118,17 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 			System.out.println(wenshu.getCaseID());
 		}
 		connection.release();
+	}
+	@Override
+	public Map<String, Double> getTFIDFVector(String caseID) {
+		Map<String,Double> res = new HashMap<String,Double>();
+		String sql = "select vector from newtfidf where caseid='"+caseID+"';";
+		String vector = connection.query(sql).get(0);
+		String[] lines = vector.split(";");
+		for(String line: lines){
+			String[] s = line.split("=");
+			res.put(s[0], Double.parseDouble(s[1]));
+		}
+		return res;
 	}
 }

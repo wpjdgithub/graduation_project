@@ -59,6 +59,8 @@ public class CaseJudgeCompare implements Serializable{
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+	public String toString(){
+		return id+";"+title+";"+same_core+";"+date;
+	}
 	
 }

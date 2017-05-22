@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import Grad.Service.dataservice.jdbc.MySQLConnection;
+import Grad.Service.dataservice.jdbc.MySQLConnectionImpl;
+
 public class TF_IDF {
 	private WordCount wordcount;
 	public TF_IDF(){
@@ -119,24 +122,21 @@ public class TF_IDF {
 		}
 		return res;
 	}
+	private static Map<String,Double> idf = null;
 	public static Map<String,Double> loadIDF(){
+		if(idf != null)
+			return idf;
 		Map<String,Double> res = new HashMap<String,Double>();
-		File file = new File("F:\\tmp\\tfidf\\idf.txt");
-		try{
-			InputStream is = new FileInputStream(file);
-			InputStreamReader reader = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(reader);
-			String line = null;
-			while((line = br.readLine()) != null){
-				String[] e = line.split("=");
-				res.put(e[0], Double.parseDouble(e[e.length-1]));
-			}
-			br.close();
-			reader.close();
-			is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		String sql = "select word,idf from idf;";
+		List<String> list = connection.query(sql);
+		for(String line: list){
+			String[] s = line.split(" ");
+			res.put(s[0], Double.parseDouble(s[1]));
 		}
+		connection.release();
+		idf = res;
 		return res;
 	}
 	public static Map<String,Map<String,Double>> loadTF(){

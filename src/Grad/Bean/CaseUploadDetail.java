@@ -37,7 +37,7 @@ public class CaseUploadDetail {
 	}
 	public CaseMinMes toCaseMinMes() {
 		CaseMinMes mes = new CaseMinMes();
-		mes.setId(this.caseTitle);
+		mes.setId(this.caseTitle.split(" ")[2]);
 		mes.setTitle(this.caseTitle);
 		mes.setUploadDate(uploadDate);
 		return mes;

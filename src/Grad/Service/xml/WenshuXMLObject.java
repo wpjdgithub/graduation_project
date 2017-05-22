@@ -216,6 +216,9 @@ public class WenshuXMLObject {
 	public String getLawsuitResult(){
 		NodeList nodelist = this.rootElement.getElementsByTagName("CPJG");
 		Node node = nodelist.item(0);
+		if(node == null){
+			return "No Lawsuit Result";
+		}
 		String result = DOMTool.traverse(node);
 		result = result.substring(0, result.length()-1);
 		return result;
@@ -281,6 +284,13 @@ public class WenshuXMLObject {
 		}
 		return list;
 	}
+	public String getJudgement(){
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.getAnalyzingProcess());
+		sb.append(this.getLawsuitResult());
+		String result = sb.toString();
+		return result;
+	}
 	public Wenshu toWenshu(){
 		Wenshu wenshu = new Wenshu();
 		wenshu.setFilepath(getFilepath());
@@ -298,6 +308,7 @@ public class WenshuXMLObject {
 		wenshu.setCaseName(this.getDocumentBeginning());
 		wenshu.setCaseDate(this.getDate());
 		wenshu.setLaws(this.getLawBasis());
+		wenshu.setJudgment(this.getJudgement());
 		Map<String,String> map1 = new HashMap<String,String>();
 		String end = this.getDocumentEnd();
 		String[] s = end.split(";");

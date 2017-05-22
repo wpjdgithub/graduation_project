@@ -140,6 +140,8 @@ public class WordCounter {
 	}
 	private boolean containOthers(String word){//是否包含英文字母、数字、奇怪的符号
 		int length = word.length();
+		if(length == 0)
+			return false;
 		for(int i = 0;i < length;i++){
 			char c = word.charAt(i);
 			if(this.isDigit(c) || this.isEnglishCharacter(c) 
