@@ -196,7 +196,7 @@
 							<td style="width:65%">文书标题</td>
 							<td>共同核心词汇</td>
 						</tr>
-						<s:iterator value="always_like">
+						<s:iterator value="sometimes_like">
 							<tr>
 								<td id="<s:property value="id"></s:property>" class="case_title">
 									<a><s:property value="title"></s:property></a>
@@ -212,7 +212,7 @@
 							<td style="width:65%">文书标题</td>
 							<td>共同核心词汇</td>
 						</tr>
-						<s:iterator value="always_like">
+						<s:iterator value="seldom_like">
 							<tr>
 								<td id="<s:property value="id"></s:property>" class="case_title">
 									<a><s:property value="title"></s:property></a>
