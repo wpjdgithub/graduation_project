@@ -174,7 +174,7 @@
 				<li><a href="#seldom_like" data-toggle="tab">不相似</a></li>
 			</ul>
 			<div id="myTabContent" class="tab-content">
-				<div class="tab-pane fade in active" id="always_like">
+				<div class="tab-pane fade in active" id="always_like" style="width:100%;height:350px; overflow:scroll;">
 					<table class="table table-striped">
 						<tr>
 							<td style="width:65%">文书标题</td>
@@ -190,7 +190,7 @@
 						</s:iterator>
 					</table>
 				</div>
-				<div class="tab-pane fade" id="sometimes_like">
+				<div class="tab-pane fade" id="sometimes_like" style="width:100%;height:350px; overflow:scroll;">
 					<table class="table table-striped">
 						<tr>
 							<td style="width:65%">文书标题</td>
@@ -206,7 +206,7 @@
 						</s:iterator>
 					</table>
 				</div>
-				<div class="tab-pane fade" id="seldom_like">
+				<div class="tab-pane fade" id="seldom_like" style="width:100%;height:350px; overflow:scroll;">
 					<table class="table table-striped">
 						<tr>
 							<td style="width:65%">文书标题</td>
