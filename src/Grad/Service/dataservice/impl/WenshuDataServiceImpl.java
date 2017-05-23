@@ -123,7 +123,11 @@ public class WenshuDataServiceImpl implements WenshuDataService{
 	public Map<String, Double> getTFIDFVector(String caseID) {
 		Map<String,Double> res = new HashMap<String,Double>();
 		String sql = "select vector from newtfidf where caseid='"+caseID+"';";
-		String vector = connection.query(sql).get(0);
+		List<String> vectors = connection.query(sql);
+		if(vectors.size() == 0){
+			return res;
+		}
+		String vector = vectors.get(0);
 		String[] lines = vector.split(";");
 		for(String line: lines){
 			String[] s = line.split("=");

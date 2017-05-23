@@ -488,6 +488,8 @@ public class CaseServiceImpl implements CaseService{
 			Map<String,Double> vector = wenshuDataService.getTFIDFVector(caseid);
 			double distance = dc.calculateCosDistance(vec, vector);
 			simMap.put(caseid, distance);
+			if(simMap.size() > 400)
+				break;
 			System.out.println(simMap.size());
 		}
 		List<Map.Entry<String, Double>> list = 
@@ -514,17 +516,22 @@ public class CaseServiceImpl implements CaseService{
 			if(value < 0.15){
 				continue;
 			}
-			else if(value > 0.39){
+			else if(value > 0.4){
 				alike = 1;
 			}
-			else if(value <= 0.39 && value > 0.25){
+			else if(value <= 0.4 && value > 0.18){
 				alike = 2;
 			}
 			else{
 				alike = 3;
 			}
 			String caseid = entry.getKey();
-			String title = connection.query("select casename from wenshu where caseid='"+caseid+"';").get(0);
+			String title = null;
+			try{
+			    title = connection.query("select casename from wenshu where caseid='"+caseid+"';").get(0);
+			} catch(IndexOutOfBoundsException e) {
+				continue;
+			}
 			String date = connection.query("select date from wenshu where caseid='"+caseid+"';").get(0);
 			String core = connection.query("select vector from newtfidf where caseid='"+caseid+"';").get(0);
 			StringBuilder sb = new StringBuilder();
