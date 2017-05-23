@@ -121,6 +121,21 @@ public class CaseServiceImpl implements CaseService{
 		return res;
 	}
 	private ArrayList<CaseRelation> getRelatedCases(String caseid,String casebrief,String content){
+		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
+		connection.connect();
+		List<String> query = connection.query("select * from sim where caseid='"+caseid+"';");
+		if(query.size() != 0){
+			ArrayList<CaseRelation> res = new ArrayList<CaseRelation>();
+			String[] s = query.get(0).split(" ");
+			for(int i = 1;i < 6;i++){
+				CaseRelation relation = new CaseRelation();
+				String v = s[i];
+				relation.setId(v);
+				relation.setTitle(v);
+				res.add(relation);
+			}
+			return res;
+		}
 		Wenshu wenshu = new Wenshu();
 		wenshu.setCaseID(caseid);
 		wenshu.setCaseBrief(casebrief);
@@ -129,8 +144,6 @@ public class CaseServiceImpl implements CaseService{
 		DistanceCalc calc = new DistanceCalc();
 		Map<String,Double> map = service.calculateTFIDF(wenshu);
 		String sql1 = "select caseid,tfidf from tfidf where casebrief='"+casebrief+"';";
-		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
-		connection.connect();
 		List<String> list1 = connection.query(sql1);
 		Map<String,Double> distMap = new HashMap<String,Double>();
 		for(String s: list1){
@@ -448,15 +461,20 @@ public class CaseServiceImpl implements CaseService{
 	}
 	@Override
 	public List<CaseJudgeCompare> getJudgeMes(String id) {
-		if(!id.contains(" "))
-			return new ArrayList<CaseJudgeCompare>();
-		id = id.split(" ")[2];
-		System.out.println("id:"+id);
 		List<CaseJudgeCompare> res = new ArrayList<CaseJudgeCompare>();
 		MySQLConnection connection = new MySQLConnectionImpl("wenshu");
 		connection.connect();
-		String fullText = connection.query("select casecontext from upload where caseid='"+id+"';").get(0);
-		String caseBrief = connection.query("select brief from upload where caseid='"+id+"';").get(0);
+		String fullText = null;
+		String caseBrief = null;
+		if(id.contains(" ")){
+			id = id.split(" ")[2];
+			fullText = connection.query("select casecontext from upload where caseid='"+id+"';").get(0);
+			caseBrief = connection.query("select brief from upload where caseid='"+id+"';").get(0);
+		}
+		else{
+			fullText = connection.query("select content from wenshu where caseid='"+id+"';").get(0);
+			caseBrief = connection.query("select brief from wenshu where caseid='"+id+"';").get(0);
+		}
 		Wenshu wenshu = new Wenshu();
 		wenshu.setCaseBrief(caseBrief);
 		wenshu.setCaseID(id);
@@ -493,13 +511,13 @@ public class CaseServiceImpl implements CaseService{
 		for(Map.Entry<String, Double> entry: list){
 			int alike = 0;
 			double value = entry.getValue();
-			if(value < 0.10){
+			if(value < 0.15){
 				continue;
 			}
-			else if(value > 0.17){
+			else if(value > 0.39){
 				alike = 1;
 			}
-			else if(value <= 0.17 && value > 0.15){
+			else if(value <= 0.39 && value > 0.25){
 				alike = 2;
 			}
 			else{
