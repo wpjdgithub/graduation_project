@@ -57,7 +57,13 @@ public class CaseDetailAction extends BaseAction {
 		res.add(c2);
 		res.add(c3);
 		*/
+		//System.out.println(id);
 		List<CaseJudgeCompare> res = service.getJudgeMes(id);
+		if(!id.contains(" ")){
+			System.out.println(id);
+			System.out.println(id.indexOf(" "));
+			System.out.println("123213123wjbneisjcvbedikvbsh");
+		}
 		choose_compare(res);
 		year_mes(res);
 	}
@@ -103,8 +109,6 @@ public class CaseDetailAction extends BaseAction {
 		for(CaseOccur o:year_list){
 			year_data = year_data + String.valueOf(o.getNum())+",";
 		}
-		
-		System.out.println(year_data);
 	}
 
 	public CaseDetail getDetail() {
